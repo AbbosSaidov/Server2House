@@ -1248,6 +1248,10 @@ class DbOperation
             $temp['data'] = $data;
             array_push($messages, $temp);
         }
+
+        $stmt = $this->con->prepare("DELETE FROM messages WHERE gropnumber = ? AND indexq=?");
+        $stmt->bind_param("ii", $userGrop,$userindex);
+        $stmt->execute();
         return $messages;
     }
     //Davom etishi uyinni
