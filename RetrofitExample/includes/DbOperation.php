@@ -1131,7 +1131,7 @@ class DbOperation
     }
           }
         }
-
+//ASs
         // Creategrop2help($GroupNumber,"true");
         $rewrwr="Ushade";
         if($trwe){ $db->Creategrop2help($GroupNumber,"true");
