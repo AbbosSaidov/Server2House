@@ -203,10 +203,9 @@ class DbOperation
         $stmt2->fetch();
         return $GroupNumber;
     }
-    function SetOxirgiZapislar($data,$GroupNumber,$OxirgiZapis,$index){
+    function SetOxirgiZapislar($data,$GroupNumber,$OxirgiZapis){
         $stmt =$this->con->prepare("UPDATE oxirgizapis SET $OxirgiZapis = ? WHERE GroupNumber =?");
-        $fd=$data.$index;
-        $stmt->bind_param("si",$fd,$GroupNumber);
+        $stmt->bind_param("si",$data,$GroupNumber);
         $stmt->execute();
     }
     function SetPlayers($GroupNumber,$Level,$Id,$ki,$re){
@@ -359,6 +358,9 @@ class DbOperation
         {
             $ass2 = $ass3;
             $minSatck = TurnLk($lk);
+            $db=new DbOperation();
+            $rtwq=str_replace(substr($data.$index.$ass2,69,1),"",$db->Getuyinchilar($lk));
+            $db->SEndMEssageToGroup($lk,$rtwq ,$data.$index.$ass2);
             //Gruppalaga ajratiganda
             // NechtasiBorliginiAniqlash(lk);
             //ChiqqanBusaChiqaribYuborish(lk);
@@ -387,7 +389,7 @@ class DbOperation
                     }
                 }
             }
-            return $data.$index.$ass2;
+            return $data.$index.$ass2 ;
         }
         function combinatsiya()
         {
@@ -395,11 +397,11 @@ class DbOperation
             $n=array();
             for ($i = 0; $i < 18; $i++)
             {
-                $g[$i] = rand(11, 63);
+                $g[$i] = rand(11, 62);
             }
             for ($iop = 0; $iop < 5; $iop++)
             {
-                $n[$iop] = rand(11, 63);
+                $n[$iop] = rand(11, 62);
             }
             try
             {
@@ -417,7 +419,7 @@ class DbOperation
                             $g[1] == $g[14] || $g[1] == $g[15] ||
                             $g[1] == $g[16] || $g[1] == $g[17])
                         {
-                            $g[$t1] = rand(11, 63);
+                            $g[$t1] = rand(11, 62);
                         }
                     }
                     if ($t1 == 2)
@@ -432,7 +434,7 @@ class DbOperation
                             $g[2] == $g[14] || $g[2] == $g[15] ||
                             $g[2] == $g[16] || $g[2] == $g[17])
                         {
-                            $g[$t1] = rand(11, 63);
+                            $g[$t1] = rand(11, 62);
                         }
                     }
                     if ($t1 == 3)
@@ -447,7 +449,7 @@ class DbOperation
                             $g[3] == $g[14] || $g[3] == $g[15] ||
                             $g[3] == $g[16] || $g[3] == $g[17])
                         {
-                            $g[$t1] = rand(11, 63);
+                            $g[$t1] = rand(11, 62);
                         }
                     }
                     if ($t1 == 4)
@@ -462,7 +464,7 @@ class DbOperation
                             $g[4] == $g[14] || $g[4] == $g[15] ||
                             $g[4] == $g[16] || $g[4] == $g[17])
                         {
-                            $g[$t1] = rand(11, 63);
+                            $g[$t1] = rand(11, 62);
                         }
                     }
                     if ($t1 == 5)
@@ -477,7 +479,7 @@ class DbOperation
                             $g[5] == $g[14] || $g[5] == $g[15] ||
                             $g[5] == $g[16] || $g[5] == $g[17])
                         {
-                            $g[$t1] = rand(11, 63);
+                            $g[$t1] = rand(11, 62);
                         }
                     }
                     if ($t1 == 6)
@@ -492,7 +494,7 @@ class DbOperation
                             $g[6] == $g[14] || $g[6] == $g[15] ||
                             $g[6] == $g[16] || $g[6] == $g[17])
                         {
-                            $g[$t1] = rand(11, 63);
+                            $g[$t1] = rand(11, 62);
                         }
                     }
                     if ($t1 == 7)
@@ -507,7 +509,7 @@ class DbOperation
                             $g[7] == $g[14] || $g[7] == $g[15] ||
                             $g[7] == $g[16] || $g[7] == $g[17])
                         {
-                            $g[$t1] = rand(11, 63);
+                            $g[$t1] = rand(11, 62);
                         }
                     }
                     if ($t1 == 8)
@@ -522,7 +524,7 @@ class DbOperation
                             $g[8] == $g[14] || $g[8] == $g[15] ||
                             $g[8] == $g[16] || $g[8] == $g[17])
                         {
-                            $g[$t1] = rand(11, 63);
+                            $g[$t1] = rand(11, 62);
                         }
                     }
                     if ($t1 == 9)
@@ -537,7 +539,7 @@ class DbOperation
                             $g[9] == $g[14] || $g[9] == $g[15] ||
                             $g[9] == $g[16] || $g[9] == $g[17])
                         {
-                            $g[$t1] = rand(11, 63);
+                            $g[$t1] = rand(11, 62);
                         }
                     }
                     if ($t1 == 10)
@@ -552,7 +554,7 @@ class DbOperation
                             $g[10] == $g[14] || $g[10] == $g[15] ||
                             $g[10] == $g[16] || $g[10] == $g[17])
                         {
-                            $g[$t1] = rand(11, 63);
+                            $g[$t1] = rand(11, 62);
                         }
                     }
                     if ($t1 == 11)
@@ -567,7 +569,7 @@ class DbOperation
                             $g[11] == $g[14] || $g[11] == $g[15] ||
                             $g[11] == $g[16] || $g[11] == $g[17])
                         {
-                            $g[$t1] = rand(11, 63);
+                            $g[$t1] = rand(11, 62);
                         }
                     }
                     if ($t1 == 12)
@@ -582,7 +584,7 @@ class DbOperation
                             $g[12] == $g[14] || $g[12] == $g[15] ||
                             $g[12] == $g[16] || $g[12] == $g[17])
                         {
-                            $g[$t1] = rand(11, 63);
+                            $g[$t1] = rand(11, 62);
                         }
                     }
                     if ($t1 == 13)
@@ -597,7 +599,7 @@ class DbOperation
                             $g[13] == $g[14] || $g[13] == $g[15] ||
                             $g[13] == $g[16] || $g[13] == $g[17])
                         {
-                            $g[$t1] = rand(11, 63);
+                            $g[$t1] = rand(11, 62);
                         }
                     }
                     if ($t1 == 14)
@@ -612,7 +614,7 @@ class DbOperation
                             $g[14] == $g[13] || $g[14] == $g[15] ||
                             $g[14] == $g[16] || $g[14] == $g[17])
                         {
-                            $g[$t1] = rand(11, 63);
+                            $g[$t1] = rand(11, 62);
                         }
                     }
                     if ($t1 == 15)
@@ -627,7 +629,7 @@ class DbOperation
                             $g[15] == $g[13] || $g[15] == $g[14] ||
                             $g[15] == $g[16] || $g[15] == $g[17])
                         {
-                            $g[$t1] = rand(11, 63);
+                            $g[$t1] = rand(11, 62);
                         }
                     }
                     if ($t1 == 16)
@@ -642,7 +644,7 @@ class DbOperation
                             $g[16] == $g[13] || $g[16] == $g[15] ||
                             $g[16] == $g[14] || $g[16] == $g[17])
                         {
-                            $g[$t1] = rand(11, 63);
+                            $g[$t1] = rand(11, 62);
                         }
                     }
                     if ($t1 == 17)
@@ -657,7 +659,7 @@ class DbOperation
                             $g[17] == $g[13] || $g[17] == $g[15] ||
                             $g[17] == $g[14] || $g[17] == $g[16])
                         {
-                            $g[$t1] = rand(11, 63);
+                            $g[$t1] = rand(11, 62);
                         }
                     }
                 }
@@ -677,7 +679,7 @@ class DbOperation
                             $n[$yu] == $n[1] || $n[$yu] == $n[2] ||
                             $n[$yu] == $n[3] || $n[$yu] == $n[4])
                         {
-                            $n[$yu] = rand(11, 63);
+                            $n[$yu] = rand(11, 62);
                         }
                     }
                     if ($yu == 1)
@@ -694,7 +696,7 @@ class DbOperation
                             $n[$yu] == $n[0] || $n[$yu] == $n[2] ||
                             $n[$yu] == $n[3] || $n[$yu] == $n[4])
                         {
-                            $n[$yu] = rand(11, 63);
+                            $n[$yu] = rand(11, 62);
                         }
                     }
                     if ($yu == 2)
@@ -711,7 +713,7 @@ class DbOperation
                             $n[$yu] == $n[0] || $n[$yu] == $n[1] ||
                             $n[$yu] == $n[3] || $n[$yu] == $n[4])
                         {
-                            $n[$yu] = rand(11, 63);
+                            $n[$yu] = rand(11, 62);
                         }
                     }
                     if ($yu == 3)
@@ -728,7 +730,7 @@ class DbOperation
                             $n[$yu] == $n[0] || $n[$yu] == $n[2] ||
                             $n[$yu] == $n[1] || $n[$yu] == $n[4])
                         {
-                            $n[$yu] = rand(11, 63);
+                            $n[$yu] = rand(11, 62);
                         }
                     }
                     if ($yu == 4)
@@ -745,7 +747,7 @@ class DbOperation
                             $n[$yu] == $n[0] || $n[$yu] == $n[2] ||
                             $n[$yu] == $n[1] || $n[$yu] == $n[3])
                         {
-                            $n[$yu] = rand(11, 63);
+                            $n[$yu] = rand(11, 62);
                         }
                     }
                 }
@@ -1040,30 +1042,32 @@ class DbOperation
                 $index=substr($db->Getuyinchilar($GroupNumber),strlen($db->Getuyinchilar($GroupNumber))-1, 1);
                 $db->SetPlayers($GroupNumber,$Level,$Id,"person".$db->Tekshir($GroupNumber),$index);
             }
+            $db->SetError("Usha= ".$GroupNumber." index=".$index,$GroupNumber);
             //       NechtasiBorliginiAniqlash($GroupNumber);
             //       ChiqqanBusaChiqaribYuborish($GroupNumber);
             //%%NameByMe\Ism\0001\gruppa\00000001000$\pul\000000000000\yul\00000\level\000000001000\pul\xb0000000000\id\
-            switch($index){
-                case 9;
-                    $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis9",$index);
-                    break;
-                case 1;    $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis1",$index);
-                    break;
-                case 2;     $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis2",$index);
-                    break;
-                case 3; $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis3",$index);
-                    break;
-                case 4; $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis4",$index);
-                    break;
-                case 5;  $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis5",$index);
-                    break;
-                case 6;  $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis6",$index);
-                    break;
-                case 7; $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis7",$index);
-                    break;
-                case 8;  $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis8",$index);
-                    break;
-            }
+            $rtasd="OxirgiZapis".(string)$index;
+            $db->SetOxirgiZapislar($data.$index,$GroupNumber,$rtasd);
+            /*       switch($index){
+                       case 9;
+                           break;
+                       case 1;  $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis1",$index);
+                           break;
+                       case 2;  $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis2",$index);
+                           break;
+                       case 3; $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis3",$index);
+                           break;
+                       case 4; $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis4",$index);
+                           break;
+                       case 5;  $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis5",$index);
+                           break;
+                       case 6;  $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis6",$index);
+                           break;
+                       case 7; $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis7",$index);
+                           break;
+                       case 8;  $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis8",$index);
+                           break;
+                   }*/
             $minStavka = TurnLk($GroupNumber);
             $gruppdagaiOdamlariSoni=0;
             for ($i = 1; $i < 10; $i++)
@@ -1075,7 +1079,7 @@ class DbOperation
             }
             //  return
             $db->SetHowmanyPlayers($gruppdagaiOdamlariSoni,$GroupNumber);
-            $data = "%%".$Name .str_pad((string)$GroupNumber,4,"0").$pul."$" .$yol
+            $data = "%%".$Name .str_pad((string)$GroupNumber,4,"0",STR_PAD_LEFT).$pul."$" .$yol
                 .$Level .$Money."xb".$Id;
             $kil = "";
             if($db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis9") != "" && $index!=9)
@@ -1123,19 +1127,20 @@ class DbOperation
         $db= new DbOperation();
         for($i=1;$i<10;$i++){
             $rt="OxirgiZapis".(string)$i;
-           $te=$db->GetOxirgiZapisplar($GroupNumber,$rt);
-          if($te!=""){
-    if($Id==substr($te,59,10)){
-        $trwe=false;
-        break;
-    }
-          }
+            $te=$db->GetOxirgiZapisplar($GroupNumber,$rt);
+            if($te!=""){
+                if($Id==substr($te,59,10)){
+                    $trwe=false;
+                    break;
+                }
+            }
         }
-//ASs
+        //ASs
         // Creategrop2help($GroupNumber,"true");
         $rewrwr="Ushade";
-        if($trwe){ $db->Creategrop2help($GroupNumber,"true");
-            $db->SetHowmanyPlayers($db->GetHowmanyPlayers($GroupNumber)+1,$GroupNumber);
+        if($trwe){
+            //  $db->Creategrop2help($GroupNumber,"true");
+            //   $db->SetHowmanyPlayers($db->GetHowmanyPlayers($GroupNumber)+1,$GroupNumber);
             $ki=$GroupNumber;
             if ($GroupNumber > 2100)
             {
@@ -1150,7 +1155,7 @@ class DbOperation
             }
             else
             {/**/
-                if (str_pad((string)$ki,10,"0") == "0001")
+                if (str_pad((string)$ki,4,"0",STR_PAD_LEFT) == "0001")
                 {
                     $mvc = 0;
                     for($i = 2; $i < 100; $i=$i+2)
@@ -1195,6 +1200,8 @@ class DbOperation
                     }
                 }
             }
+            $db->Creategrop2help($GroupNumber,"true");
+            $db->SetHowmanyPlayers($db->GetHowmanyPlayers($GroupNumber)+1,$GroupNumber);
             if ($GroupNumber % 2 == 0)
             {
                 if ($db->Tekshir($GroupNumber) > 4)
@@ -1243,8 +1250,11 @@ class DbOperation
                     }
                 }
             }
-            $db->SEndMEssageToGroup($GroupNumber,$db->Getuyinchilar($GroupNumber),$rewrwr);}
-
+            /*    if(strlen($rewrwr)>68){
+                    $rtwq=str_replace(substr($rewrwr,69,1),"",$db->Getuyinchilar($GroupNumber));
+                    $db->SEndMEssageToGroup($GroupNumber,$rtwq ,$rewrwr);
+                }*/
+        }
         return $rewrwr;
     }
     //messajji olish ucnde
@@ -1261,8 +1271,7 @@ class DbOperation
             $temp['data'] = $data;
             array_push($messages, $temp);
         }
-
-        $stmt = $this->con->prepare("DELETE FROM messages WHERE gropnumber = ? AND indexq=?");
+        /**/     $stmt = $this->con->prepare("DELETE FROM messages WHERE gropnumber = ? AND indexq=?");
         $stmt->bind_param("ii", $userGrop,$userindex);
         $stmt->execute();
         return $messages;
@@ -2152,7 +2161,7 @@ class DbOperation
                 {
                     if ($Golib[$i] != null ||$Golib[$i] != "")
                     {
-                        $kmn = $kmn .substr($db->GetJavoblade($lk,"Javoblade".substr($Golib[$i],0,1)),0,19).str_pad(substr($Golib[$i],1,strlen($Golib[$i])-1) ,12,"0",STR_PAD_LEFT);
+                        $kmn = $kmn.substr($db->GetJavoblade($lk,"Javoblade".substr($Golib[$i],0,1)),0,19).str_pad(substr($Golib[$i],1,strlen($Golib[$i])-1) ,12,"0",STR_PAD_LEFT);
                     }
                 }
                 for ($i = 0; $i < 10; $i++)
@@ -2315,10 +2324,9 @@ class DbOperation
                     $db->SetOxirgiZapislar(
                         substr(substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis".substr($kmn,$i+2,1)),0,14),0,14)
                         .str_pad((string)((int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis".substr($kmn,$i+2,1)),14,12)+(int)substr($kmn,19+$i,12)),12,"0",STR_PAD_LEFT)
-                        .substr(26,strlen($db->GetOxirgiZapisplar($lk,"OxirgiZapis".substr($kmn,$i+2,1)))-26)
+                        .substr(26,strlen($db->GetOxirgiZapisplar($lk,"OxirgiZapis".substr($kmn,$i+2,1)))-26) . substr($kmn,$i+2,1)
                         ,$lk,
-                        "OxirgiZapis".substr($kmn,$i+2,1),
-                        substr($kmn,$i+2,1)
+                        "OxirgiZapis".substr($kmn,$i+2,1)
                     );
                     $i = $i + 30;
                 }
@@ -2328,8 +2336,8 @@ class DbOperation
             {
                 $db->SetOxirgiZapislar(substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis".substr($uyinchilar,$i,1)),0,27)
                     ."000000000000".substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis".
-                        substr($uyinchilar,$i,1)),39,strlen($db->GetOxirgiZapisplar($lk,"OxirgiZapis".
-                            substr($uyinchilar,$i,1)))-39),$lk,"OxirgiZapis".substr($uyinchilar,$i,1),substr($uyinchilar,$i,1)
+                        substr($uyinchilar,$i,1)).substr($uyinchilar,$i,1),39,strlen($db->GetOxirgiZapisplar($lk,"OxirgiZapis".
+                            substr($uyinchilar,$i,1)))-39),$lk,"OxirgiZapis".substr($uyinchilar,$i,1)
                 );
             }
             $db->SetError("As-".$kmn,$lk);
@@ -2430,7 +2438,7 @@ class DbOperation
                     }
                 }
                 $db->SetOxirgiZapislar("%%".$Name.str_pad((string)$GroupNumber,4,"0",STR_PAD_LEFT).str_pad((string)$pul,12,"0",STR_PAD_LEFT)."$".
-                    str_pad((string)$yol,12,"0",STR_PAD_LEFT) .$Level .str_pad((string)$Money,12,"0",STR_PAD_LEFT)."xb".$Id,$GroupNumber,"OxirgiZapis".(string)$Index,$Index);
+                    str_pad((string)$yol,12,"0",STR_PAD_LEFT) .$Level .str_pad((string)$Money,12,"0",STR_PAD_LEFT)."xb".$Id.(string)$Index,$GroupNumber,"OxirgiZapis".(string)$Index);
                 $oxirgizapis=  "%%".$Name.str_pad((string)$GroupNumber,4,"0",STR_PAD_LEFT).str_pad((string)$pul,12,"0",STR_PAD_LEFT)."$".  str_pad((string)$yol,12,"0",STR_PAD_LEFT)
                     .$Level .str_pad((string)$Money,12,"0",STR_PAD_LEFT)."xb".$Id.$Index;
                 if($keraklide == 1)
@@ -2457,7 +2465,7 @@ class DbOperation
                         $data = $Index.str_pad($pul,12,"0",STR_PAD_LEFT) .str_pad($yol,12,"0",STR_PAD_LEFT)."$^" .$keraklide. "&".$mik .$db->GetXAmmakartalar($lk);
                     }
                     if ($yurishkimmiki == "") {$yurishkimmiki = "0"; }
-                    $db->SEndMEssageToGroup($lk,$uyinchilar,$data.$huy.$Index.str_pad($lk,4,"0"));
+                    $db->SEndMEssageToGroup($lk,$uyinchilar,$data.$huy.substr($yurishkimmiki,0,1).str_pad($lk,4,"0"));
                     if ($hu3 == 4)
                     {
                         for ($i = 1; $i < 10; $i++)
@@ -2493,14 +2501,14 @@ class DbOperation
                         $yurishkimmiki=str_replace("",(string)$Index,$yurishkimmiki);
                         $db->SetYurishKimmiki($yurishkimmiki,$lk);
                         $data = $Index.str_pad($pul,12,"0",STR_PAD_LEFT).str_pad($yol,12,"0",STR_PAD_LEFT)."$^" .$keraklide.$mik .$huy."&";
-                        $db->SEndMEssageToGroup($lk,$uyinchilar,$data.$Index.str_pad($lk,4,"0",STR_PAD_LEFT));
+                        $db->SEndMEssageToGroup($lk,$uyinchilar,$data.substr($yurishkimmiki,0,1).str_pad($lk,4,"0",STR_PAD_LEFT));
                         // qushish mumkin
                         if ($huy == 2) {$db->Sethu3(0,$lk); Pas($lk);  }
                     }
                     else
                     {
                         $data = $Index.str_pad($pul,12,"0",STR_PAD_LEFT).str_pad($yol,12,"0",STR_PAD_LEFT)."$^" .$keraklide.$mik .$huy;
-                        $db->SEndMEssageToGroup($lk,$uyinchilar,$data.$huy.$Index.str_pad($lk,4,"0",STR_PAD_LEFT));
+                        $db->SEndMEssageToGroup($lk,$uyinchilar,$data.$huy.substr($yurishkimmiki,0,1).str_pad($lk,4,"0",STR_PAD_LEFT));
                     }
                 }
             }
@@ -2519,6 +2527,182 @@ class DbOperation
             if ($db->GetJavoblade($lk,"Javoblade".(string)$index) == "" ||$db->GetJavoblade($lk,"Javoblade".(string)$index) == null)
             {
                 $db->SetJavoblade("Javoblade".(string)$index,substr($data,0,19).(int)substr($data,19,12),$lk);
+            }
+        }
+        return "Zo'r";
+    }
+    //Chiqishde
+    function Chiqishde($data)
+    {
+        $db=new DbOperation();
+        $mkjd1 = strlen($data) / 14;
+        $kijshda2 = $data;
+        $kijshda3 = "";
+        for ($lkj = 0; $lkj <$mkjd1; $lkj++)
+        {
+            $data = substr($kijshda2,$lkj*14,14);
+            $lk = (int)(substr($data,10,4));
+            /*
+            if (GruppadagiAktivOdamlarSoni[lk] > 0)
+            {
+               GruppadagiAktivOdamlarSoni[lk] = GruppadagiAktivOdamlarSoni[lk] - 1;
+            }*/
+            $mkdss = $db->GetHowmanyPlayers($lk);
+            $uyinchilar=$db->Getuyinchilar($lk);
+            for ($i = 0; $i < $mkdss; $i++)
+            {
+                if (substr($data,9,1) == substr($uyinchilar,$i,1))
+                {
+/*                   if (grop22[lk][i].BotOrClient) { grop2[lk].Remove(c); }
+                    else
+                    {
+                        int mkdss2 = BotGrouplar[lk].Count;
+                        for (int k = 0; k < mkdss2; k++)
+                        {
+                            if (BotsList[int.Parse(BotGrouplar[lk][k].IdNumber)].Index.ToString() == grop22[lk][i].indexClient.ToString())
+                            {
+                                BotGrouplar[lk].RemoveAt(k);
+                                break;
+                            }
+                        }
+                    }
+                    grop22[lk].RemoveAt(i);*/
+                    $db->SetHowManyPlayers($mkdss-1,$lk);
+                    $db->SetUyinchilar(str_replace(substr($data,9,1),"",$uyinchilar),$lk);
+                    $db->SetOxirgiZapislar("",$lk,"OxirgiZapis".(string)substr($data,9,1));
+                    break;
+                }
+            }
+            if ($mkdss-1 == 0)
+            {
+                ObnovitQilish($lk);
+            }
+
+            if (YurishKimmiki[lk].Contains(data.Substring(9, 1)))
+            {
+                //    print(YurishKimmiki[lk] + " " + GruppadagiAktivOdamlarSoni[lk]);
+                if (KartaTarqatildi[lk])
+                {
+                    if (YurishKimmiki[lk].Substring(0, 1) != data.Substring(9, 1))
+                    {
+                        YurishKimmiki[lk] = YurishKimmiki[lk].Replace(data.Substring(9, 1), "");
+                    }
+                    else
+                    {
+                        for (int i = 0; i < YurishKimmiki[lk].Length; i++)
+                        {
+                            //1000000000350000000000050$^201020 a=1 b=13113
+                            string a = YurishKimmiki[lk].Substring(0, 1); string b = YurishKimmiki[lk];
+                            //   print(a + " " + b);
+                            if (i + 2 == YurishKimmiki[lk].Length)
+                            {
+                                YurishKimmiki[lk] = b.Substring(1, 1) +
+                                b.Substring(1, b.Length - 1);
+                                break;
+                            }
+                            else
+                            {
+                                if (a == b.Substring(i + 1, 1))
+                                {
+                                    YurishKimmiki[lk] =
+                                    b.Substring(i + 2, 1) +
+                                    b.Substring(1, b.Length - 1);
+                                    break;
+                                }
+                            }
+                        }
+                        YurishKimmiki[lk] = YurishKimmiki[lk].Replace(data.Substring(9, 1), "");
+                    }
+                }
+                else
+                {
+                    YurishKimmiki[lk] = YurishKimmiki[lk].Replace(data.Substring(9, 1), "");
+                }
+                if (YurishKimmiki[lk].Length < 4)
+                {
+                    huy[lk] = YurishKimmiki[lk].Length - 1;
+                    if (YurishKimmiki[lk].Length == 2 && YurishKimmiki[lk].Substring(0, 1) != YurishKimmiki[lk].Substring(1, 1))
+                    {
+                        huy[lk] = 2;
+                    }
+                }
+                //%%NameByMe0001000000000500$000000000000000000000000001500xb0000000004
+                //   print("Finally=" + YurishKimmiki[lk].Substring(0, 1) + " " + OxirgiZapisplar[lk, int.Parse(YurishKimmiki[lk].Substring(0, 1))]);
+                if (huy[lk] == 1 && uyinchilar[lk].Length > 1)
+                {
+                    hu3[lk] = 0;
+                    // StartCoroutine(Pas(lk));
+                }
+                if (uyinchilar[lk].Length < 2)
+                {
+                    hu3[lk] = 0;
+                }
+                //  print("Finally=" + YurishKimmiki[lk].Substring(0, 1) + " " + OxirgiZapisplar[lk, int.Parse(YurishKimmiki[lk].Substring(0, 1))]);
+            }
+            string sadad = uyinchilar[lk];
+
+            if (data.Length > 9)
+            {
+                data = data.Substring(0, 10);
+            }
+            if (uyinchilar[lk] != sadad && uyinchilar[lk].Length > 0)
+            {
+                data = data + uyinchilar[lk] + "()";
+                int mkdss2 = YurishKimmiki[lk].Length;
+                for (int by = 0; by < mkdss2; by++)
+                {
+                    if (!uyinchilar[lk].Contains(YurishKimmiki[lk].Substring(by, 1)))
+                    {
+                        YurishKimmiki[lk] = YurishKimmiki[lk].Replace(YurishKimmiki[lk].Substring(by, 1), "");
+                    }
+                }
+            }
+            print(uyinchilar[lk] + " " + c.indexClient + " " + YurishKimmiki[lk]);
+            if (uyinchilar[lk].Length > 0)
+            {
+                if (YurishKimmiki[lk] == "") { YurishKimmiki[lk] = "0"; }
+                if (lkj == 0 && lkj != mkjd1 - 1)
+                {
+                    kijshda3 =  data + YurishKimmiki[lk].Substring(0, 1) + lk.ToString().PadLeft(4, '0');
+                }
+                if (lkj == mkjd1 - 1)
+                {
+                    Broadcast(kijshda3+data + YurishKimmiki[lk].Substring(0, 1) + lk.ToString().PadLeft(4, '0'), grop2[lk], lk);
+                }
+                else
+                {
+                    if (lkj != 0)
+                    {
+                        kijshda3 = kijshda3 + data + YurishKimmiki[lk].Substring(0, 1) + lk.ToString().PadLeft(4, '0');
+                    }
+                }
+           }
+            print(uyinchilar[lk] + " " + c.indexClient + " " + YurishKimmiki[lk]);
+            if (uyinchilar[lk].Length < 2)
+            {
+                for (int i = 0; i < ChiqaribYuborish.Count; i++)
+                {
+                    if (ChiqaribYuborish[i].lk1 == lk)
+                    {
+                        if (ChiqaribYuborish[i].Timer.IsRunning)
+                        {
+                            ChiqaribYuborish[i].Timer.Stop();
+                            ChiqaribYuborish[i].Timer.Reset();
+                            print("Boshlandi" + ChiqaribYuborish[i].Timer.ElapsedMilliseconds + " " + i);
+                        }
+                        break;
+                    }
+                }
+                int mmksd = KartaniTarqatish.Count;
+                for (int i = 0; i < mmksd; i++)
+                {
+                    if (KartaniTarqatish[i].lk1 == lk)
+                    {
+                        KartaniTarqatish.RemoveAt(i);
+                        break;
+                    }
+                }
+                Grop2help[lk] = true; KartaTarqatildi[lk] = false; hu3[lk] = 0;
             }
         }
         return "Zo'r";
