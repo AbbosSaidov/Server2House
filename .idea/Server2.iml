@@ -1,20 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/RetrofitExample/tests" isTestSource="true" packagePrefix="Tests\" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/container-interop/container-interop" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/doctrine/instantiator" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/monolog/monolog" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/myclabs/deep-copy" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/nikic/fast-route" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/phpdocumentor/reflection-common" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/phpdocumentor/reflection-docblock" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/phpdocumentor/type-resolver" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/phpspec/prophecy" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/phpunit/php-code-coverage" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/phpunit/php-file-iterator" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/phpunit/php-text-template" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/phpunit/php-timer" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/phpunit/php-token-stream" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/phpunit/phpunit" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/phpunit/phpunit-mock-objects" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/pimple/pimple" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/psr/container" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/psr/http-message" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/psr/log" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/sebastian/code-unit-reverse-lookup" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/sebastian/comparator" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/sebastian/diff" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/sebastian/environment" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/sebastian/exporter" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/sebastian/global-state" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/sebastian/object-enumerator" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/sebastian/recursion-context" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/sebastian/resource-operations" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/sebastian/version" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/slim/php-view" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/slim/slim" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/symfony/polyfill-ctype" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/symfony/yaml" />
+      <excludeFolder url="file://$MODULE_DIR$/RetrofitExample/vendor/webmozart/assert" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library name="PHARS">
-        <CLASSES>
-          <root url="phar://$MODULE_DIR$/composer.phar" />
-          <root url="phar://$MODULE_DIR$/RetrofitExample/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.0.phar" />
-        </CLASSES>
-        <SOURCES>
-          <root url="phar://$MODULE_DIR$/composer.phar" />
-          <root url="phar://$MODULE_DIR$/RetrofitExample/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.0.phar" />
-        </SOURCES>
-      </library>
-    </orderEntry>
   </component>
 </module>
