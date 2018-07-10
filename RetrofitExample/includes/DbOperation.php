@@ -2549,9 +2549,12 @@ class DbOperation
             }*/
             $mkdss = $db->GetHowmanyPlayers($lk);
             $uyinchilar=$db->Getuyinchilar($lk);
+            $yurishkimmiki=$db->GetYurishKimmiki($lk);
+            $kartatarqatildi=$db->GetKartatarqatildi($lk);
+            $index=substr($data,9,1);
             for ($i = 0; $i < $mkdss; $i++)
             {
-                if (substr($data,9,1) == substr($uyinchilar,$i,1))
+                if ($index == substr($uyinchilar,$i,1))
                 {
 /*                   if (grop22[lk][i].BotOrClient) { grop2[lk].Remove(c); }
                     else
@@ -2568,8 +2571,9 @@ class DbOperation
                     }
                     grop22[lk].RemoveAt(i);*/
                     $db->SetHowManyPlayers($mkdss-1,$lk);
-                    $db->SetUyinchilar(str_replace(substr($data,9,1),"",$uyinchilar),$lk);
-                    $db->SetOxirgiZapislar("",$lk,"OxirgiZapis".(string)substr($data,9,1));
+                    $db->SetUyinchilar(str_replace($index,"",$uyinchilar),$lk);
+                    $uyinchilar=str_replace($index,"",$uyinchilar);
+                    $db->SetOxirgiZapislar("",$lk,"OxirgiZapis".$index);
                     break;
                 }
             }
@@ -2578,72 +2582,76 @@ class DbOperation
                 ObnovitQilish($lk);
             }
 
-            if (YurishKimmiki[lk].Contains(data.Substring(9, 1)))
+            if (strpos($yurishkimmiki,$index)!==false)
             {
                 //    print(YurishKimmiki[lk] + " " + GruppadagiAktivOdamlarSoni[lk]);
-                if (KartaTarqatildi[lk])
+                if ($kartatarqatildi=="true")
                 {
-                    if (YurishKimmiki[lk].Substring(0, 1) != data.Substring(9, 1))
+                    if (substr($yurishkimmiki,0,1) != $index)
                     {
-                        YurishKimmiki[lk] = YurishKimmiki[lk].Replace(data.Substring(9, 1), "");
+                        $db->SetYurishKimmiki(str_replace($index,"" ,$yurishkimmiki),$lk);
+                        $yurishkimmiki=str_replace($index,"" ,$yurishkimmiki);
                     }
                     else
                     {
-                        for (int i = 0; i < YurishKimmiki[lk].Length; i++)
+                        for ($i = 0; $i < strlen($yurishkimmiki); $i++)
                         {
                             //1000000000350000000000050$^201020 a=1 b=13113
-                            string a = YurishKimmiki[lk].Substring(0, 1); string b = YurishKimmiki[lk];
+                            $a = substr($yurishkimmiki,0,1); $b = $yurishkimmiki;
                             //   print(a + " " + b);
-                            if (i + 2 == YurishKimmiki[lk].Length)
+                            if ($i + 2 == strlen($yurishkimmiki))
                             {
-                                YurishKimmiki[lk] = b.Substring(1, 1) +
-                                b.Substring(1, b.Length - 1);
+                                $db->SetYurishKimmiki(substr($b,1,1).substr($b,1,strlen($b)-1),$lk);
+                                $yurishkimmiki=substr($b,1,1).substr($b,1,strlen($b)-1);
                                 break;
                             }
                             else
                             {
-                                if (a == b.Substring(i + 1, 1))
+                                if ($a ==substr($b,$i+1,1))
                                 {
-                                    YurishKimmiki[lk] =
-                                    b.Substring(i + 2, 1) +
-                                    b.Substring(1, b.Length - 1);
+                                    $db->SetYurishKimmiki(substr($b,$i+2,1).substr($b,1,strlen($b)-1),$lk);
+                                    $yurishkimmiki=substr($b,$i+2,1).substr($b,1,strlen($b)-1);
                                     break;
                                 }
                             }
                         }
-                        YurishKimmiki[lk] = YurishKimmiki[lk].Replace(data.Substring(9, 1), "");
+                        $db->SetYurishKimmiki(str_replace($index,"" ,$yurishkimmiki),$lk);
+                        $yurishkimmiki=str_replace($index,"" ,$yurishkimmiki);
                     }
                 }
                 else
                 {
-                    YurishKimmiki[lk] = YurishKimmiki[lk].Replace(data.Substring(9, 1), "");
+                    $db->SetYurishKimmiki(str_replace($index,"" ,$yurishkimmiki),$lk);
+                    $yurishkimmiki=str_replace($index,"" ,$yurishkimmiki);
                 }
-                if (YurishKimmiki[lk].Length < 4)
+                if (strlen($yurishkimmiki) < 4)
                 {
-                    huy[lk] = YurishKimmiki[lk].Length - 1;
-                    if (YurishKimmiki[lk].Length == 2 && YurishKimmiki[lk].Substring(0, 1) != YurishKimmiki[lk].Substring(1, 1))
+                    if (strlen($yurishkimmiki) == 2 && substr($yurishkimmiki,0,1) != substr($yurishkimmiki,1,1))
                     {
-                        huy[lk] = 2;
+                        $db->SetHuy(2,$lk);
+                    }else{
+                        $db->SetHuy(strlen($yurishkimmiki)-1,$lk);
                     }
                 }
                 //%%NameByMe0001000000000500$000000000000000000000000001500xb0000000004
                 //   print("Finally=" + YurishKimmiki[lk].Substring(0, 1) + " " + OxirgiZapisplar[lk, int.Parse(YurishKimmiki[lk].Substring(0, 1))]);
-                if (huy[lk] == 1 && uyinchilar[lk].Length > 1)
+                if ($db->GetHuy($lk) == 1 && strlen($uyinchilar) > 1)
                 {
-                    hu3[lk] = 0;
+                    $db->Sethu3(0,$lk);
+
                     // StartCoroutine(Pas(lk));
                 }
-                if (uyinchilar[lk].Length < 2)
+                if (strlen($uyinchilar) < 2)
                 {
-                    hu3[lk] = 0;
+                    $db->Sethu3(0,$lk);
                 }
                 //  print("Finally=" + YurishKimmiki[lk].Substring(0, 1) + " " + OxirgiZapisplar[lk, int.Parse(YurishKimmiki[lk].Substring(0, 1))]);
             }
-            string sadad = uyinchilar[lk];
+            $sadad = $uyinchilar;
 
-            if (data.Length > 9)
+            if (strlen($data) > 9)
             {
-                data = data.Substring(0, 10);
+                $data = substr($data,0,10);
             }
             if (uyinchilar[lk] != sadad && uyinchilar[lk].Length > 0)
             {
@@ -2657,7 +2665,6 @@ class DbOperation
                     }
                 }
             }
-            print(uyinchilar[lk] + " " + c.indexClient + " " + YurishKimmiki[lk]);
             if (uyinchilar[lk].Length > 0)
             {
                 if (YurishKimmiki[lk] == "") { YurishKimmiki[lk] = "0"; }
@@ -2677,7 +2684,6 @@ class DbOperation
                     }
                 }
            }
-            print(uyinchilar[lk] + " " + c.indexClient + " " + YurishKimmiki[lk]);
             if (uyinchilar[lk].Length < 2)
             {
                 for (int i = 0; i < ChiqaribYuborish.Count; i++)
