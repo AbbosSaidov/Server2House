@@ -1259,8 +1259,7 @@ class DbOperation
     }
     //messajji olish ucnde
     function getMessages($userindex,$userGrop)
-    {
-        $data="";
+    {   $data="";
         $stmt = $this->con->prepare("SELECT message FROM messages WHERE gropnumber = ? AND indexq=?");
         $stmt->bind_param("ii", $userGrop,$userindex);
         $stmt->execute();
@@ -1271,7 +1270,7 @@ class DbOperation
             $temp['data'] = $data;
             array_push($messages, $temp);
         }
-        /**/     $stmt = $this->con->prepare("DELETE FROM messages WHERE gropnumber = ? AND indexq=?");
+        $stmt = $this->con->prepare("DELETE FROM messages WHERE gropnumber = ? AND indexq=?");
         $stmt->bind_param("ii", $userGrop,$userindex);
         $stmt->execute();
         return $messages;
