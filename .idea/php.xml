@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/phpunit/php-token-stream" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/pimple/pimple" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/phpunit/phpunit-mock-objects" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/sebastian/global-state" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/sebastian/comparator" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/sebastian/environment" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/sebastian/exporter" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/sebastian/recursion-context" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/slim/php-view" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/sebastian/object-enumerator" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/slim/slim" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/sebastian/resource-operations" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/sebastian/code-unit-reverse-lookup" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/sebastian/diff" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/webmozart/assert" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/phpspec/prophecy" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/nikic/fast-route" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/composer" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/phpdocumentor/type-resolver" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/phpdocumentor/reflection-common" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/RetrofitExample/vendor/container-interop/container-interop" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="5.5.0" />
+  <component name="PhpUnit">
+    <phpunit_settings>
+      <PhpUnitSettings load_method="CUSTOM_LOADER" custom_loader_path="$PROJECT_DIR$/RetrofitExample/vendor/autoload.php" />
+    </phpunit_settings>
+  </component>
+</project>

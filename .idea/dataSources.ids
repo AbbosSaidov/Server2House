@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - server@localhost" uuid="dcbc19be-cef0-4509-be39-6226b0bd2f29">
+    <database-info product="MySQL" version="5.5.5-10.1.31-MariaDB" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.46 ( Revision: 9cc87a48e75c2d2e87c1a293b2862ce651cb256e )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="server"/>
+    <table name="error1" schema="" catalog="server" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="message" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="nmaligi" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="groupnumber" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="groups" schema="" catalog="server" type="TABLE">
+      <column name="NumberOfGroup" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="HowManyPlayers" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="PlayersInfo" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="uyinchilar" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="huy" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="hammakartalar" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="Kartatarqatildi" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="YurishKimmiki" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="grop2help" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="Kimboshlashi" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="hu3" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
+      <index name="ASd" unique="true" columns="id"/>
+      <index name="id" unique="true" columns="id"/>
+      <index name="NumberOfGroup" unique="true" columns="NumberOfGroup"/>
+    </table>
+    <table name="javoblade" schema="" catalog="server" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="groupnumber" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="Javoblade1" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="Javoblade2" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="Javoblade3" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="Javoblade4" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="Javoblade5" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="Javoblade6" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="Javoblade7" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="Javoblade8" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="Javoblade9" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <index name="groupnumber" unique="true" columns="groupnumber"/>
+      <index name="groupnumber_2" unique="true" columns="groupnumber"/>
+      <index name="groupnumber_3" unique="true" columns="groupnumber"/>
+      <index name="id" unique="true" columns="id"/>
+    </table>
+    <table name="messages" schema="" catalog="server" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="Indexq" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="message" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="gropnumber" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <index name="id" unique="true" columns="id"/>
+      <index name="id_2" unique="true" columns="id"/>
+    </table>
+    <table name="oxirgizapis" schema="" catalog="server" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="OxirgiZapis9" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="OxirgiZapis1" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="OxirgiZapis2" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="OxirgiZapis3" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="OxirgiZapis4" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="OxirgiZapis5" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="OxirgiZapis6" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="OxirgiZapis7" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="OxirgiZapis8" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="GroupNumber" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <index name="GroupNumber" unique="true" columns="GroupNumber"/>
+      <index name="id" unique="true" columns="id"/>
+    </table>
+    <table name="players" schema="" catalog="server" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="CustomerID" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="ContactName" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="Tikilgan" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="Levelde" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="groupnamer" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="Indexq" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="Imagenumber" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="money" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <index name="sa23" unique="true" columns="id"/>
+    </table>
+    <table name="tikilganpullar" schema="" catalog="server" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TikilganPullar9" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="TikilganPullar1" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="TikilganPullar2" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="TikilganPullar3" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="TikilganPullar4" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="TikilganPullar5" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="TikilganPullar6" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="TikilganPullar7" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="TikilganPullar8" sqlType="TEXT" precision="16383" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="GroupNumber" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <index name="GroupNumber" unique="true" columns="GroupNumber"/>
+      <index name="id" unique="true" columns="id"/>
+      <index name="id_2" unique="true" columns="id"/>
+    </table>
+  </data-source>
+</component>
