@@ -2694,7 +2694,6 @@ class DbOperation
                         {
                             ChiqaribYuborish[i].Timer.Stop();
                             ChiqaribYuborish[i].Timer.Reset();
-                            print("Boshlandi" + ChiqaribYuborish[i].Timer.ElapsedMilliseconds + " " + i);
                         }
                         break;
                     }
