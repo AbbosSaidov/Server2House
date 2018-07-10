@@ -2647,13 +2647,12 @@ class DbOperation
                 }
                 //  print("Finally=" + YurishKimmiki[lk].Substring(0, 1) + " " + OxirgiZapisplar[lk, int.Parse(YurishKimmiki[lk].Substring(0, 1))]);
             }
-            $sadad = $uyinchilar;
 
             if (strlen($data) > 9)
             {
                 $data = substr($data,0,10);
             }
-            if (uyinchilar[lk] != sadad && uyinchilar[lk].Length > 0)
+        /*   if (uyinchilar[lk] != sadad && uyinchilar[lk].Length > 0)
             {
                 data = data + uyinchilar[lk] + "()";
                 int mkdss2 = YurishKimmiki[lk].Length;
@@ -2664,29 +2663,30 @@ class DbOperation
                         YurishKimmiki[lk] = YurishKimmiki[lk].Replace(YurishKimmiki[lk].Substring(by, 1), "");
                     }
                 }
-            }
-            if (uyinchilar[lk].Length > 0)
+            }*/
+            if (strlen($uyinchilar) > 0)
             {
-                if (YurishKimmiki[lk] == "") { YurishKimmiki[lk] = "0"; }
-                if (lkj == 0 && lkj != mkjd1 - 1)
+                if ($yurishkimmiki == "") { $yurishkimmiki = "0"; }
+                if ($lkj == 0 && $lkj != $mkjd1 - 1)
                 {
-                    kijshda3 =  data + YurishKimmiki[lk].Substring(0, 1) + lk.ToString().PadLeft(4, '0');
+                    $kijshda3 =  $data .substr($yurishkimmiki,0,1) .str_pad($lk,4,"0",STR_PAD_LEFT);
                 }
-                if (lkj == mkjd1 - 1)
+                if ($lkj == $mkjd1 - 1)
                 {
-                    Broadcast(kijshda3+data + YurishKimmiki[lk].Substring(0, 1) + lk.ToString().PadLeft(4, '0'), grop2[lk], lk);
+                    $db->SEndMEssageToGroup($lk,$uyinchilar,$kijshda3.$data .substr($yurishkimmiki,0,1) .str_pad($lk,4,"0",STR_PAD_LEFT));
+                 //   Broadcast(kijshda3+data + YurishKimmiki[lk].Substring(0, 1) + lk.ToString().PadLeft(4, '0'), grop2[lk], lk);
                 }
                 else
                 {
-                    if (lkj != 0)
+                    if ($lkj != 0)
                     {
-                        kijshda3 = kijshda3 + data + YurishKimmiki[lk].Substring(0, 1) + lk.ToString().PadLeft(4, '0');
+                        $kijshda3 = $kijshda3.$data .substr($yurishkimmiki,0,1) .str_pad($lk,4,"0",STR_PAD_LEFT);
                     }
                 }
            }
-            if (uyinchilar[lk].Length < 2)
+            if (strlen($uyinchilar) < 2)
             {
-                for (int i = 0; i < ChiqaribYuborish.Count; i++)
+             /*   for (int i = 0; i < ChiqaribYuborish.Count; i++)
                 {
                     if (ChiqaribYuborish[i].lk1 == lk)
                     {
@@ -2697,8 +2697,8 @@ class DbOperation
                         }
                         break;
                     }
-                }
-                int mmksd = KartaniTarqatish.Count;
+                }*/
+             /*   int mmksd = KartaniTarqatish.Count;
                 for (int i = 0; i < mmksd; i++)
                 {
                     if (KartaniTarqatish[i].lk1 == lk)
@@ -2706,8 +2706,10 @@ class DbOperation
                         KartaniTarqatish.RemoveAt(i);
                         break;
                     }
-                }
-                Grop2help[lk] = true; KartaTarqatildi[lk] = false; hu3[lk] = 0;
+                }*/
+                $db->Setgrop2help($lk,"true");
+                $db->SetKartatarqatildi("false",$lk);
+                 $db->Sethu3(0,$lk);
             }
         }
         return "Zo'r";
