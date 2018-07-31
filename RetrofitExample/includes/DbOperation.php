@@ -8,15 +8,6 @@ class DbOperation
         $db = new DbConnect();
         $this->con = $db->connect();
     }
-    function Tekshir($ki1){
-        //  $stmt2=$this->con->prepare("SELECT HowManyPlayers FROM groups WHERE NumberOfGroup=?");
-        $stmt2=$this->con->prepare("SELECT HowManyPlayers FROM groups WHERE NumberOfGroup=?");
-        $stmt2->bind_param("i",$ki1);
-        $stmt2->execute();
-        $stmt2->bind_result($ki1);
-        $stmt2->fetch();
-        return $ki1;
-    }
     function GetKimboshlashi($koo){
         $stmt2=$this->con->prepare("SELECT Kimboshlashi FROM groups WHERE NumberOfGroup=?");
         $stmt2->bind_param("i",$koo);
@@ -194,10 +185,16 @@ class DbOperation
         $stmt =$this->con->prepare("INSERT IGNORE INTO  oxirgizapis (GroupNumber) VALUES(?)");
         $stmt->bind_param("i",$lk);
         $stmt->execute();
+        $stmt =$this->con->prepare("INSERT IGNORE INTO  timede (GroupNumber) VALUES(?)");
+        $stmt->bind_param("i",$lk);
+        $stmt->execute();
+        $stmt =$this->con->prepare("INSERT IGNORE INTO  timede2 (GroupNumber) VALUES(?)");
+        $stmt->bind_param("i",$lk);
+        $stmt->execute();
     }
     function GetOxirgiZapisplar($GroupNumber ,$OxirgiZapis){
         $stmt2=$this->con->prepare("SELECT $OxirgiZapis FROM oxirgizapis WHERE GroupNumber=?");
-        $stmt2->bind_param("s",$GroupNumber);
+        $stmt2->bind_param("i",$GroupNumber);
         $stmt2->execute();
         $stmt2->bind_result($GroupNumber);
         $stmt2->fetch();
@@ -213,7 +210,587 @@ class DbOperation
         $stmt->bind_param("siiss",$re,$GroupNumber,$Level,$ki,$Id);
         $stmt->execute();
     }
+    function SetTimede($GroupNumber,$timede,$time){
+        $stmt =$this->con->prepare("UPDATE timede SET $timede = ? WHERE GroupNumber =?");
+        $stmt->bind_param("ii",$time,$GroupNumber);
+        $stmt->execute();
+    }
+    function GetTimede($GroupNumber,$timede){
+        $stmt2=$this->con->prepare("SELECT $timede FROM timede WHERE GroupNumber=?");
+        $stmt2->bind_param("i",$GroupNumber);
+        $stmt2->execute();
+        $stmt2->bind_result($ki1);
+        $stmt2->fetch();
+        return $ki1;
+    }
+    function SetTimede2($GroupNumber,$timede2,$time){
+        $stmt =$this->con->prepare("UPDATE timede2 SET $timede2 = ? WHERE GroupNumber =?");
+        $stmt->bind_param("ii",$time,$GroupNumber);
+        $stmt->execute();
+    }
+    function combinatsiya()
+    {
+        $g=array();
+        $n=array();
+        for ($i = 0; $i < 18; $i++)
+        {
+            $g[$i] = rand(11, 62);
+        }
+        for ($iop = 0; $iop < 5; $iop++)
+        {
+            $n[$iop] = rand(11, 62);
+        }
+        try
+        {
+            for ($t1 = 1; $t1 < 18; $t1++)
+            {
+                if ($t1 == 1)
+                {
+                    while ($g[1] == $g[0] ||
+                        $g[1] == $g[2] || $g[1] == $g[3] ||
+                        $g[1] == $g[4] || $g[1] == $g[5] ||
+                        $g[1] == $g[6] || $g[1] == $g[7] ||
+                        $g[1] == $g[8] || $g[1] == $g[9] ||
+                        $g[1] == $g[10] || $g[1] == $g[11] ||
+                        $g[1] == $g[12] || $g[1] == $g[13] ||
+                        $g[1] == $g[14] || $g[1] == $g[15] ||
+                        $g[1] == $g[16] || $g[1] == $g[17])
+                    {
+                        $g[$t1] = rand(11, 62);
+                    }
+                }
+                if ($t1 == 2)
+                {
+                    while ($g[2] == $g[0] ||
+                        $g[2] == $g[1] || $g[2] == $g[3] ||
+                        $g[2] == $g[4] || $g[2] == $g[5] ||
+                        $g[2] == $g[6] || $g[2] == $g[7] ||
+                        $g[2] == $g[8] || $g[2] == $g[9] ||
+                        $g[2] == $g[10] || $g[2] == $g[11] ||
+                        $g[2] == $g[12] || $g[2] == $g[13] ||
+                        $g[2] == $g[14] || $g[2] == $g[15] ||
+                        $g[2] == $g[16] || $g[2] == $g[17])
+                    {
+                        $g[$t1] = rand(11, 62);
+                    }
+                }
+                if ($t1 == 3)
+                {
+                    while ($g[3] == $g[0] ||
+                        $g[3] == $g[1] || $g[3] == $g[2] ||
+                        $g[3] == $g[4] || $g[3] == $g[5] ||
+                        $g[3] == $g[6] || $g[3] == $g[7] ||
+                        $g[3] == $g[8] || $g[3] == $g[9] ||
+                        $g[3] == $g[10] || $g[3] == $g[11] ||
+                        $g[3] == $g[12] || $g[3] == $g[13] ||
+                        $g[3] == $g[14] || $g[3] == $g[15] ||
+                        $g[3] == $g[16] || $g[3] == $g[17])
+                    {
+                        $g[$t1] = rand(11, 62);
+                    }
+                }
+                if ($t1 == 4)
+                {
+                    while ($g[4] == $g[0] ||
+                        $g[4] == $g[1] || $g[4] == $g[3] ||
+                        $g[4] == $g[2] || $g[4] == $g[5] ||
+                        $g[4] == $g[6] || $g[4] == $g[7] ||
+                        $g[4] == $g[8] || $g[4] == $g[9] ||
+                        $g[4] == $g[10] || $g[4] == $g[11] ||
+                        $g[4] == $g[12] || $g[4] == $g[13] ||
+                        $g[4] == $g[14] || $g[4] == $g[15] ||
+                        $g[4] == $g[16] || $g[4] == $g[17])
+                    {
+                        $g[$t1] = rand(11, 62);
+                    }
+                }
+                if ($t1 == 5)
+                {
+                    while ($g[5] == $g[0] ||
+                        $g[5] == $g[1] || $g[5] == $g[3] ||
+                        $g[5] == $g[4] || $g[5] == $g[2] ||
+                        $g[5] == $g[6] || $g[5] == $g[7] ||
+                        $g[5] == $g[8] || $g[5] == $g[9] ||
+                        $g[5] == $g[10] || $g[5] == $g[11] ||
+                        $g[5] == $g[12] || $g[5] == $g[13] ||
+                        $g[5] == $g[14] || $g[5] == $g[15] ||
+                        $g[5] == $g[16] || $g[5] == $g[17])
+                    {
+                        $g[$t1] = rand(11, 62);
+                    }
+                }
+                if ($t1 == 6)
+                {
+                    while ($g[6] == $g[0] ||
+                        $g[6] == $g[1] || $g[6] == $g[3] ||
+                        $g[6] == $g[4] || $g[6] == $g[5] ||
+                        $g[6] == $g[2] || $g[6] == $g[7] ||
+                        $g[6] == $g[8] || $g[6] == $g[9] ||
+                        $g[6] == $g[10] || $g[6] == $g[11] ||
+                        $g[6] == $g[12] || $g[6] == $g[13] ||
+                        $g[6] == $g[14] || $g[6] == $g[15] ||
+                        $g[6] == $g[16] || $g[6] == $g[17])
+                    {
+                        $g[$t1] = rand(11, 62);
+                    }
+                }
+                if ($t1 == 7)
+                {
+                    while ($g[7] == $g[0] ||
+                        $g[7] == $g[1] || $g[7] == $g[3] ||
+                        $g[7] == $g[4] || $g[7] == $g[5] ||
+                        $g[7] == $g[6] || $g[7] == $g[2] ||
+                        $g[7] == $g[8] || $g[7] == $g[9] ||
+                        $g[7] == $g[10] || $g[7] == $g[11] ||
+                        $g[7] == $g[12] || $g[7] == $g[13] ||
+                        $g[7] == $g[14] || $g[7] == $g[15] ||
+                        $g[7] == $g[16] || $g[7] == $g[17])
+                    {
+                        $g[$t1] = rand(11, 62);
+                    }
+                }
+                if ($t1 == 8)
+                {
+                    while ($g[8] == $g[0] ||
+                        $g[8] == $g[1] || $g[8] == $g[3] ||
+                        $g[8] == $g[4] || $g[8] == $g[5] ||
+                        $g[8] == $g[6] || $g[8] == $g[2] ||
+                        $g[8] == $g[7] || $g[8] == $g[9] ||
+                        $g[8] == $g[10] ||$g[8] == $g[11] ||
+                        $g[8] == $g[12] || $g[8] == $g[13] ||
+                        $g[8] == $g[14] || $g[8] == $g[15] ||
+                        $g[8] == $g[16] || $g[8] == $g[17])
+                    {
+                        $g[$t1] = rand(11, 62);
+                    }
+                }
+                if ($t1 == 9)
+                {
+                    while ($g[9] == $g[0] ||
+                        $g[9] == $g[1] || $g[9] == $g[3] ||
+                        $g[9] == $g[4] || $g[9] == $g[5] ||
+                        $g[9] == $g[6] || $g[9] == $g[2] ||
+                        $g[9] == $g[8] || $g[9] == $g[7] ||
+                        $g[9] == $g[10] || $g[9] == $g[11] ||
+                        $g[9] == $g[12] || $g[9] == $g[13] ||
+                        $g[9] == $g[14] || $g[9] == $g[15] ||
+                        $g[9] == $g[16] || $g[9] == $g[17])
+                    {
+                        $g[$t1] = rand(11, 62);
+                    }
+                }
+                if ($t1 == 10)
+                {
+                    while ($g[10] == $g[0] ||
+                        $g[10] == $g[1] || $g[10] == $g[3] ||
+                        $g[10] == $g[4] || $g[10] == $g[5] ||
+                        $g[10] == $g[6] || $g[10] == $g[2] ||
+                        $g[10] == $g[8] || $g[10] == $g[7] ||
+                        $g[10] == $g[9] || $g[10] == $g[11] ||
+                        $g[10] == $g[12] || $g[10] == $g[13] ||
+                        $g[10] == $g[14] || $g[10] == $g[15] ||
+                        $g[10] == $g[16] || $g[10] == $g[17])
+                    {
+                        $g[$t1] = rand(11, 62);
+                    }
+                }
+                if ($t1 == 11)
+                {
+                    while ($g[11] == $g[0] ||
+                        $g[11] == $g[1] || $g[11] == $g[3] ||
+                        $g[11] == $g[4] || $g[11] == $g[5] ||
+                        $g[11] == $g[6] || $g[11] == $g[2] ||
+                        $g[11] == $g[8] || $g[11] == $g[7] ||
+                        $g[11] == $g[9] || $g[11] == $g[10] ||
+                        $g[11] == $g[12] || $g[11] == $g[13] ||
+                        $g[11] == $g[14] || $g[11] == $g[15] ||
+                        $g[11] == $g[16] || $g[11] == $g[17])
+                    {
+                        $g[$t1] = rand(11, 62);
+                    }
+                }
+                if ($t1 == 12)
+                {
+                    while ($g[12] == $g[0] ||
+                        $g[12] == $g[1] || $g[12] == $g[3] ||
+                        $g[12] == $g[4] || $g[12] == $g[5] ||
+                        $g[12] == $g[6] || $g[12] == $g[2] ||
+                        $g[12] == $g[8] || $g[12] == $g[7] ||
+                        $g[12] == $g[9] || $g[12] == $g[10] ||
+                        $g[12] == $g[11] || $g[12] == $g[13] ||
+                        $g[12] == $g[14] || $g[12] == $g[15] ||
+                        $g[12] == $g[16] || $g[12] == $g[17])
+                    {
+                        $g[$t1] = rand(11, 62);
+                    }
+                }
+                if ($t1 == 13)
+                {
+                    while ($g[13] == $g[0] ||
+                        $g[13] == $g[1] || $g[13] == $g[3] ||
+                        $g[13] == $g[4] || $g[13] == $g[5] ||
+                        $g[13] == $g[6] || $g[13] == $g[2] ||
+                        $g[13] == $g[8] || $g[13] == $g[7] ||
+                        $g[13] == $g[9] || $g[13] == $g[10] ||
+                        $g[13] == $g[11] || $g[13] == $g[12] ||
+                        $g[13] == $g[14] || $g[13] == $g[15] ||
+                        $g[13] == $g[16] || $g[13] == $g[17])
+                    {
+                        $g[$t1] = rand(11, 62);
+                    }
+                }
+                if ($t1 == 14)
+                {
+                    while ($g[14] == $g[0] ||
+                        $g[14] == $g[1] || $g[14] == $g[3] ||
+                        $g[14] == $g[4] || $g[14] == $g[5] ||
+                        $g[14] == $g[6] || $g[14] == $g[2] ||
+                        $g[14] == $g[8] || $g[14] == $g[7] ||
+                        $g[14] == $g[9] || $g[14] == $g[10] ||
+                        $g[14] == $g[11] || $g[14] == $g[12] ||
+                        $g[14] == $g[13] || $g[14] == $g[15] ||
+                        $g[14] == $g[16] || $g[14] == $g[17])
+                    {
+                        $g[$t1] = rand(11, 62);
+                    }
+                }
+                if ($t1 == 15)
+                {
+                    while ($g[15] == $g[0] ||
+                        $g[15] == $g[1] || $g[15] == $g[3] ||
+                        $g[15] == $g[4] || $g[15] == $g[5] ||
+                        $g[15] == $g[6] || $g[15] == $g[2] ||
+                        $g[15] == $g[8] || $g[15] == $g[7] ||
+                        $g[15] == $g[9] || $g[15] == $g[10] ||
+                        $g[15] == $g[11] || $g[15] == $g[12] ||
+                        $g[15] == $g[13] || $g[15] == $g[14] ||
+                        $g[15] == $g[16] || $g[15] == $g[17])
+                    {
+                        $g[$t1] = rand(11, 62);
+                    }
+                }
+                if ($t1 == 16)
+                {
+                    while ($g[16] == $g[0] ||
+                        $g[16] == $g[1] || $g[16] == $g[3] ||
+                        $g[16] == $g[4] || $g[16] == $g[5] ||
+                        $g[16] == $g[6] || $g[16] == $g[2] ||
+                        $g[16] == $g[8] || $g[16] == $g[7] ||
+                        $g[16] == $g[9] || $g[16] == $g[10] ||
+                        $g[16] == $g[11] || $g[16] == $g[12] ||
+                        $g[16] == $g[13] || $g[16] == $g[15] ||
+                        $g[16] == $g[14] || $g[16] == $g[17])
+                    {
+                        $g[$t1] = rand(11, 62);
+                    }
+                }
+                if ($t1 == 17)
+                {
+                    while ($g[17] == $g[0] ||
+                        $g[17] == $g[1] || $g[17] == $g[3] ||
+                        $g[17] == $g[4] || $g[17] == $g[5] ||
+                        $g[17] == $g[6] || $g[17] == $g[2] ||
+                        $g[17] == $g[8] || $g[17] == $g[7] ||
+                        $g[17] == $g[9] || $g[17] == $g[10] ||
+                        $g[17] == $g[11] || $g[17] == $g[12] ||
+                        $g[17] == $g[13] || $g[17] == $g[15] ||
+                        $g[17] == $g[14] || $g[17] == $g[16])
+                    {
+                        $g[$t1] = rand(11, 62);
+                    }
+                }
+            }
+            for ($yu = 0; $yu < 5; $yu++)
+            {
+                if ($yu == 0)
+                {
+                    while ($n[$yu] == $g[0] || $n[$yu] == $g[7] ||
+                        $n[$yu] == $g[1] || $n[$yu] == $g[3] ||
+                        $n[$yu] == $g[4] || $n[$yu] == $g[5] ||
+                        $n[$yu] == $g[6] || $n[$yu] == $g[2] ||
+                        $n[$yu] == $g[8] || $n[$yu] == $g[9] ||
+                        $n[$yu] == $g[10] || $n[$yu] == $g[11] ||
+                        $n[$yu] == $g[12] || $n[$yu] == $g[13] ||
+                        $n[$yu] == $g[14] || $n[$yu] == $g[15] ||
+                        $n[$yu] == $g[16] || $n[$yu] == $g[17] ||
+                        $n[$yu] == $n[1] || $n[$yu] == $n[2] ||
+                        $n[$yu] == $n[3] || $n[$yu] == $n[4])
+                    {
+                        $n[$yu] = rand(11, 62);
+                    }
+                }
+                if ($yu == 1)
+                {
+                    while ($n[$yu] == $g[0] || $n[$yu] == $g[7] ||
+                        $n[$yu] == $g[1] || $n[$yu] == $g[3] ||
+                        $n[$yu] == $g[4] || $n[$yu] == $g[5] ||
+                        $n[$yu] == $g[6] || $n[$yu] == $g[2] ||
+                        $n[$yu] == $g[8] || $n[$yu] == $g[9] ||
+                        $n[$yu] == $g[10] || $n[$yu] == $g[11] ||
+                        $n[$yu] == $g[12] || $n[$yu] == $g[13] ||
+                        $n[$yu] == $g[14] || $n[$yu] == $g[15] ||
+                        $n[$yu] == $g[16] || $n[$yu] == $g[17] ||
+                        $n[$yu] == $n[0] || $n[$yu] == $n[2] ||
+                        $n[$yu] == $n[3] || $n[$yu] == $n[4])
+                    {
+                        $n[$yu] = rand(11, 62);
+                    }
+                }
+                if ($yu == 2)
+                {
+                    while ($n[$yu] == $g[0] || $n[$yu] == $g[7] ||
+                        $n[$yu] == $g[1] || $n[$yu] == $g[3] ||
+                        $n[$yu] == $g[4] || $n[$yu] == $g[5] ||
+                        $n[$yu] == $g[6] || $n[$yu] == $g[2] ||
+                        $n[$yu] == $g[8] || $n[$yu] == $g[9] ||
+                        $n[$yu] == $g[10] || $n[$yu] == $g[11] ||
+                        $n[$yu] == $g[12] || $n[$yu] == $g[13] ||
+                        $n[$yu] == $g[14] || $n[$yu] == $g[15] ||
+                        $n[$yu] == $g[16] || $n[$yu] == $g[17] ||
+                        $n[$yu] == $n[0] || $n[$yu] == $n[1] ||
+                        $n[$yu] == $n[3] || $n[$yu] == $n[4])
+                    {
+                        $n[$yu] = rand(11, 62);
+                    }
+                }
+                if ($yu == 3)
+                {
+                    while ($n[$yu] == $g[0] || $n[$yu] == $g[7] ||
+                        $n[$yu] == $g[1] || $n[$yu] == $g[3] ||
+                        $n[$yu] == $g[4] || $n[$yu] == $g[5] ||
+                        $n[$yu] == $g[6] || $n[$yu] == $g[2] ||
+                        $n[$yu] == $g[8] || $n[$yu] == $g[9] ||
+                        $n[$yu] == $g[10] || $n[$yu] == $g[11] ||
+                        $n[$yu] == $g[12] || $n[$yu] == $g[13] ||
+                        $n[$yu] == $g[14] || $n[$yu] == $g[15] ||
+                        $n[$yu] == $g[16] || $n[$yu] == $g[17] ||
+                        $n[$yu] == $n[0] || $n[$yu] == $n[2] ||
+                        $n[$yu] == $n[1] || $n[$yu] == $n[4])
+                    {
+                        $n[$yu] = rand(11, 62);
+                    }
+                }
+                if ($yu == 4)
+                {
+                    while ($n[$yu] == $g[0] || $n[$yu] == $g[7] ||
+                        $n[$yu] == $g[1] || $n[$yu] == $g[3] ||
+                        $n[$yu] == $g[4] || $n[$yu] == $g[5] ||
+                        $n[$yu] == $g[6] || $n[$yu] == $g[2] ||
+                        $n[$yu] == $g[8] || $n[$yu] == $g[9] ||
+                        $n[$yu] == $g[10] || $n[$yu] == $g[11] ||
+                        $n[$yu] == $g[12] || $n[$yu] == $g[13] ||
+                        $n[$yu] == $g[14] || $n[$yu] == $g[15] ||
+                        $n[$yu] == $g[16] || $n[$yu] == $g[17] ||
+                        $n[$yu] == $n[0] || $n[$yu] == $n[2] ||
+                        $n[$yu] == $n[1] || $n[$yu] == $n[3])
+                    {
+                        $n[$yu] = rand(11, 62);
+                    }
+                }
+            }
+            //flesh test
+            //  g[1] = 12; g[0] = 13; n[0] = 14; n[1] = 15; n[2] = 50; n[3] = 56; n[4] = 17;
+            //  g[2] = 12; g[3] = 13;
+            //Strit
+            //    g[2] = 33; g[3] = 35;
+            //n[0] = 18;n[1] = 16;n[2] = 49;n[3] = 45;n[4] = 47;
+            // g[1] = 26; g[0] = 17;
+            //para
+            //  g[2] = 23; g[3] = 36; n[0] =26; n[1] = 17; n[2] = 48; n[3] = 35; n[4] = 51;
+            //   g[0] = 23; g[1] = 36;
+            //g[4] = 23; g[5] = 36;
+            //kikerets;
+            //  g[0] = 11; g[1] = 12; n[0] =31; n[1] = 56; n[2] = 48; n[3] = 35; n[4] = 57;
+            // g[2] = 13; g[3] = 14;
+            //set
+            // g[1] = 32; g[0] = 37; n[0] =25; n[1] = 43; n[2] = 11; n[3] = 24; n[4] = 58;
+            // g[2] = 45; g[3] = 50;
+        }
+        catch (Exception $e)
+        {
+            print($e->getMessage());
+        }
+        $as=array($g,$n);
+        return $as;
+    }
+    function cardio()
+    {
+        $cards=array();
+        for($i = 11; $i < 24; $i++)
+        {
+            $cards[$i] = "cl".$i;
+        }
+        for ($i = 24; $i < 37; $i++)
+        {
+            $cards[$i] = "di".($i-13);
+        }
+        for ($i = 37; $i < 50; $i++)
+        {
+            $cards[$i] = "he".($i - 26);
+        }
+        for ($i = 50; $i < 63; $i++)
+        {
+            $cards[$i] = "sp".($i - 39);
+        }
+        return $cards;
+    }
     //Method to create a new user
+    //YurishAsosiy
+    function YurishAsosiy($lk,$minSatck,$soni){
+        $koo=$lk;
+        $db=new DbOperation();
+        $koo=$db->GetKartatarqatildi($koo);
+        if($koo== "false")
+        {
+            if ($lk > 2100)
+            {
+                $db->Setgrop2help($lk,"false");
+            }
+            //   yield return new WaitForSeconds(2);
+            // NechtasiBorliginiAniqlash( lk);
+            //  ChiqqanBusaChiqaribYuborish( lk);
+            //  $trt = -1;
+            /*
+          for ($i = 0; $i < ChiqaribYuborish.Count; $i++)
+          {
+              if (ChiqaribYuborish[i].lk1 == lk)
+              {
+                  if(ChiqaribYuborish[i].Timer.IsRunning)
+                  {
+                      ChiqaribYuborish[i].Timer.Stop();
+                      ChiqaribYuborish[i].Timer.Reset();
+                  }
+                  $trt = $i;
+                  break;
+              }
+          }
+          if ($trt == -1)
+          {
+              ChiqaribYuborish.Add(new RRniKItish(lk));
+          }*/
+            $dssad = 0;
+            $ttt4 = "";
+            $uyinchilar=$db->Getuyinchilar($lk);
+            for ($i=1;$i<10;$i++){
+                $jie="OxirgiZapis".(string)$i;
+                if((int)substr($db->GetOxirgiZapisplar($lk,$jie),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,$jie),27,12)>=$minSatck){
+                    $dssad = $dssad + 1;
+                    if(strpos($uyinchilar,(string)$i)!== false){$ttt4 = $ttt4.(string)$i;}
+                }
+            }
+            $ttt5 = "";
+            for($i=0;$i<9;$i++){
+                if(strpos($uyinchilar,(string)($i+1))!==false&&
+                    strpos($ttt4,(string)($i+1))!==false){
+                    $ttt5=$ttt5.(string)($i+1);
+                }
+            }
+            $db->SetYurishKimmiki($ttt5,$lk);
+            $db->SetHuy($dssad,$lk);
+            $koo=$lk;
+            $koo=$db->GetKimboshlashi($koo);
+            $koo2=$ttt5;
+            for ($i = 1; $i < 10; $i++)
+            {
+                $gd = (int)$koo + $i;
+                if ($gd > 9)
+                {
+                    $gd = $gd - 9;
+                }
+                //   $db->SetYurishKimmiki("114"."-".$gd." - ".$koo2,$lk);
+                //   break;
+                if (strpos($koo2, (string)$gd) !== false)
+                {
+                    $koo2=(string)$gd.(string)$koo2;
+                    $db->SetKimboshlashi($gd,$lk);
+                    break;
+                }
+            }
+            $db->SetYurishKimmiki($koo2,$lk);
+            $yurishkimmiki=$koo2;
+            /*        if (BotGrouplar[lk].Count + grop2[lk].Count != grop22[lk].Count)
+                 /* {
+                       for ($i = 0; $i < grop2[lk].Count; i++)
+                       {
+                           int mkdsd = BotGrouplar[lk].Count;
+                           for ($l = 0; $l < $mkdsd; $l++)
+                           {
+                               if (grop2[lk][i].indexClient.ToString() == BotGrouplar[lk][l].Index)
+                               {
+                                   BotGrouplar[lk].RemoveAt(l);
+                                   l = l - 1;
+                                   mkdsd = mkdsd - 1;
+                               }
+                           }
+                       }
+                   }*/
+            if ($db->GetHowmanyPlayers($lk) >= $soni && $db->GetKartatarqatildi($lk) == "false")
+            {
+                $db->SetKartatarqatildi("true",$lk);
+                for($i=1;$i<10;$i++){
+                    $db->SetTikilganPullar("Tikilganpullar".(string)$i,"0",$lk);
+                }
+                $n=$db->combinatsiya();
+                $cards=$db->cardio();
+                //Gruppalaga ajratiganda
+                $db->SetXAmmakartalar($cards[$n[1][0]].$cards[$n[1][1]].$cards[$n[1][2]].$cards[$n[1][3]].$cards[$n[1][4]],$lk);
+                // if (trt != -1) { ChiqaribYuborish[trt].Timer.Start(); }
+                for ($i = 0; $i < 9; $i++)
+                {
+                    $db->SetUyinchilar(substr($uyinchilar,1,1).substr($uyinchilar,2,strlen($uyinchilar)-2).substr($uyinchilar,0,1),$lk);
+                    $uyinchilar=substr($uyinchilar,1,1).substr($uyinchilar,2,strlen($uyinchilar-2)).substr($uyinchilar,0,1);
+                    if (strpos($yurishkimmiki, substr($uyinchilar,1,1))!== false&& strpos($yurishkimmiki, substr($uyinchilar,0,1))!== false)
+                    {
+                        break;
+                    }
+                }
+                $totti = strlen($yurishkimmiki)-1;
+                $db->SetHuy($totti,$lk);
+                for ($m = 0; $m < $totti; $m++)
+                {
+                    $tott2 = -1;
+                    // $tott3 = 0;
+                    /*                   for ($o = 0; $o < Tekshir($lk); $o++)
+                                    {
+                                        if (YurishKimmiki[lk].Length>m+1 && YurishKimmiki[lk].Substring(m + 1, 1) == grop2[lk][o].indexClient.ToString())
+                                        {
+                                            tott2 = o;                                          break;
+                                        }
+                                    }
+                            /*     for ($o = 0; $o < grop22[lk].Count; $o++)
+                                    {
+                                        if (YurishKimmiki[lk].Length > m + 1 && YurishKimmiki[lk].Substring(m + 1, 1) == grop22[lk][o].indexClient.ToString())
+                                        {
+                                            tott3 = o;
+                                            break;
+                                        }
+           }*/
+                    if ($tott2==-1)
+                    {
+                        $message=$cards[$n[0][$m * 2]].$cards[$n[0][$m * 2 + 1]].substr($yurishkimmiki,0,1).
+                            str_pad((string)($minSatck / 2),12,'0',STR_PAD_LEFT)."!". str_pad((string)($minSatck ),12,'0',STR_PAD_LEFT).
+                            $uyinchilar .substr($yurishkimmiki,$m+1,1) .str_pad((string)($lk),4,'0',STR_PAD_LEFT);
+                        $db->SEndMEssage($lk,substr($uyinchilar,$m,1),$message);
+                    }
+                    else
+                    {
+                        /*                       int mop = 0;
+                                           for(int i = 0; i < BotGrouplar[lk].Count; i++)
+                                           {
+                                               if(grop22[lk][tott3].indexClient.ToString()== BotGrouplar[lk][i].Index)
+                                               {
+                                                   mop = i;
+                                             break;
+                                               }
+                                           }
+                                 /*            OnIncomBot(cards[g[m * 2]] + cards[g[m * 2 + 1]] + "" + YurishKimmiki[lk].Substring(0, 1) +
+                                       (minSatck / 2).ToString().PadLeft(12, '0') + "!" + (minSatck).ToString().PadLeft(12, '0') +
+                                       uyinchilar[lk] + grop22[lk][tott3].indexClient + grop22[lk][tott3].ClientGroup, int.Parse(BotGrouplar[lk][mop].IdNumber));*/
+                    }
+                }
+            }
+        }
+    }
     function registerUser($data)
     {
         $BotOrClient = "true";
@@ -251,823 +828,120 @@ class DbOperation
         }
         return true;
     }
+    //Chekifonline
+    function ChekIfOnline($userGrop){
+        $db=new DbOperation();
+        $GroupNumber=$userGrop;
+        $uyinchilar=$db->Getuyinchilar($userGrop);
+        for($i=1;$i<10;$i++){
+            $mk2="OxirgiZapis".(string)$i;
+            $mk="time".(string)$i;
+            $erw=$db->GetTimede($GroupNumber,$mk);
+            $OxirgiZapis=$db->GetOxirgiZapisplar($userGrop,$mk2);
+            if(strlen($OxirgiZapis)>68 && strpos($uyinchilar,(string)$i)!==false && strlen($erw)>10 &&
+                time()-(int)substr($erw,10,strlen($erw)-10)>7 /*&& substr($db->GetOxirgiZapisplar($GroupNumber,$mk2),59,10) == substr($erw,0,10)*/){
+                $lk = $GroupNumber;
+                $data21 = "Chiqishde" .(string)$i.str_pad((string)($lk),4,'0',STR_PAD_LEFT);
+                $db->Chiqishde($data21);
+            }else{
+                if(strlen($OxirgiZapis)>68 && strpos($uyinchilar,(string)$i)===false){
+                    $db->SetOxirgiZapislar("",$userGrop,$mk2);
+                    $db->DeleteMessages($i,$GroupNumber);
+                    $db->SetTimede($GroupNumber,$mk,"");
+                    $db->SetTimede2($GroupNumber,$mk,"");
+                }else{
+                    if(strlen($OxirgiZapis)>68 && strpos($uyinchilar,(string)$i)!==false&& strlen($erw)<10 ){
+                        $lk = $GroupNumber;
+                        $data21 = "Chiqishde" .(string)$i.str_pad((string)($lk),4,'0',STR_PAD_LEFT);
+                        $db->Chiqishde($data21);
+                    }
+                }
+            }
+        }
+    }
     //methoda uyinga kirish unchun
     function UyingaKirish($data){
-        function uyinchilarade($son)
+        function uyinchilarade2($son,$nechtaligi)
         {
+            $ui="";$indexlar=array("1","3","5","7","9","2","4","6","8");
             $db=new DbOperation();
             $st=$db->Getuyinchilar($son);
-            if (strpos($st, '1') === false)
-            {
-                $db->SetUyinchilar($st."1",$son);
-            }
-            else
-            {
-                if (strpos($st, '4') === false)
-                {
-                    $db->SetUyinchilar($st."4",$son);
-                }
-                else
-                {
-                    if (strpos($st, '2') === false)
-                    {
-                        $db->SetUyinchilar($st."2",$son);
-                    }
-                    else
-                    {
-                        if (strpos($st, '6') === false)
-                        {
-                            $db->SetUyinchilar($st."6",$son);
-                        }
-                        else
-                        {
-                            if (strpos($st, '3') === false)
-                            {
-                                $db->SetUyinchilar($st."3",$son);
-                            }
-                            else
-                            {
-                                if (strpos($st, '5') === false)
-                                {
-                                    $db->SetUyinchilar($st."5",$son);
-                                }
-                                else
-                                {
-                                    if (strpos($st, '9') === false)
-                                    {
-                                        $db->SetUyinchilar($st."9",$son);
-                                    }
-                                    else
-                                    {
-                                        if (strpos($st, '8') === false)
-                                        {
-                                            $db->SetUyinchilar($st."8",$son);
-                                        }
-                                        else
-                                        {
-                                            if (strpos($st, '7') === false)
-                                            {
-                                                $db->SetUyinchilar($st."7",$son);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+
+            for($i=0;$i<$nechtaligi;$i++){
+                if(strpos($st, $indexlar[$i]) === false){
+                    $db->SetUyinchilar($st.$indexlar[$i],$son);$ui=$indexlar[$i]; break;
                 }
             }
+            return $ui;
         }
-        function uyinchilarade2($son)
-        { $db=new DbOperation();
-            $st=$db->Getuyinchilar($son);
-            if (strpos($st, '1') === false)
-            {
-                $db->SetUyinchilar($st."1",$son);
-            }
-            else
-            {
-                if (strpos($st, '3') === false)
-                {
-                    $db->SetUyinchilar($st."3",$son);
-                }
-                else
-                {
-                    if (strpos($st, '5') === false)
-                    {
-                        $db->SetUyinchilar($st."5",$son);
-                    }
-                    else
-                    {
-                        if (strpos($st, '7') === false)
-                        {
-                            $db->SetUyinchilar($st."7",$son);
-                        }
-                        else
-                        {
-                            if (strpos($st, '9') === false)
-                            {
-                                $db->SetUyinchilar($st."9",$son);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        function PlayerdaKartaniTarqatish($data,$ass3,$lk,$index,$sonide)
+        function PlayerdaKartaniTarqatish($data,$ass3,$lk,$index,$sonide,$uyinchilar)
         {
-            $ass2 = $ass3;
+            $odamlade=array(5,9);
             $minSatck = TurnLk($lk);
             $db=new DbOperation();
-            $rtwq=str_replace(substr($data.$index.$ass2,69,1),"",$db->Getuyinchilar($lk));
-            $db->SEndMEssageToGroup($lk,$rtwq ,$data.$index.$ass2);
-            //Gruppalaga ajratiganda
-            // NechtasiBorliginiAniqlash(lk);
-            //ChiqqanBusaChiqaribYuborish(lk);
+            $rtwq=str_replace(substr($data.$index.$ass3,69,1),"",$uyinchilar);
+            $db->SetError("Usha=".$rtwq,$lk);
+            $db->SEndMEssageToGroup($lk,$rtwq ,$data.$index.$ass3);
+
+
             if ($sonide >= 2 && $lk <= 2100 )
             {
-                //  return "as ".$lk." ".$sonide.$db->GetKartatarqatildi($lk);;
-                YurishAsosiy($lk, $minSatck, 2,$index);
-                //   return  YurishAsosiy($lk, $minSatck, 2,$index);
+                $db->YurishAsosiy($lk, $minSatck, 2);
             }
             //Turnir
-            if ($lk > 2000)
-            {
-                if ($lk % 2 == 0)
-                {
-                    if ($sonide == 5)
-                    {
-                        YurishAsosiy($lk, $minSatck, 5,$index);
-                    }
-                }
-                else
-                {
-                    if ($sonide == 9)
-                    {
-                        YurishAsosiy($lk, $minSatck, 9,$index);
-                        // YurishAsosiy($lk, $minSatck, 9,$index);
-                    }
-                }
-            }
-            return $data.$index.$ass2 ;
-        }
-        function combinatsiya()
-        {
-            $g=array();
-            $n=array();
-            for ($i = 0; $i < 18; $i++)
-            {
-                $g[$i] = rand(11, 62);
-            }
-            for ($iop = 0; $iop < 5; $iop++)
-            {
-                $n[$iop] = rand(11, 62);
-            }
-            try
-            {
-                for ($t1 = 1; $t1 < 18; $t1++)
-                {
-                    if ($t1 == 1)
-                    {
-                        while ($g[1] == $g[0] ||
-                            $g[1] == $g[2] || $g[1] == $g[3] ||
-                            $g[1] == $g[4] || $g[1] == $g[5] ||
-                            $g[1] == $g[6] || $g[1] == $g[7] ||
-                            $g[1] == $g[8] || $g[1] == $g[9] ||
-                            $g[1] == $g[10] || $g[1] == $g[11] ||
-                            $g[1] == $g[12] || $g[1] == $g[13] ||
-                            $g[1] == $g[14] || $g[1] == $g[15] ||
-                            $g[1] == $g[16] || $g[1] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 2)
-                    {
-                        while ($g[2] == $g[0] ||
-                            $g[2] == $g[1] || $g[2] == $g[3] ||
-                            $g[2] == $g[4] || $g[2] == $g[5] ||
-                            $g[2] == $g[6] || $g[2] == $g[7] ||
-                            $g[2] == $g[8] || $g[2] == $g[9] ||
-                            $g[2] == $g[10] || $g[2] == $g[11] ||
-                            $g[2] == $g[12] || $g[2] == $g[13] ||
-                            $g[2] == $g[14] || $g[2] == $g[15] ||
-                            $g[2] == $g[16] || $g[2] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 3)
-                    {
-                        while ($g[3] == $g[0] ||
-                            $g[3] == $g[1] || $g[3] == $g[2] ||
-                            $g[3] == $g[4] || $g[3] == $g[5] ||
-                            $g[3] == $g[6] || $g[3] == $g[7] ||
-                            $g[3] == $g[8] || $g[3] == $g[9] ||
-                            $g[3] == $g[10] || $g[3] == $g[11] ||
-                            $g[3] == $g[12] || $g[3] == $g[13] ||
-                            $g[3] == $g[14] || $g[3] == $g[15] ||
-                            $g[3] == $g[16] || $g[3] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 4)
-                    {
-                        while ($g[4] == $g[0] ||
-                            $g[4] == $g[1] || $g[4] == $g[3] ||
-                            $g[4] == $g[2] || $g[4] == $g[5] ||
-                            $g[4] == $g[6] || $g[4] == $g[7] ||
-                            $g[4] == $g[8] || $g[4] == $g[9] ||
-                            $g[4] == $g[10] || $g[4] == $g[11] ||
-                            $g[4] == $g[12] || $g[4] == $g[13] ||
-                            $g[4] == $g[14] || $g[4] == $g[15] ||
-                            $g[4] == $g[16] || $g[4] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 5)
-                    {
-                        while ($g[5] == $g[0] ||
-                            $g[5] == $g[1] || $g[5] == $g[3] ||
-                            $g[5] == $g[4] || $g[5] == $g[2] ||
-                            $g[5] == $g[6] || $g[5] == $g[7] ||
-                            $g[5] == $g[8] || $g[5] == $g[9] ||
-                            $g[5] == $g[10] || $g[5] == $g[11] ||
-                            $g[5] == $g[12] || $g[5] == $g[13] ||
-                            $g[5] == $g[14] || $g[5] == $g[15] ||
-                            $g[5] == $g[16] || $g[5] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 6)
-                    {
-                        while ($g[6] == $g[0] ||
-                            $g[6] == $g[1] || $g[6] == $g[3] ||
-                            $g[6] == $g[4] || $g[6] == $g[5] ||
-                            $g[6] == $g[2] || $g[6] == $g[7] ||
-                            $g[6] == $g[8] || $g[6] == $g[9] ||
-                            $g[6] == $g[10] || $g[6] == $g[11] ||
-                            $g[6] == $g[12] || $g[6] == $g[13] ||
-                            $g[6] == $g[14] || $g[6] == $g[15] ||
-                            $g[6] == $g[16] || $g[6] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 7)
-                    {
-                        while ($g[7] == $g[0] ||
-                            $g[7] == $g[1] || $g[7] == $g[3] ||
-                            $g[7] == $g[4] || $g[7] == $g[5] ||
-                            $g[7] == $g[6] || $g[7] == $g[2] ||
-                            $g[7] == $g[8] || $g[7] == $g[9] ||
-                            $g[7] == $g[10] || $g[7] == $g[11] ||
-                            $g[7] == $g[12] || $g[7] == $g[13] ||
-                            $g[7] == $g[14] || $g[7] == $g[15] ||
-                            $g[7] == $g[16] || $g[7] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 8)
-                    {
-                        while ($g[8] == $g[0] ||
-                            $g[8] == $g[1] || $g[8] == $g[3] ||
-                            $g[8] == $g[4] || $g[8] == $g[5] ||
-                            $g[8] == $g[6] || $g[8] == $g[2] ||
-                            $g[8] == $g[7] || $g[8] == $g[9] ||
-                            $g[8] == $g[10] ||$g[8] == $g[11] ||
-                            $g[8] == $g[12] || $g[8] == $g[13] ||
-                            $g[8] == $g[14] || $g[8] == $g[15] ||
-                            $g[8] == $g[16] || $g[8] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 9)
-                    {
-                        while ($g[9] == $g[0] ||
-                            $g[9] == $g[1] || $g[9] == $g[3] ||
-                            $g[9] == $g[4] || $g[9] == $g[5] ||
-                            $g[9] == $g[6] || $g[9] == $g[2] ||
-                            $g[9] == $g[8] || $g[9] == $g[7] ||
-                            $g[9] == $g[10] || $g[9] == $g[11] ||
-                            $g[9] == $g[12] || $g[9] == $g[13] ||
-                            $g[9] == $g[14] || $g[9] == $g[15] ||
-                            $g[9] == $g[16] || $g[9] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 10)
-                    {
-                        while ($g[10] == $g[0] ||
-                            $g[10] == $g[1] || $g[10] == $g[3] ||
-                            $g[10] == $g[4] || $g[10] == $g[5] ||
-                            $g[10] == $g[6] || $g[10] == $g[2] ||
-                            $g[10] == $g[8] || $g[10] == $g[7] ||
-                            $g[10] == $g[9] || $g[10] == $g[11] ||
-                            $g[10] == $g[12] || $g[10] == $g[13] ||
-                            $g[10] == $g[14] || $g[10] == $g[15] ||
-                            $g[10] == $g[16] || $g[10] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 11)
-                    {
-                        while ($g[11] == $g[0] ||
-                            $g[11] == $g[1] || $g[11] == $g[3] ||
-                            $g[11] == $g[4] || $g[11] == $g[5] ||
-                            $g[11] == $g[6] || $g[11] == $g[2] ||
-                            $g[11] == $g[8] || $g[11] == $g[7] ||
-                            $g[11] == $g[9] || $g[11] == $g[10] ||
-                            $g[11] == $g[12] || $g[11] == $g[13] ||
-                            $g[11] == $g[14] || $g[11] == $g[15] ||
-                            $g[11] == $g[16] || $g[11] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 12)
-                    {
-                        while ($g[12] == $g[0] ||
-                            $g[12] == $g[1] || $g[12] == $g[3] ||
-                            $g[12] == $g[4] || $g[12] == $g[5] ||
-                            $g[12] == $g[6] || $g[12] == $g[2] ||
-                            $g[12] == $g[8] || $g[12] == $g[7] ||
-                            $g[12] == $g[9] || $g[12] == $g[10] ||
-                            $g[12] == $g[11] || $g[12] == $g[13] ||
-                            $g[12] == $g[14] || $g[12] == $g[15] ||
-                            $g[12] == $g[16] || $g[12] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 13)
-                    {
-                        while ($g[13] == $g[0] ||
-                            $g[13] == $g[1] || $g[13] == $g[3] ||
-                            $g[13] == $g[4] || $g[13] == $g[5] ||
-                            $g[13] == $g[6] || $g[13] == $g[2] ||
-                            $g[13] == $g[8] || $g[13] == $g[7] ||
-                            $g[13] == $g[9] || $g[13] == $g[10] ||
-                            $g[13] == $g[11] || $g[13] == $g[12] ||
-                            $g[13] == $g[14] || $g[13] == $g[15] ||
-                            $g[13] == $g[16] || $g[13] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 14)
-                    {
-                        while ($g[14] == $g[0] ||
-                            $g[14] == $g[1] || $g[14] == $g[3] ||
-                            $g[14] == $g[4] || $g[14] == $g[5] ||
-                            $g[14] == $g[6] || $g[14] == $g[2] ||
-                            $g[14] == $g[8] || $g[14] == $g[7] ||
-                            $g[14] == $g[9] || $g[14] == $g[10] ||
-                            $g[14] == $g[11] || $g[14] == $g[12] ||
-                            $g[14] == $g[13] || $g[14] == $g[15] ||
-                            $g[14] == $g[16] || $g[14] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 15)
-                    {
-                        while ($g[15] == $g[0] ||
-                            $g[15] == $g[1] || $g[15] == $g[3] ||
-                            $g[15] == $g[4] || $g[15] == $g[5] ||
-                            $g[15] == $g[6] || $g[15] == $g[2] ||
-                            $g[15] == $g[8] || $g[15] == $g[7] ||
-                            $g[15] == $g[9] || $g[15] == $g[10] ||
-                            $g[15] == $g[11] || $g[15] == $g[12] ||
-                            $g[15] == $g[13] || $g[15] == $g[14] ||
-                            $g[15] == $g[16] || $g[15] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 16)
-                    {
-                        while ($g[16] == $g[0] ||
-                            $g[16] == $g[1] || $g[16] == $g[3] ||
-                            $g[16] == $g[4] || $g[16] == $g[5] ||
-                            $g[16] == $g[6] || $g[16] == $g[2] ||
-                            $g[16] == $g[8] || $g[16] == $g[7] ||
-                            $g[16] == $g[9] || $g[16] == $g[10] ||
-                            $g[16] == $g[11] || $g[16] == $g[12] ||
-                            $g[16] == $g[13] || $g[16] == $g[15] ||
-                            $g[16] == $g[14] || $g[16] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 17)
-                    {
-                        while ($g[17] == $g[0] ||
-                            $g[17] == $g[1] || $g[17] == $g[3] ||
-                            $g[17] == $g[4] || $g[17] == $g[5] ||
-                            $g[17] == $g[6] || $g[17] == $g[2] ||
-                            $g[17] == $g[8] || $g[17] == $g[7] ||
-                            $g[17] == $g[9] || $g[17] == $g[10] ||
-                            $g[17] == $g[11] || $g[17] == $g[12] ||
-                            $g[17] == $g[13] || $g[17] == $g[15] ||
-                            $g[17] == $g[14] || $g[17] == $g[16])
-                        {
-                            $g[$t1] = rand(11, 62);
+            if ($lk > 2100)
+            {   for($i=0;$i<2;$i++){
+                    if($lk%2==$i){
+                        if($sonide==$odamlade[$i]){
+                            $db->YurishAsosiy($lk, $minSatck, $odamlade[$i]);
+                            $i=2;
                         }
                     }
                 }
-                for ($yu = 0; $yu < 5; $yu++)
-                {
-                    if ($yu == 0)
-                    {
-                        while ($n[$yu] == $g[0] || $n[$yu] == $g[7] ||
-                            $n[$yu] == $g[1] || $n[$yu] == $g[3] ||
-                            $n[$yu] == $g[4] || $n[$yu] == $g[5] ||
-                            $n[$yu] == $g[6] || $n[$yu] == $g[2] ||
-                            $n[$yu] == $g[8] || $n[$yu] == $g[9] ||
-                            $n[$yu] == $g[10] || $n[$yu] == $g[11] ||
-                            $n[$yu] == $g[12] || $n[$yu] == $g[13] ||
-                            $n[$yu] == $g[14] || $n[$yu] == $g[15] ||
-                            $n[$yu] == $g[16] || $n[$yu] == $g[17] ||
-                            $n[$yu] == $n[1] || $n[$yu] == $n[2] ||
-                            $n[$yu] == $n[3] || $n[$yu] == $n[4])
-                        {
-                            $n[$yu] = rand(11, 62);
-                        }
-                    }
-                    if ($yu == 1)
-                    {
-                        while ($n[$yu] == $g[0] || $n[$yu] == $g[7] ||
-                            $n[$yu] == $g[1] || $n[$yu] == $g[3] ||
-                            $n[$yu] == $g[4] || $n[$yu] == $g[5] ||
-                            $n[$yu] == $g[6] || $n[$yu] == $g[2] ||
-                            $n[$yu] == $g[8] || $n[$yu] == $g[9] ||
-                            $n[$yu] == $g[10] || $n[$yu] == $g[11] ||
-                            $n[$yu] == $g[12] || $n[$yu] == $g[13] ||
-                            $n[$yu] == $g[14] || $n[$yu] == $g[15] ||
-                            $n[$yu] == $g[16] || $n[$yu] == $g[17] ||
-                            $n[$yu] == $n[0] || $n[$yu] == $n[2] ||
-                            $n[$yu] == $n[3] || $n[$yu] == $n[4])
-                        {
-                            $n[$yu] = rand(11, 62);
-                        }
-                    }
-                    if ($yu == 2)
-                    {
-                        while ($n[$yu] == $g[0] || $n[$yu] == $g[7] ||
-                            $n[$yu] == $g[1] || $n[$yu] == $g[3] ||
-                            $n[$yu] == $g[4] || $n[$yu] == $g[5] ||
-                            $n[$yu] == $g[6] || $n[$yu] == $g[2] ||
-                            $n[$yu] == $g[8] || $n[$yu] == $g[9] ||
-                            $n[$yu] == $g[10] || $n[$yu] == $g[11] ||
-                            $n[$yu] == $g[12] || $n[$yu] == $g[13] ||
-                            $n[$yu] == $g[14] || $n[$yu] == $g[15] ||
-                            $n[$yu] == $g[16] || $n[$yu] == $g[17] ||
-                            $n[$yu] == $n[0] || $n[$yu] == $n[1] ||
-                            $n[$yu] == $n[3] || $n[$yu] == $n[4])
-                        {
-                            $n[$yu] = rand(11, 62);
-                        }
-                    }
-                    if ($yu == 3)
-                    {
-                        while ($n[$yu] == $g[0] || $n[$yu] == $g[7] ||
-                            $n[$yu] == $g[1] || $n[$yu] == $g[3] ||
-                            $n[$yu] == $g[4] || $n[$yu] == $g[5] ||
-                            $n[$yu] == $g[6] || $n[$yu] == $g[2] ||
-                            $n[$yu] == $g[8] || $n[$yu] == $g[9] ||
-                            $n[$yu] == $g[10] || $n[$yu] == $g[11] ||
-                            $n[$yu] == $g[12] || $n[$yu] == $g[13] ||
-                            $n[$yu] == $g[14] || $n[$yu] == $g[15] ||
-                            $n[$yu] == $g[16] || $n[$yu] == $g[17] ||
-                            $n[$yu] == $n[0] || $n[$yu] == $n[2] ||
-                            $n[$yu] == $n[1] || $n[$yu] == $n[4])
-                        {
-                            $n[$yu] = rand(11, 62);
-                        }
-                    }
-                    if ($yu == 4)
-                    {
-                        while ($n[$yu] == $g[0] || $n[$yu] == $g[7] ||
-                            $n[$yu] == $g[1] || $n[$yu] == $g[3] ||
-                            $n[$yu] == $g[4] || $n[$yu] == $g[5] ||
-                            $n[$yu] == $g[6] || $n[$yu] == $g[2] ||
-                            $n[$yu] == $g[8] || $n[$yu] == $g[9] ||
-                            $n[$yu] == $g[10] || $n[$yu] == $g[11] ||
-                            $n[$yu] == $g[12] || $n[$yu] == $g[13] ||
-                            $n[$yu] == $g[14] || $n[$yu] == $g[15] ||
-                            $n[$yu] == $g[16] || $n[$yu] == $g[17] ||
-                            $n[$yu] == $n[0] || $n[$yu] == $n[2] ||
-                            $n[$yu] == $n[1] || $n[$yu] == $n[3])
-                        {
-                            $n[$yu] = rand(11, 62);
-                        }
-                    }
-                }
-                //flesh test
-                //  g[1] = 12; g[0] = 13; n[0] = 14; n[1] = 15; n[2] = 50; n[3] = 56; n[4] = 17;
-                //  g[2] = 12; g[3] = 13;
-                //Strit
-                //    g[2] = 33; g[3] = 35;
-                //n[0] = 18;n[1] = 16;n[2] = 49;n[3] = 45;n[4] = 47;
-                // g[1] = 26; g[0] = 17;
-                //para
-                //  g[2] = 23; g[3] = 36; n[0] =26; n[1] = 17; n[2] = 48; n[3] = 35; n[4] = 51;
-                //   g[0] = 23; g[1] = 36;
-                //g[4] = 23; g[5] = 36;
-                //kikerets;
-                //  g[0] = 11; g[1] = 12; n[0] =31; n[1] = 56; n[2] = 48; n[3] = 35; n[4] = 57;
-                // g[2] = 13; g[3] = 14;
-                //set
-                // g[1] = 32; g[0] = 37; n[0] =25; n[1] = 43; n[2] = 11; n[3] = 24; n[4] = 58;
-                // g[2] = 45; g[3] = 50;
             }
-            catch (Exception $e)
-            {
-                print($e->getMessage());
-            }
-            $as=array($g,$n);
-            return $as;
-        }
-        function cardio()
-        {
-            $cards=array();
-            for($i = 11; $i < 24; $i++)
-            {
-                $cards[$i] = "cl".$i;
-            }
-            for ($i = 24; $i < 37; $i++)
-            {
-                $cards[$i] = "di".($i-13);
-            }
-            for ($i = 37; $i < 50; $i++)
-            {
-                $cards[$i] = "he".($i - 26);
-            }
-            for ($i = 50; $i < 63; $i++)
-            {
-                $cards[$i] = "sp".($i - 39);
-            }
-            return $cards;
+            return $data.$index.$ass3 ;
         }
         function TurnLk($lk)
         {
             $m = 0;
+            $kllar=array(10,50,200,1000,4000,20000,100000,500000,1000000,2000000,
+                10000000,200000000,500000000,1000000000,500000,1000000,2000000,10000000,
+                200000000,500000000,1000000000,20,20,20,20,20,20,20,20,20,20,20);
             //lobbi
-            if ($lk > 0) { $m = 10; }
-            if ($lk > 100) { $m = 50; }
-            if ($lk > 200) { $m = 200; }
-            if ($lk > 300) { $m = 1000; }
-            if ($lk > 400) { $m = 4000; }
-            if ($lk > 500) { $m = 20000; }
-            if ($lk > 600) { $m = 100000; }
-            if ($lk > 700) { $m = 500000; }
-            if ($lk > 800) { $m = 1000000; }
-            if ($lk > 900) { $m = 2000000; }
-            if ($lk > 1000) { $m = 10000000; }
-            if ($lk > 1100) { $m = 200000000; }
-            if ($lk > 1200) { $m = 500000000; }
-            if ($lk > 1300) { $m = 1000000000; }
-            if ($lk > 1400) { $m = 500000; }
-            if ($lk > 1500) { $m = 1000000; }
-            if ($lk > 1600) { $m = 2000000; }
-            if ($lk > 1700) { $m = 10000000; }
-            if ($lk > 1800) { $m = 200000000; }
-            if ($lk > 1900) { $m = 500000000; }
-            if ($lk > 2000) { $m = 1000000000; }
-            //turnir
-            if ($lk > 2100) { $m = 20; }
-            if ($lk > 2200) { $m = 20; }
-            if ($lk > 2300) { $m = 20; }
-            if ($lk > 2400) { $m = 20; }
-            if ($lk > 2500) { $m = 20; }
-            if ($lk > 2600) { $m = 20; }
-            if ($lk > 2700) { $m = 20; }
-            if ($lk > 2800) { $m = 20; }
-            //3roundli
-            if ($lk > 2900) { $m = 20; }
-            if ($lk > 3000) { $m = 20; }
-            if ($lk > 3100) { $m = 20; }
+
+            for($i=0;$i<32;$i++){
+                if($lk>$i*100){
+                    $m = $kllar[$i];
+                }
+            }
             return $m;
         }
-        function YurishAsosiy($lk, $minSatck,$soni ){
-            $koo=$lk;
+        function uyinchiniGruppgaQushish($PlayersNumber,$GroupNumber,$BotOrClient,$Id,$Level,$Money,$Name,$pul,$yol){
             $db=new DbOperation();
-            $koo=$db->GetKartatarqatildi($koo);
-            if ($koo== "false")
-            {
-                if ($lk > 2100)
+            $index=0;$odamlade=array(5,9);
+
+            for($i=0;$i<2;$i++){
+                if ($GroupNumber % 2 == $i)
                 {
-                    $db->Setgrop2help($lk,"false");
-                }
-                //   yield return new WaitForSeconds(2);
-                // NechtasiBorliginiAniqlash( lk);
-                //  ChiqqanBusaChiqaribYuborish( lk);
-                //  $trt = -1;
-                /*
-              for ($i = 0; $i < ChiqaribYuborish.Count; $i++)
-              {
-                  if (ChiqaribYuborish[i].lk1 == lk)
-                  {
-                      if(ChiqaribYuborish[i].Timer.IsRunning)
-                      {
-                          ChiqaribYuborish[i].Timer.Stop();
-                          ChiqaribYuborish[i].Timer.Reset();
-                      }
-                      $trt = $i;
-                      break;
-                  }
-              }
-              if ($trt == -1)
-              {
-                  ChiqaribYuborish.Add(new RRniKItish(lk));
-              }*/
-                $dssad = 0;
-                $ttt4 = "";
-                if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis1"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis1"),27,12)>=$minSatck){
-                    $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(0+ 1)) !== false){ $ttt4 = $ttt4.(string)(0+ 1);}
-                } if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis2"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis2"),27,12)>=$minSatck){
-                $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(1+ 1)) !== false){ $ttt4 = $ttt4.(string)(1+ 1);}
-            } if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis3"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis3"),27,12)>=$minSatck){
-                $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(2+ 1)) !== false){ $ttt4 = $ttt4.(string)(2+ 1);}
-            } if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis4"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis4"),27,12)>=$minSatck){
-                $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(3+ 1)) !== false){ $ttt4 = $ttt4.(string)(3+ 1);}
-            } if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis5"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis5"),27,12)>=$minSatck){
-                $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(4+ 1)) !== false){ $ttt4 = $ttt4.(string)(4+ 1);}
-            } if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis6"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis6"),27,12)>=$minSatck){
-                $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(5+ 1)) !== false){ $ttt4 = $ttt4.(string)(5+ 1);}
-            } if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis7"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis7"),27,12)>=$minSatck){
-                $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(6+ 1)) !== false){ $ttt4 = $ttt4.(string)(6+ 1);}
-            } if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis8"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis8"),27,12)>=$minSatck){
-                $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(7+ 1)) !== false){ $ttt4 = $ttt4.(string)(7+ 1);}
-            } if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis9"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis9"),27,12)>=$minSatck){
-                $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(8+ 1)) !== false){ $ttt4 = $ttt4.(string)(8+ 1);}
-            }
-                $ttt5 = "";
-                $asd=$db->Getuyinchilar($lk);
-                for($i=0;$i<9;$i++){
-                    if(strpos($asd,(string)($i+1))!==false&&
-                        strpos($ttt4,(string)($i+1))!==false){
-                        $ttt5=$ttt5.(string)($i+1);
-                    }
-                }
-                $db->SetYurishKimmiki($ttt5,$lk);
-                $db->SetHuy($dssad,$lk);
-                $koo=$lk;
-                $koo=$db->GetKimboshlashi($koo);
-                $koo2=$lk;
-                $koo2=$db->GetYurishKimmiki($koo2);
-                for ($i = 1; $i < 10; $i++)
-                {
-                    $gd = (int)$koo + $i;
-                    if ($gd > 9)
-                    {
-                        $gd = $gd - 9;
-                    }
-                    //   $db->SetYurishKimmiki("114"."-".$gd." - ".$koo2,$lk);
-                    //   break;
-                    if (strpos($koo2, (string)$gd) !== false)
-                    {
-                        $rew=(string)$gd.(string)$koo2;
-                        $db->SetYurishKimmiki($rew,$lk);
-                        $db->SetKimboshlashi($gd,$lk);
-                        break;
-                    }
-                }
-                /*        if (BotGrouplar[lk].Count + grop2[lk].Count != grop22[lk].Count)
-                     /* {
-                           for ($i = 0; $i < grop2[lk].Count; i++)
-                           {
-                               int mkdsd = BotGrouplar[lk].Count;
-                               for ($l = 0; $l < $mkdsd; $l++)
-                               {
-                                   if (grop2[lk][i].indexClient.ToString() == BotGrouplar[lk][l].Index)
-                                   {
-                                       BotGrouplar[lk].RemoveAt(l);
-                                       l = l - 1;
-                                       mkdsd = mkdsd - 1;
-                                   }
-                               }
-                           }
-                       }*/
-                if ($db->GetHowmanyPlayers($lk) >= $soni && $db->GetKartatarqatildi($lk) == "false")
-                {
-                    $db->SetKartatarqatildi("true",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar9","0",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar1","0",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar2","0",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar3","0",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar4","0",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar5","0",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar6","0",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar7","0",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar8","0",$lk);
-                    $n=combinatsiya();
-                    $cards=cardio();
-                    //Gruppalaga ajratiganda
-                    $db->SetXAmmakartalar($cards[$n[0][0]].$cards[$n[0][1]].$cards[$n[0][2]].$cards[$n[0][3]].$cards[$n[0][4]],$lk);
-                    // if (trt != -1) { ChiqaribYuborish[trt].Timer.Start(); }
-                    $asd2=$db->GetYurishKimmiki($lk);
-                    try
-                    {
-                        for ($i = 0; $i < 9; $i++)
-                        {
-                            $db->SetUyinchilar(substr($asd,1,1).substr($asd,2,strlen($asd)-2).substr($asd,0,1),$lk);
-                            $asd=substr($asd,1,1).substr($asd,2,strlen($asd-2)).substr($asd,0,1);
-                            if ( strpos($asd2, substr($asd,1,1)) !== false&& strpos($asd2, substr($asd,0,1)) !== false)
-                            {
-                                break;
-                            }
-                        }
-                    }
-                    catch (Exception $e)
-                    {
-                        print($e->getMessage());
-                    }
-                    $totti = $db->Tekshir($lk);
-                    $db->SetHuy($totti,$lk);
-                    $yurishkimmiki=$db->GetYurishKimmiki($lk);
-                    for ($m = 0; $m < $totti; $m++)
-                    {
-                        $tott2 = -1;
-                        // $tott3 = 0;
-                        /*                   for ($o = 0; $o < Tekshir($lk); $o++)
-                                        {
-                                            if (YurishKimmiki[lk].Length>m+1 && YurishKimmiki[lk].Substring(m + 1, 1) == grop2[lk][o].indexClient.ToString())
-                                            {
-                                                tott2 = o;                                          break;
-                                            }
-                                        }
-                                /*     for ($o = 0; $o < grop22[lk].Count; $o++)
-                                        {
-                                            if (YurishKimmiki[lk].Length > m + 1 && YurishKimmiki[lk].Substring(m + 1, 1) == grop22[lk][o].indexClient.ToString())
-                                            {
-                                                tott3 = o;
-                                                break;
-                                            }
-               }*/
-                        if ($tott2==-1)
-                        {
-                            try
-                            {
-                                $message=$cards[$n[1][$m * 2]].$cards[$n[1][$m * 2 + 1]].substr($yurishkimmiki,0,1).
-                                    str_pad((string)($minSatck / 2),12,'0',STR_PAD_LEFT)."!". str_pad((string)($minSatck ),12,'0',STR_PAD_LEFT).
-                                    $asd .substr($yurishkimmiki,$m+1,1) .$lk;
-                                $db->SEndMEssage($lk,substr($asd,$m,1),$message);
-                            }
-                            catch ( ErrorException $e)
-                            {
-                                print("ee uyinchi chiqibketti".$e->getMessage());
-                            }
-                        }
-                        else
-                        {
-                            /*                       int mop = 0;
-                                               for(int i = 0; i < BotGrouplar[lk].Count; i++)
-                                               {
-                                                   if(grop22[lk][tott3].indexClient.ToString()== BotGrouplar[lk][i].Index)
-                                                   {
-                                                       mop = i;
-                                                 break;
-                                                   }
-                                               }
-                                     /*            OnIncomBot(cards[g[m * 2]] + cards[g[m * 2 + 1]] + "" + YurishKimmiki[lk].Substring(0, 1) +
-                                           (minSatck / 2).ToString().PadLeft(12, '0') + "!" + (minSatck).ToString().PadLeft(12, '0') +
-                                           uyinchilar[lk] + grop22[lk][tott3].indexClient + grop22[lk][tott3].ClientGroup, int.Parse(BotGrouplar[lk][mop].IdNumber));*/
-                        }
-                    }
+                    $uyinchilar =  uyinchilarade2($GroupNumber,$odamlade[$i]);
+                    break;
                 }
             }
-        }
-        function uyinchiniGruppgaQushish($data,$GroupNumber,$BotOrClient,$Id,$Level,$Money,$Name,$pul,$yol){
-            $db=new DbOperation();
-            $index=0;
-            if ($GroupNumber % 2 == 0)
-            {
-                uyinchilarade2($GroupNumber);
-            }
-            else
-            {
-                uyinchilarade($GroupNumber);
-            }
+
             if ($BotOrClient != "false")
             {
-                $index=substr($db->Getuyinchilar($GroupNumber),strlen($db->Getuyinchilar($GroupNumber))-1, 1);
-                $db->SetPlayers($GroupNumber,$Level,$Id,"person".$db->Tekshir($GroupNumber),$index);
+                $index=substr($uyinchilar,strlen($uyinchilar)-1, 1);
+                $db->SetPlayers($GroupNumber,$Level,$Id,"person".$PlayersNumber,$index);
             }
-            $db->SetError("Usha= ".$GroupNumber." index=".$index,$GroupNumber);
             //       NechtasiBorliginiAniqlash($GroupNumber);
             //       ChiqqanBusaChiqaribYuborish($GroupNumber);
             //%%NameByMe\Ism\0001\gruppa\00000001000$\pul\000000000000\yul\00000\level\000000001000\pul\xb0000000000\id\
+            $nk="time".(string)$index;
+            $db->SetTimede($GroupNumber,$nk,str_pad((string)$Id,10,"0",STR_PAD_LEFT).time());
+            /*
+            $db->ChekIfOnline($GroupNumber);
             $rtasd="OxirgiZapis".(string)$index;
             $db->SetOxirgiZapislar($data.$index,$GroupNumber,$rtasd);
-            /*       switch($index){
-                       case 9;
-                           break;
-                       case 1;  $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis1",$index);
-                           break;
-                       case 2;  $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis2",$index);
-                           break;
-                       case 3; $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis3",$index);
-                           break;
-                       case 4; $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis4",$index);
-                           break;
-                       case 5;  $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis5",$index);
-                           break;
-                       case 6;  $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis6",$index);
-                           break;
-                       case 7; $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis7",$index);
-                           break;
-                       case 8;  $db->SetOxirgiZapislar($data,$GroupNumber,"OxirgiZapis8",$index);
-                           break;
-                   }*/
             $minStavka = TurnLk($GroupNumber);
             $gruppdagaiOdamlariSoni=0;
             for ($i = 1; $i < 10; $i++)
@@ -1077,31 +951,18 @@ class DbOperation
                     $gruppdagaiOdamlariSoni = $gruppdagaiOdamlariSoni + 1;
                 }
             }
-            //  return
-            $db->SetHowmanyPlayers($gruppdagaiOdamlariSoni,$GroupNumber);
+            //return
+            $db->SetHowmanyPlayers($gruppdagaiOdamlariSoni,$GroupNumber);*/
             $data = "%%".$Name .str_pad((string)$GroupNumber,4,"0",STR_PAD_LEFT).$pul."$" .$yol
                 .$Level .$Money."xb".$Id;
             $kil = "";
-            if($db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis9") != "" && $index!=9)
-            { $kil = $kil.$db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis9"); }
-            if($db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis1") != ""&& $index!=1)
-            { $kil = $kil.$db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis1"); }
-            if($db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis2") != ""&& $index!=2)
-            { $kil = $kil.$db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis2"); }
-            if($db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis3") != ""&& $index!=3)
-            { $kil = $kil.$db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis3"); }
-            if($db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis4") != ""&& $index!=4)
-            { $kil = $kil.$db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis4"); }
-            if($db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis5") != ""&& $index!=5)
-            { $kil = $kil.$db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis5"); }
-            if($db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis6") != ""&& $index!=6)
-            { $kil = $kil.$db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis6"); }
-            if($db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis7") != ""&& $index!=7)
-            { $kil = $kil.$db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis7"); }
-            if($db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis8") != ""&& $index!=8)
-            { $kil = $kil.$db->GetOxirgiZapisplar($GroupNumber,"OxirgiZapis8"); }
+            for($i=1;$i<10;$i++){
+                $ty="OxirgiZapis".(string)$i;
+                if($db->GetOxirgiZapisplar($GroupNumber,$ty) != "" && $index!=$i)
+                { $kil = $kil.$db->GetOxirgiZapisplar($GroupNumber,$ty); }
+            }
             // GruppadagiAktivOdamlarSoni[Maindata.GroupNumber] = GruppadagiAktivOdamlarSoni[Maindata.GroupNumber] + 1;
-            return PlayerdaKartaniTarqatish($data, $kil, $GroupNumber,$index,$db->Tekshir($GroupNumber));
+            return PlayerdaKartaniTarqatish($data, $kil, $GroupNumber,$index,$PlayersNumber,$uyinchilar);
         }
         $BotOrClient = "true";
         $GroupNumber = 0;
@@ -1109,7 +970,7 @@ class DbOperation
         $Level = "";$Money = "";
         $yol = "";  $Name = "";
         //%%asdsasdad0001000000001000&000000000000000001000000001000$^0000000001
-        if(strlen($data)>2 && substr($data,0, 2) == "%%" && strlen($data)>=69)
+        if(strlen($data)>=69 && substr($data,0, 2) == "%%" )
         {
             $GroupNumber = substr($data,10, 4);
             $Id = substr($data,59, 10);
@@ -1125,6 +986,13 @@ class DbOperation
         }
         $trwe=true;
         $db= new DbOperation();
+
+        $rewrwr="Ushade";
+
+         $ki=$GroupNumber;
+        $odamlade=array(5,9);
+         $playersNumber=0;
+
         for($i=1;$i<10;$i++){
             $rt="OxirgiZapis".(string)$i;
             $te=$db->GetOxirgiZapisplar($GroupNumber,$rt);
@@ -1135,742 +1003,118 @@ class DbOperation
                 }
             }
         }
-        //ASs
-        // Creategrop2help($GroupNumber,"true");
-        $rewrwr="Ushade";
         if($trwe){
-            //  $db->Creategrop2help($GroupNumber,"true");
-            //   $db->SetHowmanyPlayers($db->GetHowmanyPlayers($GroupNumber)+1,$GroupNumber);
-            $ki=$GroupNumber;
             if ($GroupNumber > 2100)
             {
                 for($i = 0; $i < 100; $i = $i + 2)
                 {
+                    $db->Creategrop2help($GroupNumber+ $i,"true");
+                    $db->ChekIfOnline($GroupNumber+ $i);
+
                     if ($db->Getgrop2help($GroupNumber + $i))
                     {
                         $GroupNumber = $GroupNumber + $i;
+                            for($i3=0;$i3<2;$i++){
+                                if($GroupNumber%2==$i3){
+                                    $playersNumber=$db->GetHowmanyPlayers($GroupNumber)+1;
+                                    if($playersNumber>=$odamlade[$i3]){
+                                        $db->Setgrop2help($GroupNumber,"false");
+                                        $db->SetHowmanyPlayers($playersNumber,$GroupNumber);
+                                        $i3=2;
+                                    }
+                                }
+                            }
                         break;
                     }
                 }
             }
             else
-            {/**/
-                if (str_pad((string)$ki,4,"0",STR_PAD_LEFT) == "0001")
+            {
+                if ($ki==1)
                 {
-                    $mvc = 0;
+                    $Pullar=array(100,500,2000,10000,40000,200000,1000000,10000000,100000000,200000000,400000000,1000000000,2000000000);
+                    $Gruplar=array(0,100,200,300,400,500,600,700,800,900,1000,1100,1200);
+
                     for($i = 2; $i < 100; $i=$i+2)
-                    {
-                        //  print("1");
-                        switch ((int)$pul)
-                        {
-                            case 100:if ($db->Tekshir($i) < 5) { $GroupNumber = $i; $mvc = 1; }  ; break;
-                            case 500: if ($db->Tekshir(100 + $i) < 5) { $GroupNumber = 100 + $i; $mvc = 1; } break;
-                            case 2000: if ($db->Tekshir(200 + $i) < 5) { $GroupNumber = 200 + $i; $mvc = 1; }; break;
-                            case 10000: if ($db->Tekshir(300 + $i) < 5) { $GroupNumber = 300 + $i; $mvc = 1; }; break;
-                            case 40000: if ($db->Tekshir(400 + $i) < 5) { $GroupNumber = 400 + $i; $mvc = 1; }; break;
-                            case 200000: if ($db->Tekshir(500 + $i) < 5) { $GroupNumber = 500 + $i; $mvc = 1; }; break;
-                            case 1000000: if ($db->Tekshir(600 + $i) < 5) { $GroupNumber = 600 + $i; $mvc = 1; }; break;
-                            case 10000000: if ($db->Tekshir(700 + $i) < 5) { $GroupNumber = 700 +$i; $mvc = 1; }; break;
-                            case 100000000: if ($db->Tekshir(800 + $i) < 5) { $GroupNumber = 800 + $i; $mvc = 1; }; break;
-                            case 200000000: if ($db->Tekshir(900 + $i) < 5) { $GroupNumber = 900 +$i; $mvc = 1; }; break;
-                            case 400000000: if ($db->Tekshir(1000 + $i) < 5) { $GroupNumber = 1000 + $i; $mvc = 1; }; break;
-                            case 1000000000: if ($db->Tekshir(1100 + $i) < 5) { $GroupNumber = 1100 + $i; $mvc = 1; }; break;
-                            case 2000000000: if ($db->Tekshir(1200 + $i) < 5) { $GroupNumber = 1200 + $i; $mvc = 1; }; break;
+                    {   for($i2=0;$i2<2;$i2++){
+                            for($t=0;$t<13;$t++){
+
+                                $db->Creategrop2help($i +$Gruplar[$t]+$i2,"true");
+                                $db->ChekIfOnline($i +$Gruplar[$t]+$i2);
+
+                                if((int)$pul==$Pullar[$t] && $db->GetHowmanyPlayers($i +$Gruplar[$t]+$i2) < $odamlade[$i2] ){
+
+                                    $GroupNumber = $i+$Gruplar[$t]+$i2;  $t=13;$i2=2;$i=100;
+
+                                    for($i3=0;$i3<2;$i++){
+                                        if($GroupNumber%2==$i3){
+                                            $playersNumber=$db->GetHowmanyPlayers($GroupNumber)+1;
+                                            if($playersNumber>=$odamlade[$i3]){
+
+                                                $db->SetHowmanyPlayers($playersNumber,$GroupNumber);
+                                                $i3=2;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
-                        //  print("41");
-                        if ($mvc == 1) {  break; }
-                        //  print("6");
-                        switch ((int)$pul)
-                        {
-                            case 100: if ($db->Tekshir($i + 1) < 9) { $GroupNumber =  $i + 1; $mvc = 1; }; break;
-                            case 500: if ($db->Tekshir(100 + $i + 1) < 9) { $GroupNumber = 100 + $i + 1; $mvc = 1; }; break;
-                            case 2000: if ($db->Tekshir(200 + $i + 1) < 9) { $GroupNumber = 200 + $i + 1; $mvc = 1; }; break;
-                            case 10000: if ($db->Tekshir(300 + $i + 1) < 9) { $GroupNumber = 300 + $i + 1; $mvc = 1; }; break;
-                            case 40000: if ($db->Tekshir(400 + $i + 1) < 9) { $GroupNumber = 400 + $i + 1; $mvc = 1; }; break;
-                            case 200000: if ($db->Tekshir(500 + $i + 1) < 9) { $GroupNumber = 500 + $i + 1; $mvc = 1; }; break;
-                            case 1000000: if ($db->Tekshir(600 + $i + 1) < 9) { $GroupNumber = 600 + $i + 1; $mvc = 1; }; break;
-                            case 10000000: if ($db->Tekshir(700 + $i + 1) < 9) { $GroupNumber = 700 + $i + 1; $mvc = 1; }; break;
-                            case 100000000: if ($db->Tekshir(800 + $i + 1) < 9) { $GroupNumber = 800 + $i + 1; $mvc = 1; }; break;
-                            case 200000000: if ($db->Tekshir(900 + $i + 1) < 9) { $GroupNumber = 9000 + $i + 1; $mvc = 1; }; break;
-                            case 400000000: if ($db->Tekshir(1000 + $i + 1) < 9) { $GroupNumber = 1000 + $i + 1; $mvc = 1; }; break;
-                            case 1000000000: if ($db->Tekshir(1100 + $i + 1) < 9) { $GroupNumber = 1100 + $i + 1; $mvc = 1; }; break;
-                            case 2000000000: if ($db->Tekshir(1200 + $i + 1) < 9) { $GroupNumber = 1200 + $i + 1; $mvc = 1; }; break;
-                        }
-                        if ($mvc == 1) {  break; }
                     }
                 }
             }
-            $db->Creategrop2help($GroupNumber,"true");
-            $db->SetHowmanyPlayers($db->GetHowmanyPlayers($GroupNumber)+1,$GroupNumber);
-            if ($GroupNumber % 2 == 0)
-            {
-                if ($db->Tekshir($GroupNumber) > 4)
+
+
+
+                if ($GroupNumber > 2100)
                 {
-                    if ($BotOrClient != "false")
+                    if ($db->Getgrop2help($GroupNumber)=="true")
                     {
-                        return"OdamtudaUzi";
+                        $rewrwr=uyinchiniGruppgaQushish($playersNumber,$GroupNumber,$BotOrClient,$Id,$Level,$Money,$Name,$pul,$yol);
                     }
                 }
                 else
                 {
-                    if ($GroupNumber > 2100)
-                    {
-                        if ($db->Getgrop2help($GroupNumber)=="true")
-                        {
-                            $rewrwr=uyinchiniGruppgaQushish($data,$GroupNumber,$BotOrClient,$Id,$Level,$Money,$Name,$pul,$yol);
-                        }
-                    }
-                    else
-                    {
-                        $rewrwr=uyinchiniGruppgaQushish($data,$GroupNumber,$BotOrClient,$Id,$Level,$Money,$Name,$pul,$yol);
-                    }
+                    $rewrwr=uyinchiniGruppgaQushish($playersNumber,$GroupNumber,$BotOrClient,$Id,$Level,$Money,$Name,$pul,$yol);
                 }
             }
-            else
-            {
-                if ($db->Tekshir($GroupNumber) > 8)
-                {
-                    if ($BotOrClient != "false")
-                    {
-                        return"OdamtudaUzi";
-                    }
-                }
-                else
-                {
-                    if ($GroupNumber > 2100)
-                    {
-                        if ($db->Getgrop2help($GroupNumber)=="true")
-                        {
-                            $rewrwr=uyinchiniGruppgaQushish($data,$GroupNumber,$BotOrClient,$Id,$Level,$Money,$Name,$pul,$yol);
-                        }
-                    }
-                    else
-                    {
-                        $rewrwr=uyinchiniGruppgaQushish($data,$GroupNumber,$BotOrClient,$Id,$Level,$Money,$Name,$pul,$yol);
-                    }
-                }
-            }
-            /*    if(strlen($rewrwr)>68){
-                    $rtwq=str_replace(substr($rewrwr,69,1),"",$db->Getuyinchilar($GroupNumber));
-                    $db->SEndMEssageToGroup($GroupNumber,$rtwq ,$rewrwr);
-                }*/
-        }
+
         return $rewrwr;
     }
     //messajji olish ucnde
     function getMessages($userindex,$userGrop)
     {   $data="";
+        $db= new DbOperation();
+        $mk="time".(string)$userindex;
+        $erw=$db->GetTimede($userGrop,$mk);
+        $db->SetTimede($userGrop,"time".(string)$userindex,substr($erw,0,10).time());
         $stmt = $this->con->prepare("SELECT message FROM messages WHERE gropnumber = ? AND indexq=?");
         $stmt->bind_param("ii", $userGrop,$userindex);
         $stmt->execute();
         $stmt->bind_result($data);
         $messages = array();
-        while ($stmt->fetch()) {
+        while($stmt->fetch()){
             $temp = array();
             $temp['data'] = $data;
+            $db=new DbOperation();
+            $db->SetError($data." index=".$userindex,$userGrop);
             array_push($messages, $temp);
         }
+        $db->DeleteMessages($userindex,$userGrop);
+        return $messages;
+    }
+    function DeleteMessages($userindex,$userGrop){
         $stmt = $this->con->prepare("DELETE FROM messages WHERE gropnumber = ? AND indexq=?");
         $stmt->bind_param("ii", $userGrop,$userindex);
         $stmt->execute();
-        return $messages;
     }
     //Davom etishi uyinni
     function UyinniDAvomEttir($data){
-        function YurishAsosiy($lk, $minSatck,$soni){
-            $koo=$lk;
-            $db=new DbOperation();
-            $koo=$db->GetKartatarqatildi($koo);
-            if ($koo== "false")
-            {
-                if ($lk > 2100)
-                {
-                    $db->Setgrop2help($lk,"false");
-                }
-                //   yield return new WaitForSeconds(2);
-                // NechtasiBorliginiAniqlash( lk);
-                //  ChiqqanBusaChiqaribYuborish( lk);
-                $trt = -1;
-                /*
-              for ($i = 0; $i < ChiqaribYuborish.Count; $i++)
-              {
-                  if (ChiqaribYuborish[i].lk1 == lk)
-                  {
-                      if(ChiqaribYuborish[i].Timer.IsRunning)
-                      {
-                          ChiqaribYuborish[i].Timer.Stop();
-                          ChiqaribYuborish[i].Timer.Reset();
-                      }
-                      $trt = $i;
-                      break;
-                  }
-              }
-              if ($trt == -1)
-              {
-                  ChiqaribYuborish.Add(new RRniKItish(lk));
-              }*/
-                $dssad = 0;
-                $ttt4 = "";
-                if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis1"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis1"),27,12)>=$minSatck){
-                    $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(0+ 1)) !== false){ $ttt4 = $ttt4.(string)(0+ 1);}
-                } if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis2"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis2"),27,12)>=$minSatck){
-                $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(1+ 1)) !== false){ $ttt4 = $ttt4.(string)(1+ 1);}
-            } if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis3"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis3"),27,12)>=$minSatck){
-                $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(2+ 1)) !== false){ $ttt4 = $ttt4.(string)(2+ 1);}
-            } if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis4"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis4"),27,12)>=$minSatck){
-                $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(3+ 1)) !== false){ $ttt4 = $ttt4.(string)(3+ 1);}
-            } if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis5"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis5"),27,12)>=$minSatck){
-                $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(4+ 1)) !== false){ $ttt4 = $ttt4.(string)(4+ 1);}
-            } if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis6"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis6"),27,12)>=$minSatck){
-                $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(5+ 1)) !== false){ $ttt4 = $ttt4.(string)(5+ 1);}
-            } if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis7"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis7"),27,12)>=$minSatck){
-                $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(6+ 1)) !== false){ $ttt4 = $ttt4.(string)(6+ 1);}
-            } if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis8"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis8"),27,12)>=$minSatck){
-                $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(7+ 1)) !== false){ $ttt4 = $ttt4.(string)(7+ 1);}
-            } if( (int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis9"),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis9"),27,12)>=$minSatck){
-                $dssad = $dssad + 1;if(strpos($db->Getuyinchilar($lk), (string)(8+ 1)) !== false){ $ttt4 = $ttt4.(string)(8+ 1);}
-            }
-                $ttt5 = "";
-                $asd=$db->Getuyinchilar($lk);
-                for($i=0;$i<9;$i++){
-                    if(strpos($asd,(string)($i+1))!==false&&
-                        strpos($ttt4,(string)($i+1))!==false){
-                        $ttt5=$ttt5.(string)($i+1);
-                    }
-                }
-                $db->SetYurishKimmiki($ttt5,$lk);
-                $db->SetHuy($dssad,$lk);
-                $koo=$lk;
-                $koo=$db->GetKimboshlashi($koo);
-                $koo2=$lk;
-                $koo2=$db->GetYurishKimmiki($koo2);
-                for ($i = 1; $i < 10; $i++)
-                {
-                    $gd = (int)$koo + $i;
-                    if ($gd > 9)
-                    {
-                        $gd = $gd - 9;
-                    }
-                    //   $db->SetYurishKimmiki("114"."-".$gd." - ".$koo2,$lk);
-                    //   break;
-                    if (strpos($koo2, (string)$gd) !== false)
-                    {
-                        $rew=(string)$gd.(string)$koo2;
-                        $db->SetYurishKimmiki($rew,$lk);
-                        $db->SetKimboshlashi($gd,$lk);
-                        break;
-                    }
-                }
-                /*        if (BotGrouplar[lk].Count + grop2[lk].Count != grop22[lk].Count)
-                     /* {
-                           for ($i = 0; $i < grop2[lk].Count; i++)
-                           {
-                               int mkdsd = BotGrouplar[lk].Count;
-                               for ($l = 0; $l < $mkdsd; $l++)
-                               {
-                                   if (grop2[lk][i].indexClient.ToString() == BotGrouplar[lk][l].Index)
-                                   {
-                                       BotGrouplar[lk].RemoveAt(l);
-                                       l = l - 1;
-                                       mkdsd = mkdsd - 1;
-                                   }
-                               }
-                           }
-                       }*/
-                if ($db->GetHowmanyPlayers($lk) >= $soni && $db->GetKartatarqatildi($lk) == "false")
-                {
-                    $db->SetKartatarqatildi("true",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar9","0",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar1","0",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar2","0",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar3","0",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar4","0",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar5","0",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar6","0",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar7","0",$lk);
-                    $db->SetTikilganPullar("Tikilganpullar8","0",$lk);
-                    $n=combinatsiya();
-                    $cards=cardio();
-                    //Gruppalaga ajratiganda
-                    $db->SetXAmmakartalar($cards[$n[0][0]].$cards[$n[0][1]].$cards[$n[0][2]].$cards[$n[0][3]].$cards[$n[0][4]],$lk);
-                    // if (trt != -1) { ChiqaribYuborish[trt].Timer.Start(); }
-                    $asd2=$db->GetYurishKimmiki($lk);
-                    try
-                    {
-                        for ($i = 0; $i < 9; $i++)
-                        {
-                            $db->SetUyinchilar(substr($asd,1,1).substr($asd,2,strlen($asd)-2).substr($asd,0,1),$lk);
-                            $asd=substr($asd,1,1).substr($asd,2,strlen($asd-2)).substr($asd,0,1);
-                            if ( strpos($asd2, substr($asd,1,1)) !== false&& strpos($asd2, substr($asd,0,1)) !== false)
-                            {
-                                break;
-                            }
-                        }
-                    }
-                    catch (Exception $e)
-                    {
-                        print($e->getMessage());
-                    }
-                    $totti = $db->Tekshir($lk);
-                    $db->SetHuy($totti,$lk);
-                    $yurishkimmiki=$db->GetYurishKimmiki($lk);
-                    for ($m = 0; $m < $totti; $m++)
-                    {
-                        $tott2 = -1;
-                        // $tott3 = 0;
-                        /*                   for ($o = 0; $o < Tekshir($lk); $o++)
-                                        {
-                                            if (YurishKimmiki[lk].Length>m+1 && YurishKimmiki[lk].Substring(m + 1, 1) == grop2[lk][o].indexClient.ToString())
-                                            {
-                                                tott2 = o;                                          break;
-                                            }
-                                        }
-                                /*     for ($o = 0; $o < grop22[lk].Count; $o++)
-                                        {
-                                            if (YurishKimmiki[lk].Length > m + 1 && YurishKimmiki[lk].Substring(m + 1, 1) == grop22[lk][o].indexClient.ToString())
-                                            {
-                                                tott3 = o;
-                                                break;
-                                            }
-               }*/
-                        if ($tott2==-1)
-                        {
-                            $message=$cards[$n[1][$m * 2]].$cards[$n[1][$m * 2 + 1]].substr($yurishkimmiki,0,1).
-                                str_pad((string)($minSatck / 2),12,'0',STR_PAD_LEFT)."!". str_pad((string)($minSatck ),12,'0',STR_PAD_LEFT).
-                                $asd .substr($yurishkimmiki,$m+1,1) .$lk;
-                            $db->SEndMEssage($lk,substr($asd,$m,1),$message);
-                        }
-                        else
-                        {
-                            /*                       int mop = 0;
-                                               for(int i = 0; i < BotGrouplar[lk].Count; i++)
-                                               {
-                                                   if(grop22[lk][tott3].indexClient.ToString()== BotGrouplar[lk][i].Index)
-                                                   {
-                                                       mop = i;
-                                                 break;
-                                                   }
-                                               }
-                                     /*            OnIncomBot(cards[g[m * 2]] + cards[g[m * 2 + 1]] + "" + YurishKimmiki[lk].Substring(0, 1) +
-                                           (minSatck / 2).ToString().PadLeft(12, '0') + "!" + (minSatck).ToString().PadLeft(12, '0') +
-                                           uyinchilar[lk] + grop22[lk][tott3].indexClient + grop22[lk][tott3].ClientGroup, int.Parse(BotGrouplar[lk][mop].IdNumber));*/
-                        }
-                    }
-                }
-            }
-        }
         function Pas($lk){
             sleep(6);
             $minSatck = TurnLk($lk);
             $db=new DbOperation();
             $db->SetKartatarqatildi("false",$lk);
-            YurishAsosiy($lk,$minSatck,2);
-        }
-        function combinatsiya()
-        {
-            $g=array();
-            $n=array();
-            for ($i = 0; $i < 18; $i++)
-            {
-                $g[$i] = rand(11, 62);
-            }
-            for ($iop = 0; $iop < 5; $iop++)
-            {
-                $n[$iop] = rand(11, 62);
-            }
-            try
-            {
-                for ($t1 = 1; $t1 < 18; $t1++)
-                {
-                    if ($t1 == 1)
-                    {
-                        while ($g[1] == $g[0] ||
-                            $g[1] == $g[2] || $g[1] == $g[3] ||
-                            $g[1] == $g[4] || $g[1] == $g[5] ||
-                            $g[1] == $g[6] || $g[1] == $g[7] ||
-                            $g[1] == $g[8] || $g[1] == $g[9] ||
-                            $g[1] == $g[10] || $g[1] == $g[11] ||
-                            $g[1] == $g[12] || $g[1] == $g[13] ||
-                            $g[1] == $g[14] || $g[1] == $g[15] ||
-                            $g[1] == $g[16] || $g[1] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 2)
-                    {
-                        while ($g[2] == $g[0] ||
-                            $g[2] == $g[1] || $g[2] == $g[3] ||
-                            $g[2] == $g[4] || $g[2] == $g[5] ||
-                            $g[2] == $g[6] || $g[2] == $g[7] ||
-                            $g[2] == $g[8] || $g[2] == $g[9] ||
-                            $g[2] == $g[10] || $g[2] == $g[11] ||
-                            $g[2] == $g[12] || $g[2] == $g[13] ||
-                            $g[2] == $g[14] || $g[2] == $g[15] ||
-                            $g[2] == $g[16] || $g[2] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 3)
-                    {
-                        while ($g[3] == $g[0] ||
-                            $g[3] == $g[1] || $g[3] == $g[2] ||
-                            $g[3] == $g[4] || $g[3] == $g[5] ||
-                            $g[3] == $g[6] || $g[3] == $g[7] ||
-                            $g[3] == $g[8] || $g[3] == $g[9] ||
-                            $g[3] == $g[10] || $g[3] == $g[11] ||
-                            $g[3] == $g[12] || $g[3] == $g[13] ||
-                            $g[3] == $g[14] || $g[3] == $g[15] ||
-                            $g[3] == $g[16] || $g[3] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 4)
-                    {
-                        while ($g[4] == $g[0] ||
-                            $g[4] == $g[1] || $g[4] == $g[3] ||
-                            $g[4] == $g[2] || $g[4] == $g[5] ||
-                            $g[4] == $g[6] || $g[4] == $g[7] ||
-                            $g[4] == $g[8] || $g[4] == $g[9] ||
-                            $g[4] == $g[10] || $g[4] == $g[11] ||
-                            $g[4] == $g[12] || $g[4] == $g[13] ||
-                            $g[4] == $g[14] || $g[4] == $g[15] ||
-                            $g[4] == $g[16] || $g[4] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 5)
-                    {
-                        while ($g[5] == $g[0] ||
-                            $g[5] == $g[1] || $g[5] == $g[3] ||
-                            $g[5] == $g[4] || $g[5] == $g[2] ||
-                            $g[5] == $g[6] || $g[5] == $g[7] ||
-                            $g[5] == $g[8] || $g[5] == $g[9] ||
-                            $g[5] == $g[10] || $g[5] == $g[11] ||
-                            $g[5] == $g[12] || $g[5] == $g[13] ||
-                            $g[5] == $g[14] || $g[5] == $g[15] ||
-                            $g[5] == $g[16] || $g[5] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 6)
-                    {
-                        while ($g[6] == $g[0] ||
-                            $g[6] == $g[1] || $g[6] == $g[3] ||
-                            $g[6] == $g[4] || $g[6] == $g[5] ||
-                            $g[6] == $g[2] || $g[6] == $g[7] ||
-                            $g[6] == $g[8] || $g[6] == $g[9] ||
-                            $g[6] == $g[10] || $g[6] == $g[11] ||
-                            $g[6] == $g[12] || $g[6] == $g[13] ||
-                            $g[6] == $g[14] || $g[6] == $g[15] ||
-                            $g[6] == $g[16] || $g[6] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 7)
-                    {
-                        while ($g[7] == $g[0] ||
-                            $g[7] == $g[1] || $g[7] == $g[3] ||
-                            $g[7] == $g[4] || $g[7] == $g[5] ||
-                            $g[7] == $g[6] || $g[7] == $g[2] ||
-                            $g[7] == $g[8] || $g[7] == $g[9] ||
-                            $g[7] == $g[10] || $g[7] == $g[11] ||
-                            $g[7] == $g[12] || $g[7] == $g[13] ||
-                            $g[7] == $g[14] || $g[7] == $g[15] ||
-                            $g[7] == $g[16] || $g[7] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 8)
-                    {
-                        while ($g[8] == $g[0] ||
-                            $g[8] == $g[1] || $g[8] == $g[3] ||
-                            $g[8] == $g[4] || $g[8] == $g[5] ||
-                            $g[8] == $g[6] || $g[8] == $g[2] ||
-                            $g[8] == $g[7] || $g[8] == $g[9] ||
-                            $g[8] == $g[10] ||$g[8] == $g[11] ||
-                            $g[8] == $g[12] || $g[8] == $g[13] ||
-                            $g[8] == $g[14] || $g[8] == $g[15] ||
-                            $g[8] == $g[16] || $g[8] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 9)
-                    {
-                        while ($g[9] == $g[0] ||
-                            $g[9] == $g[1] || $g[9] == $g[3] ||
-                            $g[9] == $g[4] || $g[9] == $g[5] ||
-                            $g[9] == $g[6] || $g[9] == $g[2] ||
-                            $g[9] == $g[8] || $g[9] == $g[7] ||
-                            $g[9] == $g[10] || $g[9] == $g[11] ||
-                            $g[9] == $g[12] || $g[9] == $g[13] ||
-                            $g[9] == $g[14] || $g[9] == $g[15] ||
-                            $g[9] == $g[16] || $g[9] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 10)
-                    {
-                        while ($g[10] == $g[0] ||
-                            $g[10] == $g[1] || $g[10] == $g[3] ||
-                            $g[10] == $g[4] || $g[10] == $g[5] ||
-                            $g[10] == $g[6] || $g[10] == $g[2] ||
-                            $g[10] == $g[8] || $g[10] == $g[7] ||
-                            $g[10] == $g[9] || $g[10] == $g[11] ||
-                            $g[10] == $g[12] || $g[10] == $g[13] ||
-                            $g[10] == $g[14] || $g[10] == $g[15] ||
-                            $g[10] == $g[16] || $g[10] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 11)
-                    {
-                        while ($g[11] == $g[0] ||
-                            $g[11] == $g[1] || $g[11] == $g[3] ||
-                            $g[11] == $g[4] || $g[11] == $g[5] ||
-                            $g[11] == $g[6] || $g[11] == $g[2] ||
-                            $g[11] == $g[8] || $g[11] == $g[7] ||
-                            $g[11] == $g[9] || $g[11] == $g[10] ||
-                            $g[11] == $g[12] || $g[11] == $g[13] ||
-                            $g[11] == $g[14] || $g[11] == $g[15] ||
-                            $g[11] == $g[16] || $g[11] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 12)
-                    {
-                        while ($g[12] == $g[0] ||
-                            $g[12] == $g[1] || $g[12] == $g[3] ||
-                            $g[12] == $g[4] || $g[12] == $g[5] ||
-                            $g[12] == $g[6] || $g[12] == $g[2] ||
-                            $g[12] == $g[8] || $g[12] == $g[7] ||
-                            $g[12] == $g[9] || $g[12] == $g[10] ||
-                            $g[12] == $g[11] || $g[12] == $g[13] ||
-                            $g[12] == $g[14] || $g[12] == $g[15] ||
-                            $g[12] == $g[16] || $g[12] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 13)
-                    {
-                        while ($g[13] == $g[0] ||
-                            $g[13] == $g[1] || $g[13] == $g[3] ||
-                            $g[13] == $g[4] || $g[13] == $g[5] ||
-                            $g[13] == $g[6] || $g[13] == $g[2] ||
-                            $g[13] == $g[8] || $g[13] == $g[7] ||
-                            $g[13] == $g[9] || $g[13] == $g[10] ||
-                            $g[13] == $g[11] || $g[13] == $g[12] ||
-                            $g[13] == $g[14] || $g[13] == $g[15] ||
-                            $g[13] == $g[16] || $g[13] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 14)
-                    {
-                        while ($g[14] == $g[0] ||
-                            $g[14] == $g[1] || $g[14] == $g[3] ||
-                            $g[14] == $g[4] || $g[14] == $g[5] ||
-                            $g[14] == $g[6] || $g[14] == $g[2] ||
-                            $g[14] == $g[8] || $g[14] == $g[7] ||
-                            $g[14] == $g[9] || $g[14] == $g[10] ||
-                            $g[14] == $g[11] || $g[14] == $g[12] ||
-                            $g[14] == $g[13] || $g[14] == $g[15] ||
-                            $g[14] == $g[16] || $g[14] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 15)
-                    {
-                        while ($g[15] == $g[0] ||
-                            $g[15] == $g[1] || $g[15] == $g[3] ||
-                            $g[15] == $g[4] || $g[15] == $g[5] ||
-                            $g[15] == $g[6] || $g[15] == $g[2] ||
-                            $g[15] == $g[8] || $g[15] == $g[7] ||
-                            $g[15] == $g[9] || $g[15] == $g[10] ||
-                            $g[15] == $g[11] || $g[15] == $g[12] ||
-                            $g[15] == $g[13] || $g[15] == $g[14] ||
-                            $g[15] == $g[16] || $g[15] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 16)
-                    {
-                        while ($g[16] == $g[0] ||
-                            $g[16] == $g[1] || $g[16] == $g[3] ||
-                            $g[16] == $g[4] || $g[16] == $g[5] ||
-                            $g[16] == $g[6] || $g[16] == $g[2] ||
-                            $g[16] == $g[8] || $g[16] == $g[7] ||
-                            $g[16] == $g[9] || $g[16] == $g[10] ||
-                            $g[16] == $g[11] || $g[16] == $g[12] ||
-                            $g[16] == $g[13] || $g[16] == $g[15] ||
-                            $g[16] == $g[14] || $g[16] == $g[17])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                    if ($t1 == 17)
-                    {
-                        while ($g[17] == $g[0] ||
-                            $g[17] == $g[1] || $g[17] == $g[3] ||
-                            $g[17] == $g[4] || $g[17] == $g[5] ||
-                            $g[17] == $g[6] || $g[17] == $g[2] ||
-                            $g[17] == $g[8] || $g[17] == $g[7] ||
-                            $g[17] == $g[9] || $g[17] == $g[10] ||
-                            $g[17] == $g[11] || $g[17] == $g[12] ||
-                            $g[17] == $g[13] || $g[17] == $g[15] ||
-                            $g[17] == $g[14] || $g[17] == $g[16])
-                        {
-                            $g[$t1] = rand(11, 62);
-                        }
-                    }
-                }
-                for ($yu = 0; $yu < 5; $yu++)
-                {
-                    if ($yu == 0)
-                    {
-                        while ($n[$yu] == $g[0] || $n[$yu] == $g[7] ||
-                            $n[$yu] == $g[1] || $n[$yu] == $g[3] ||
-                            $n[$yu] == $g[4] || $n[$yu] == $g[5] ||
-                            $n[$yu] == $g[6] || $n[$yu] == $g[2] ||
-                            $n[$yu] == $g[8] || $n[$yu] == $g[9] ||
-                            $n[$yu] == $g[10] || $n[$yu] == $g[11] ||
-                            $n[$yu] == $g[12] || $n[$yu] == $g[13] ||
-                            $n[$yu] == $g[14] || $n[$yu] == $g[15] ||
-                            $n[$yu] == $g[16] || $n[$yu] == $g[17] ||
-                            $n[$yu] == $n[1] || $n[$yu] == $n[2] ||
-                            $n[$yu] == $n[3] || $n[$yu] == $n[4])
-                        {
-                            $n[$yu] = rand(11, 62);
-                        }
-                    }
-                    if ($yu == 1)
-                    {
-                        while ($n[$yu] == $g[0] || $n[$yu] == $g[7] ||
-                            $n[$yu] == $g[1] || $n[$yu] == $g[3] ||
-                            $n[$yu] == $g[4] || $n[$yu] == $g[5] ||
-                            $n[$yu] == $g[6] || $n[$yu] == $g[2] ||
-                            $n[$yu] == $g[8] || $n[$yu] == $g[9] ||
-                            $n[$yu] == $g[10] || $n[$yu] == $g[11] ||
-                            $n[$yu] == $g[12] || $n[$yu] == $g[13] ||
-                            $n[$yu] == $g[14] || $n[$yu] == $g[15] ||
-                            $n[$yu] == $g[16] || $n[$yu] == $g[17] ||
-                            $n[$yu] == $n[0] || $n[$yu] == $n[2] ||
-                            $n[$yu] == $n[3] || $n[$yu] == $n[4])
-                        {
-                            $n[$yu] = rand(11, 62);
-                        }
-                    }
-                    if ($yu == 2)
-                    {
-                        while ($n[$yu] == $g[0] || $n[$yu] == $g[7] ||
-                            $n[$yu] == $g[1] || $n[$yu] == $g[3] ||
-                            $n[$yu] == $g[4] || $n[$yu] == $g[5] ||
-                            $n[$yu] == $g[6] || $n[$yu] == $g[2] ||
-                            $n[$yu] == $g[8] || $n[$yu] == $g[9] ||
-                            $n[$yu] == $g[10] || $n[$yu] == $g[11] ||
-                            $n[$yu] == $g[12] || $n[$yu] == $g[13] ||
-                            $n[$yu] == $g[14] || $n[$yu] == $g[15] ||
-                            $n[$yu] == $g[16] || $n[$yu] == $g[17] ||
-                            $n[$yu] == $n[0] || $n[$yu] == $n[1] ||
-                            $n[$yu] == $n[3] || $n[$yu] == $n[4])
-                        {
-                            $n[$yu] = rand(11, 62);
-                        }
-                    }
-                    if ($yu == 3)
-                    {
-                        while ($n[$yu] == $g[0] || $n[$yu] == $g[7] ||
-                            $n[$yu] == $g[1] || $n[$yu] == $g[3] ||
-                            $n[$yu] == $g[4] || $n[$yu] == $g[5] ||
-                            $n[$yu] == $g[6] || $n[$yu] == $g[2] ||
-                            $n[$yu] == $g[8] || $n[$yu] == $g[9] ||
-                            $n[$yu] == $g[10] || $n[$yu] == $g[11] ||
-                            $n[$yu] == $g[12] || $n[$yu] == $g[13] ||
-                            $n[$yu] == $g[14] || $n[$yu] == $g[15] ||
-                            $n[$yu] == $g[16] || $n[$yu] == $g[17] ||
-                            $n[$yu] == $n[0] || $n[$yu] == $n[2] ||
-                            $n[$yu] == $n[1] || $n[$yu] == $n[4])
-                        {
-                            $n[$yu] = rand(11, 62);
-                        }
-                    }
-                    if ($yu == 4)
-                    {
-                        while ($n[$yu] == $g[0] || $n[$yu] == $g[7] ||
-                            $n[$yu] == $g[1] || $n[$yu] == $g[3] ||
-                            $n[$yu] == $g[4] || $n[$yu] == $g[5] ||
-                            $n[$yu] == $g[6] || $n[$yu] == $g[2] ||
-                            $n[$yu] == $g[8] || $n[$yu] == $g[9] ||
-                            $n[$yu] == $g[10] || $n[$yu] == $g[11] ||
-                            $n[$yu] == $g[12] || $n[$yu] == $g[13] ||
-                            $n[$yu] == $g[14] || $n[$yu] == $g[15] ||
-                            $n[$yu] == $g[16] || $n[$yu] == $g[17] ||
-                            $n[$yu] == $n[0] || $n[$yu] == $n[2] ||
-                            $n[$yu] == $n[1] || $n[$yu] == $n[3])
-                        {
-                            $n[$yu] = rand(11, 62);
-                        }
-                    }
-                }
-                //flesh test
-                //  g[1] = 12; g[0] = 13; n[0] = 14; n[1] = 15; n[2] = 50; n[3] = 56; n[4] = 17;
-                //  g[2] = 12; g[3] = 13;
-                //Strit
-                //    g[2] = 33; g[3] = 35;
-                //n[0] = 18;n[1] = 16;n[2] = 49;n[3] = 45;n[4] = 47;
-                // g[1] = 26; g[0] = 17;
-                //para
-                //  g[2] = 23; g[3] = 36; n[0] =26; n[1] = 17; n[2] = 48; n[3] = 35; n[4] = 51;
-                //   g[0] = 23; g[1] = 36;
-                //g[4] = 23; g[5] = 36;
-                //kikerets;
-                //  g[0] = 11; g[1] = 12; n[0] =31; n[1] = 56; n[2] = 48; n[3] = 35; n[4] = 57;
-                // g[2] = 13; g[3] = 14;
-                //set
-                // g[1] = 32; g[0] = 37; n[0] =25; n[1] = 43; n[2] = 11; n[3] = 24; n[4] = 58;
-                // g[2] = 45; g[3] = 50;
-            }
-            catch (Exception $e)
-            {
-                print($e->getMessage());
-            }
-            $as=array($g,$n);
-            return $as;
-        }
-        function cardio()
-        {
-            $cards=array();
-            for($i = 11; $i < 24; $i++)
-            {
-                $cards[$i] = "cl".$i;
-            }
-            for ($i = 24; $i < 37; $i++)
-            {
-                $cards[$i] = "di".($i-13);
-            }
-            for ($i = 37; $i < 50; $i++)
-            {
-                $cards[$i] = "he".($i - 26);
-            }
-            for ($i = 50; $i < 63; $i++)
-            {
-                $cards[$i] = "sp".($i - 39);
-            }
-            return $cards;
+            $db->YurishAsosiy($lk,$minSatck,2);
         }
         function TurnLk($lk)
         {
@@ -2027,7 +1271,7 @@ class DbOperation
                 sort($Massiv2);
                 for($i = 0; $i < sizeof($Massiv2); $i++)
                 {
-                    $db->SetError("MAssiv2 =".$Massiv2[$i],$lk);
+                    //     $db->SetError("MAssiv2 =".$Massiv2[$i],$lk);
                     if($Massiv2[$i]!=0){
                         for($ml = 0; $ml < 10; $ml++)
                         {
@@ -2042,7 +1286,7 @@ class DbOperation
                             if ($Massiv2[$i]<=$Massiv2[$t] && $Massiv2[$t]!=0 && $Massiv2[$i] != 0)
                             {
                                 $doctor = $doctor - $Massiv2[$t] + $Massiv2[$i];
-                                $db->SetError("Massiv t=" .$Massiv2[$t]." Massiv i=".$Massiv2[$i]." Doctor=".$doctor,$lk);
+                                //    $db->SetError("Massiv t=" .$Massiv2[$t]." Massiv i=".$Massiv2[$i]." Doctor=".$doctor,$lk);
                                 for($h = 1; $h < 10; $h++)
                                 {
                                     if( strpos($g[$i],(string)$h)===false && $Massiv2[$t] <= $Massiv[$h])
@@ -2063,7 +1307,7 @@ class DbOperation
                     $rt=$rt." ".$Pullar[$i];
                     $rt2=$rt2." ".$g[$i];
                 }
-                $db->SetError("Pullar-".$kmn." ".$rt." ".$rt2,$lk);
+                // $db->SetError("Pullar-".$kmn." ".$rt." ".$rt2,$lk);
                 $sdasd="";
                 $Golib =array();   $dfg = 0;
                 $Golib2 = array(); $dfg2 = 0;
@@ -2077,14 +1321,14 @@ class DbOperation
                 {
                     if ($Pullar[$i] != "0" && $g[$i]!=""&&$sdasd!= $Pullar[$i].$g[$i])
                     {
-                        $db->SetError($Pullar[$i]. " Pul",$lk);
-                        $db->SetError($g[$i]." g",$lk);
+                        // $db->SetError($Pullar[$i]. " Pul",$lk);
+                        //$db->SetError($g[$i]." g",$lk);
                         $sdasd = $Pullar[$i]. $g[$i];
                         for($t = 0; $t <strlen($kmn) ; $t++)
                         {//kmn= 12:3:7:4:6:59:8:
                             for ($t2 = 0; $t2 <strlen($g[$i]); $t2++)
                             {//4-1 400 4001 4001 4:1: 4 1
-                                $db->SetError($g[$i]." gi t=".$t." t2=".$t2." kmn=".$kmn." ".sizeof($g[$i]),$lk);
+                                //        $db->SetError($g[$i]." gi t=".$t." t2=".$t2." kmn=".$kmn." ".sizeof($g[$i]),$lk);
                                 if (substr($kmn,$t,1)!=":" && substr($kmn,$t,1) == substr($g[$i],$t2,1))
                                 {
                                     $Golib[$dfg] = substr($kmn,$t,1).$Pullar[$i];
@@ -2210,7 +1454,7 @@ class DbOperation
                                 $t = $t + 30;
                             }
                         }
-                        $a1 = (int)(substr($Golib3[$i],1,strlen($Golib3)-1));
+                        $a1 = (int)(substr($Golib3[$i],1,strlen($Golib3[$i])-1));
                         if ($a2 > $a3)
                         {
                             $a2 = $a2 + $a3;
@@ -2321,9 +1565,9 @@ class DbOperation
                 if (strlen($kmn) > $i + 2 &&substr($kmn,$i,2) == "RR")
                 {
                     $db->SetOxirgiZapislar(
-                        substr(substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis".substr($kmn,$i+2,1)),0,14),0,14)
+                        substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis".substr($kmn,$i+2,1)),0,14)
                         .str_pad((string)((int)substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis".substr($kmn,$i+2,1)),14,12)+(int)substr($kmn,19+$i,12)),12,"0",STR_PAD_LEFT)
-                        .substr(26,strlen($db->GetOxirgiZapisplar($lk,"OxirgiZapis".substr($kmn,$i+2,1)))-26) . substr($kmn,$i+2,1)
+                        .substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis".substr($kmn,$i+2,1)),26,strlen($db->GetOxirgiZapisplar($lk,"OxirgiZapis".substr($kmn,$i+2,1)))-26)
                         ,$lk,
                         "OxirgiZapis".substr($kmn,$i+2,1)
                     );
@@ -2335,17 +1579,17 @@ class DbOperation
             {
                 $db->SetOxirgiZapislar(substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis".substr($uyinchilar,$i,1)),0,27)
                     ."000000000000".substr($db->GetOxirgiZapisplar($lk,"OxirgiZapis".
-                        substr($uyinchilar,$i,1)).substr($uyinchilar,$i,1),39,strlen($db->GetOxirgiZapisplar($lk,"OxirgiZapis".
+                            substr($uyinchilar,$i,1)).substr($uyinchilar,$i,1),39,strlen($db->GetOxirgiZapisplar($lk,"OxirgiZapis".
                             substr($uyinchilar,$i,1)))-39),$lk,"OxirgiZapis".substr($uyinchilar,$i,1)
                 );
             }
-            $db->SetError("As-".$kmn,$lk);
+            //   $db->SetError("As-".$kmn,$lk);
             if ($kmn != "") { $db->SEndMEssageToGroup($lk,$uyinchilar,$kmn); }
             sleep(6);
             $minSatck = TurnLk($lk);
             $db=new DbOperation();
             $db->SetKartatarqatildi("false",$lk);
-            YurishAsosiy($lk,$minSatck,2);
+            $db->YurishAsosiy($lk,$minSatck,2);
         }
         if (strpos($data,"$")!==false && strpos($data,"^")!==false && strlen($data) > 32)
         {
@@ -2395,8 +1639,7 @@ class DbOperation
             }
             //return " As".$keraklide;
             if ($nmaligi =="UyinniDavomEtishi"&& strlen($yurishkimmiki)>1&&
-                (string)$Index == substr($yurishkimmiki,0,1) &&
-                $kartaTarqatildi=="true")
+                (string)$Index == substr($yurishkimmiki,0,1) &&$kartaTarqatildi=="true")
             {
                 //qw = data;
                 //Masalan :  1st220000001000$000000000010^
@@ -2424,25 +1667,28 @@ class DbOperation
                     $a =substr($yurishkimmiki,0,1);  $b = $yurishkimmiki;
                     if ($i + 2 == strlen($yurishkimmiki))
                     {
-                        $db->SetYurishKimmiki(substr($b,1,1) .substr($b,1,strlen($b)-1),$GroupNumber);$yurishkimmiki=substr($b,1,1).substr($b,1,strlen($b)-1);
+                        $db->SetYurishKimmiki(substr($b,1,1)
+                            .substr($b,1,strlen($b)-1),$GroupNumber);
+                        $yurishkimmiki=substr($b,1,1).substr($b,1,strlen($b)-1);
                         break;
                     }
                     else
                     {
                         if ($a ==substr($b,$i+1,1))
                         {
-                            $db->SetYurishKimmiki(substr($b,$i+2,1).substr($b,1,strlen($b)-1),$GroupNumber);$yurishkimmiki=substr($b,$i+2,1).substr($b,1,strlen($b)-1);
+                            $db->SetYurishKimmiki(substr($b,$i+2,1)
+                                .substr($b,1,strlen($b)-1),$GroupNumber);
+                            $yurishkimmiki=substr($b,$i+2,1).substr($b,1,strlen($b)-1);
                             break;
                         }
                     }
                 }
                 $db->SetOxirgiZapislar("%%".$Name.str_pad((string)$GroupNumber,4,"0",STR_PAD_LEFT).str_pad((string)$pul,12,"0",STR_PAD_LEFT)."$".
                     str_pad((string)$yol,12,"0",STR_PAD_LEFT) .$Level .str_pad((string)$Money,12,"0",STR_PAD_LEFT)."xb".$Id.(string)$Index,$GroupNumber,"OxirgiZapis".(string)$Index);
-                $oxirgizapis=  "%%".$Name.str_pad((string)$GroupNumber,4,"0",STR_PAD_LEFT).str_pad((string)$pul,12,"0",STR_PAD_LEFT)."$".  str_pad((string)$yol,12,"0",STR_PAD_LEFT)
-                    .$Level .str_pad((string)$Money,12,"0",STR_PAD_LEFT)."xb".$Id.$Index;
                 if($keraklide == 1)
                 {
                     $db->SetHuy(strlen($yurishkimmiki)-1,$lk);
+                    $huy=strlen($yurishkimmiki)-1;
                 }
                 if ($keraklide >= $huy)
                 {
@@ -2453,18 +1699,21 @@ class DbOperation
                         $db->SetTikilganPullar($tikilgsnpul,(int)$db->GetTikilganPullar($lk,$tikilgsnpul)+(int)substr($db->GetOxirgiZapisplar($lk,$OxirgiZapis),27,12),$lk);
                     }
                     $db->SetHuy(strlen($yurishkimmiki)-1,$lk);
+                    $huy=strlen($yurishkimmiki)-1;
                     $hu3=$db->Gethu3($lk)+1;
                     $db->Sethu3($hu3,$lk);
                     // XammaKartalar[lk] = cards[n[0]] + cards[n[1]] + cards[n[2]] + cards[n[3]] + cards[n[4]];
                     //1000000000990000000000010$^200017&
-                    if (!$Pas) {
-                        $data = $Index.str_pad($pul,12,"0",STR_PAD_LEFT) .str_pad($yol,12,"0",STR_PAD_LEFT)."$^" .$keraklide.$mik .$db->GetXAmmakartalar($lk); }
+                    if (!$Pas)
+                    {
+                        $data = $Index.str_pad($pul,12,"0",STR_PAD_LEFT) .str_pad($yol,12,"0",STR_PAD_LEFT)."$^" .$keraklide.$mik .$db->GetXAmmakartalar($lk);
+                    }
                     else
                     {
                         $data = $Index.str_pad($pul,12,"0",STR_PAD_LEFT) .str_pad($yol,12,"0",STR_PAD_LEFT)."$^" .$keraklide. "&".$mik .$db->GetXAmmakartalar($lk);
                     }
-                    if ($yurishkimmiki == "") {$yurishkimmiki = "0"; }
-                    $db->SEndMEssageToGroup($lk,$uyinchilar,$data.$huy.substr($yurishkimmiki,0,1).str_pad($lk,4,"0"));
+                    if ($yurishkimmiki == ""){$yurishkimmiki = "0"; }
+                    $db->SEndMEssageToGroup($lk,$uyinchilar,$data.$huy.substr($yurishkimmiki,0,1).str_pad($lk,4,"0",STR_PAD_LEFT));
                     if ($hu3 == 4)
                     {
                         for ($i = 1; $i < 10; $i++)
@@ -2476,9 +1725,10 @@ class DbOperation
                         Javobit($lk);
                     }
                     if ($Pas)
-                    {  $yurishkimmiki=str_replace("",(string)$Index,$yurishkimmiki);
-                        $db->SetYurishKimmiki($yurishkimmiki,$lk);
+                    {
                         if ($huy == 2 || strlen($yurishkimmiki) == 3) { $db->Sethu3(0,$lk); Pas($lk); }
+                        $yurishkimmiki=str_replace((string)$Index,"",$yurishkimmiki);
+                        $db->SetYurishKimmiki($yurishkimmiki,$lk);
                     }
                 }
                 else
@@ -2497,15 +1747,16 @@ class DbOperation
                                lk.ToString().PadLeft(4, '0') + MainData.Judgement, int.Parse(BotGrouplar[lk][i].IdNumber));
                            }
                        }*/
-                        $yurishkimmiki=str_replace("",(string)$Index,$yurishkimmiki);
+                        $yurishkimmiki=str_replace((string)$Index,"",$yurishkimmiki);
                         $db->SetYurishKimmiki($yurishkimmiki,$lk);
+                        if($yurishkimmiki==""){$yurishkimmiki="0";}
                         $data = $Index.str_pad($pul,12,"0",STR_PAD_LEFT).str_pad($yol,12,"0",STR_PAD_LEFT)."$^" .$keraklide.$mik .$huy."&";
                         $db->SEndMEssageToGroup($lk,$uyinchilar,$data.substr($yurishkimmiki,0,1).str_pad($lk,4,"0",STR_PAD_LEFT));
                         // qushish mumkin
                         if ($huy == 2) {$db->Sethu3(0,$lk); Pas($lk);  }
                     }
                     else
-                    {
+                    {   if($yurishkimmiki==""){$yurishkimmiki="0";}
                         $data = $Index.str_pad($pul,12,"0",STR_PAD_LEFT).str_pad($yol,12,"0",STR_PAD_LEFT)."$^" .$keraklide.$mik .$huy;
                         $db->SEndMEssageToGroup($lk,$uyinchilar,$data.$huy.substr($yurishkimmiki,0,1).str_pad($lk,4,"0",STR_PAD_LEFT));
                     }
@@ -2525,7 +1776,7 @@ class DbOperation
             //st,p1,p2,se,fl,sr,fs  RR2p122he12di12
             if ($db->GetJavoblade($lk,"Javoblade".(string)$index) == "" ||$db->GetJavoblade($lk,"Javoblade".(string)$index) == null)
             {
-                $db->SetJavoblade("Javoblade".(string)$index,substr($data,0,19).(int)substr($data,19,12),$lk);
+                $db->SetJavoblade("Javoblade".(string)$index,$data,$lk);
             }
         }
         return "Zo'r";
@@ -2536,11 +1787,11 @@ class DbOperation
         $db=new DbOperation();
         $mkjd1 = strlen($data) / 14;
         $kijshda2 = $data;
-        $kijshda3 = "";
         for ($lkj = 0; $lkj <$mkjd1; $lkj++)
         {
             $data = substr($kijshda2,$lkj*14,14);
             $lk = (int)(substr($data,10,4));
+            //  $db->SetError("Chiq",$lk);
             /*
             if (GruppadagiAktivOdamlarSoni[lk] > 0)
             {
@@ -2555,32 +1806,41 @@ class DbOperation
             {
                 if ($index == substr($uyinchilar,$i,1))
                 {
-/*                   if (grop22[lk][i].BotOrClient) { grop2[lk].Remove(c); }
-                    else
-                    {
-                        int mkdss2 = BotGrouplar[lk].Count;
-                        for (int k = 0; k < mkdss2; k++)
-                        {
-                            if (BotsList[int.Parse(BotGrouplar[lk][k].IdNumber)].Index.ToString() == grop22[lk][i].indexClient.ToString())
-                            {
-                                BotGrouplar[lk].RemoveAt(k);
-                                break;
-                            }
-                        }
-                    }
-                    grop22[lk].RemoveAt(i);*/
+                    /*                   if (grop22[lk][i].BotOrClient) { grop2[lk].Remove(c); }
+                                        else
+                                        {
+                                            int mkdss2 = BotGrouplar[lk].Count;
+                                            for (int k = 0; k < mkdss2; k++)
+                                            {
+                                                if (BotsList[int.Parse(BotGrouplar[lk][k].IdNumber)].Index.ToString() == grop22[lk][i].indexClient.ToString())
+                                                {
+                                                    BotGrouplar[lk].RemoveAt(k);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        grop22[lk].RemoveAt(i);*/
                     $db->SetHowManyPlayers($mkdss-1,$lk);
                     $db->SetUyinchilar(str_replace($index,"",$uyinchilar),$lk);
                     $uyinchilar=str_replace($index,"",$uyinchilar);
                     $db->SetOxirgiZapislar("",$lk,"OxirgiZapis".$index);
+
+                    for($i2=1;$i2<10;$i2++){
+                        if(strpos($uyinchilar,(string)$i2)===false){
+                            $db->DeleteMessages($i2,$lk);
+                        }
+                    }
+
+                    $db->SetTimede($lk,"time".$index,"");
+                    $db->SetTimede2($lk,"time".$index,"");
                     break;
                 }
             }
+            //  $db->SetError("As ".$uyinchilar,$lk);
             if ($mkdss-1 == 0)
             {
-                ObnovitQilish($lk);
+                //    ObnovitQilish($lk);
             }
-
             if (strpos($yurishkimmiki,$index)!==false)
             {
                 //    print(YurishKimmiki[lk] + " " + GruppadagiAktivOdamlarSoni[lk]);
@@ -2629,7 +1889,9 @@ class DbOperation
                     {
                         $db->SetHuy(2,$lk);
                     }else{
-                        $db->SetHuy(strlen($yurishkimmiki)-1,$lk);
+                        if($db->GetHuy($lk)>0){
+                            $db->SetHuy($mkdss-1,$lk);
+                        }
                     }
                 }
                 //%%NameByMe0001000000000500$000000000000000000000000001500xb0000000004
@@ -2637,78 +1899,63 @@ class DbOperation
                 if ($db->GetHuy($lk) == 1 && strlen($uyinchilar) > 1)
                 {
                     $db->Sethu3(0,$lk);
-
                     // StartCoroutine(Pas(lk));
                 }
                 if (strlen($uyinchilar) < 2)
                 {
                     $db->Sethu3(0,$lk);
                 }
-                //  print("Finally=" + YurishKimmiki[lk].Substring(0, 1) + " " + OxirgiZapisplar[lk, int.Parse(YurishKimmiki[lk].Substring(0, 1))]);
             }
-
             if (strlen($data) > 9)
             {
                 $data = substr($data,0,10);
             }
-        /*   if (uyinchilar[lk] != sadad && uyinchilar[lk].Length > 0)
-            {
-                data = data + uyinchilar[lk] + "()";
-                int mkdss2 = YurishKimmiki[lk].Length;
-                for (int by = 0; by < mkdss2; by++)
+            /*   if (uyinchilar[lk] != sadad && uyinchilar[lk].Length > 0)
                 {
-                    if (!uyinchilar[lk].Contains(YurishKimmiki[lk].Substring(by, 1)))
+                    data = data + uyinchilar[lk] + "()";
+                    int mkdss2 = YurishKimmiki[lk].Length;
+                    for (int by = 0; by < mkdss2; by++)
                     {
-                        YurishKimmiki[lk] = YurishKimmiki[lk].Replace(YurishKimmiki[lk].Substring(by, 1), "");
+                        if (!uyinchilar[lk].Contains(YurishKimmiki[lk].Substring(by, 1)))
+                        {
+                            YurishKimmiki[lk] = YurishKimmiki[lk].Replace(YurishKimmiki[lk].Substring(by, 1), "");
+                        }
                     }
-                }
-            }*/
+                }*/
             if (strlen($uyinchilar) > 0)
             {
-                if ($yurishkimmiki == "") { $yurishkimmiki = "0"; }
-                if ($lkj == 0 && $lkj != $mkjd1 - 1)
+                if($yurishkimmiki == ""){ $yurishkimmiki = "0"; }
+                if ($lkj == $mkjd1 - 1 && strpos($uyinchilar,$index)===false)
                 {
-                    $kijshda3 =  $data .substr($yurishkimmiki,0,1) .str_pad($lk,4,"0",STR_PAD_LEFT);
+                    $db->SEndMEssageToGroup($lk,$uyinchilar,$data .substr($yurishkimmiki,0,1) .str_pad($lk,4,"0",STR_PAD_LEFT));
                 }
-                if ($lkj == $mkjd1 - 1)
-                {
-                    $db->SEndMEssageToGroup($lk,$uyinchilar,$kijshda3.$data .substr($yurishkimmiki,0,1) .str_pad($lk,4,"0",STR_PAD_LEFT));
-                 //   Broadcast(kijshda3+data + YurishKimmiki[lk].Substring(0, 1) + lk.ToString().PadLeft(4, '0'), grop2[lk], lk);
-                }
-                else
-                {
-                    if ($lkj != 0)
-                    {
-                        $kijshda3 = $kijshda3.$data .substr($yurishkimmiki,0,1) .str_pad($lk,4,"0",STR_PAD_LEFT);
-                    }
-                }
-           }
+            }
             if (strlen($uyinchilar) < 2)
             {
-             /*   for (int i = 0; i < ChiqaribYuborish.Count; i++)
-                {
-                    if (ChiqaribYuborish[i].lk1 == lk)
-                    {
-                        if (ChiqaribYuborish[i].Timer.IsRunning)
-                        {
-                            ChiqaribYuborish[i].Timer.Stop();
-                            ChiqaribYuborish[i].Timer.Reset();
-                        }
-                        break;
-                    }
-                }*/
-             /*   int mmksd = KartaniTarqatish.Count;
-                for (int i = 0; i < mmksd; i++)
-                {
-                    if (KartaniTarqatish[i].lk1 == lk)
-                    {
-                        KartaniTarqatish.RemoveAt(i);
-                        break;
-                    }
-                }*/
+                /*   for (int i = 0; i < ChiqaribYuborish.Count; i++)
+                   {
+                       if (ChiqaribYuborish[i].lk1 == lk)
+                       {
+                           if (ChiqaribYuborish[i].Timer.IsRunning)
+                           {
+                               ChiqaribYuborish[i].Timer.Stop();
+                               ChiqaribYuborish[i].Timer.Reset();
+                           }
+                           break;
+                       }
+                   }*/
+                /*   int mmksd = KartaniTarqatish.Count;
+                   for (int i = 0; i < mmksd; i++)
+                   {
+                       if (KartaniTarqatish[i].lk1 == lk)
+                       {
+                           KartaniTarqatish.RemoveAt(i);
+                           break;
+                       }
+                   }*/
                 $db->Setgrop2help($lk,"true");
                 $db->SetKartatarqatildi("false",$lk);
-                 $db->Sethu3(0,$lk);
+                $db->Sethu3(0,$lk);
             }
         }
         return "Zo'r";
