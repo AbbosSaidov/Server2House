@@ -840,8 +840,7 @@ class DbOperation
             $OxirgiZapis=$db->GetOxirgiZapisplar($userGrop,$mk2);
             if(strlen($OxirgiZapis)>68 && strpos($uyinchilar,(string)$i)!==false && strlen($erw)>10 &&
                 time()-(int)substr($erw,10,strlen($erw)-10)>7 /*&& substr($db->GetOxirgiZapisplar($GroupNumber,$mk2),59,10) == substr($erw,0,10)*/){
-                $lk = $GroupNumber;
-                $data21 = "Chiqishde" .(string)$i.str_pad((string)($lk),4,'0',STR_PAD_LEFT);
+                $data21 = "Chiqishde" .(string)$i.str_pad((string)($GroupNumber),4,'0',STR_PAD_LEFT);
                 $db->Chiqishde($data21);
             }else{
                 if(strlen($OxirgiZapis)>68 && strpos($uyinchilar,(string)$i)===false){
@@ -851,9 +850,19 @@ class DbOperation
                     $db->SetTimede2($GroupNumber,$mk,"");
                 }else{
                     if(strlen($OxirgiZapis)>68 && strpos($uyinchilar,(string)$i)!==false&& strlen($erw)<10 ){
-                        $lk = $GroupNumber;
-                        $data21 = "Chiqishde" .(string)$i.str_pad((string)($lk),4,'0',STR_PAD_LEFT);
+                        $data21 = "Chiqishde" .(string)$i.str_pad((string)($GroupNumber),4,'0',STR_PAD_LEFT);
                         $db->Chiqishde($data21);
+                    }else{
+                        if(strlen($OxirgiZapis)>68 && strpos($uyinchilar,(string)$i)!==false && strlen($erw)>10 &&
+                            time()-(int)substr($erw,10,strlen($erw)-10)<7){
+                            $minStavka = TurnLk($GroupNumber);
+                            $yu="OxirgiZapis".(string)$i;
+                            if ((int)substr($db->GetOxirgiZapisplar($GroupNumber,$yu),14, 12) < $minStavka)
+                            {
+                                $data21 = "Chiqishde" .(string)$i.str_pad((string)($GroupNumber),4,'0',STR_PAD_LEFT);
+                                $db->Chiqishde($data21);
+                            }
+                        }
                     }
                 }
             }
@@ -929,6 +938,12 @@ class DbOperation
                     break;
                 }
             }
+            $nk="time".(string)$index;
+            $db->SetTimede($GroupNumber,$nk,str_pad((string)$Id,10,"0",STR_PAD_LEFT).time());
+
+            //   $db->ChekIfOnline($GroupNumber);
+            $rtasd="OxirgiZapis".(string)$index;
+            $db->SetOxirgiZapislar($data.$index,$GroupNumber,$rtasd);
 
             if ($BotOrClient != "false")
             {
@@ -936,12 +951,7 @@ class DbOperation
                 $db->SetPlayers($GroupNumber,$Level,$Id,"person".$PlayersNumber,$index);
             }
             //%%NameByMe\Ism\0001\gruppa\00000001000$\pul\000000000000\yul\00000\level\000000001000\pul\xb0000000000\id\
-            $nk="time".(string)$index;
-            $db->SetTimede($GroupNumber,$nk,str_pad((string)$Id,10,"0",STR_PAD_LEFT).time());
 
-         //   $db->ChekIfOnline($GroupNumber);
-            $rtasd="OxirgiZapis".(string)$index;
-            $db->SetOxirgiZapislar($data.$index,$GroupNumber,$rtasd);
           /*   $minStavka = TurnLk($GroupNumber);
             $gruppdagaiOdamlariSoni=0;
             for ($i = 1; $i < 10; $i++)
