@@ -1,6 +1,6 @@
 <?php
 class DbOperation
-{//Assssdfsdfsdsdfsdfsdfsdfsdfsdf
+{
     private $con;
     function __construct()
     {
