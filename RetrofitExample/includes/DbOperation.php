@@ -919,6 +919,8 @@ class DbOperation
         function uyinchiniGruppgaQushish($PlayersNumber,$GroupNumber,$BotOrClient,$Id,$Level,$Money,$Name,$pul,$yol){
             $db=new DbOperation();
             $index=0;$odamlade=array(5,9);
+            $data = "%%".$Name .str_pad((string)$GroupNumber,4,"0",STR_PAD_LEFT).$pul."$" .$yol
+                .$Level .$Money."xb".$Id;
 
             for($i=0;$i<2;$i++){
                 if ($GroupNumber % 2 == $i)
@@ -933,16 +935,14 @@ class DbOperation
                 $index=substr($uyinchilar,strlen($uyinchilar)-1, 1);
                 $db->SetPlayers($GroupNumber,$Level,$Id,"person".$PlayersNumber,$index);
             }
-            //       NechtasiBorliginiAniqlash($GroupNumber);
-            //       ChiqqanBusaChiqaribYuborish($GroupNumber);
             //%%NameByMe\Ism\0001\gruppa\00000001000$\pul\000000000000\yul\00000\level\000000001000\pul\xb0000000000\id\
             $nk="time".(string)$index;
             $db->SetTimede($GroupNumber,$nk,str_pad((string)$Id,10,"0",STR_PAD_LEFT).time());
-            /*
-            $db->ChekIfOnline($GroupNumber);
+
+         //   $db->ChekIfOnline($GroupNumber);
             $rtasd="OxirgiZapis".(string)$index;
             $db->SetOxirgiZapislar($data.$index,$GroupNumber,$rtasd);
-            $minStavka = TurnLk($GroupNumber);
+          /*   $minStavka = TurnLk($GroupNumber);
             $gruppdagaiOdamlariSoni=0;
             for ($i = 1; $i < 10; $i++)
             {    $yu="OxirgiZapis".(string)$i;
@@ -953,8 +953,7 @@ class DbOperation
             }
             //return
             $db->SetHowmanyPlayers($gruppdagaiOdamlariSoni,$GroupNumber);*/
-            $data = "%%".$Name .str_pad((string)$GroupNumber,4,"0",STR_PAD_LEFT).$pul."$" .$yol
-                .$Level .$Money."xb".$Id;
+
             $kil = "";
             for($i=1;$i<10;$i++){
                 $ty="OxirgiZapis".(string)$i;
