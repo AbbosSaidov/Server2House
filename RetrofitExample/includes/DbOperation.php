@@ -683,22 +683,7 @@ class DbOperation
             }
             $db->SetYurishKimmiki($koo2,$lk);
             $yurishkimmiki=$koo2;
-            /*        if (BotGrouplar[lk].Count + grop2[lk].Count != grop22[lk].Count)
-                 /* {
-                       for ($i = 0; $i < grop2[lk].Count; i++)
-                       {
-                           int mkdsd = BotGrouplar[lk].Count;
-                           for ($l = 0; $l < $mkdsd; $l++)
-                           {
-                               if (grop2[lk][i].indexClient.ToString() == BotGrouplar[lk][l].Index)
-                               {
-                                   BotGrouplar[lk].RemoveAt(l);
-                                   l = l - 1;
-                                   mkdsd = mkdsd - 1;
-                               }
-                           }
-                       }
-                   }*/
+
             if ($db->GetHowmanyPlayers($lk) >= $soni && $db->GetKartatarqatildi($lk) == "false")
             {
                 $db->SetKartatarqatildi("true",$lk);
