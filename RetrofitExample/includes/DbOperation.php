@@ -760,38 +760,38 @@ class DbOperation
         $GroupNumber=$userGrop;
         $uyinchilar=$db->Getuyinchilar($userGrop);
         for($i=1;$i<10;$i++){
-            $mk2="OxirgiZapis".(string)$i;
-            $mk="time".(string)$i;
-            $erw=$db->GetTimede($GroupNumber,$mk);
-            $OxirgiZapis=$db->GetOxirgiZapisplar($userGrop,$mk2);
+
+            $erw=$db->GetTimede($GroupNumber,"time".(string)$i);
+            $OxirgiZapis=$db->GetOxirgiZapisplar($userGrop,"OxirgiZapis".(string)$i);
+            $data21 = "Chiqishde" .(string)$i.str_pad((string)($GroupNumber),4,'0',STR_PAD_LEFT);
+
             if(strlen($OxirgiZapis)>68 && strpos($uyinchilar,(string)$i)!==false && strlen($erw)>10 &&
-                time()-(int)substr($erw,10,strlen($erw)-10)>7 /*&& substr($db->GetOxirgiZapisplar($GroupNumber,$mk2),59,10) == substr($erw,0,10)*/){
-                $data21 = "Chiqishde" .(string)$i.str_pad((string)($GroupNumber),4,'0',STR_PAD_LEFT);
+                time()-(int)substr($erw,10,strlen($erw)-10)>7 /**/&& substr($OxirgiZapis,59,10) == substr($erw,0,10)){
+
                 $db->Chiqishde($data21);
+
             }else{
-                if(strlen($OxirgiZapis)>68 && strpos($uyinchilar,(string)$i)===false){
-                    $db->SetOxirgiZapislar("",$userGrop,$mk2);
+                if(strpos($uyinchilar,(string)$i)===false){
+                    $db->SetOxirgiZapislar("",$userGrop,"OxirgiZapis".(string)$i);
                     $db->DeleteMessages($i,$GroupNumber);
-                    $db->SetTimede($GroupNumber,$mk,"");
-                    $db->SetTimede2($GroupNumber,$mk,"");
+                    $db->SetTimede($GroupNumber,"time".(string)$i,"");
+                    $db->SetTimede2($GroupNumber,"time".(string)$i,"");
                 }else{
                     if(strlen($OxirgiZapis)>68 && strpos($uyinchilar,(string)$i)!==false&& strlen($erw)<10 ){
-                        $data21 = "Chiqishde" .(string)$i.str_pad((string)($GroupNumber),4,'0',STR_PAD_LEFT);
                         $db->Chiqishde($data21);
                     }else{
                         if(strlen($OxirgiZapis)>68 && strpos($uyinchilar,(string)$i)!==false && strlen($erw)>10 &&
                             time()-(int)substr($erw,10,strlen($erw)-10)<7){
                             $minStavka = TurnLk($GroupNumber);
-                            $yu="OxirgiZapis".(string)$i;
-                            if ((int)substr($db->GetOxirgiZapisplar($GroupNumber,$yu),14, 12) < $minStavka)
+                            if ((int)substr($OxirgiZapis,14, 12) < $minStavka)
                             {
-                                $data21 = "Chiqishde" .(string)$i.str_pad((string)($GroupNumber),4,'0',STR_PAD_LEFT);
                                 $db->Chiqishde($data21);
                             }
                         }
                     }
                 }
             }
+
         }
     }
     //methoda uyinga kirish unchun
@@ -814,7 +814,7 @@ class DbOperation
             $odamlade=array(5,9);
             $minSatck = TurnLk($lk);
             $db=new DbOperation();
-            $rtwq=str_replace(substr($data.$index.$ass3,69,1),"",$uyinchilar);
+            $rtwq=str_replace((string)$index,"",$uyinchilar);
             $db->SetError("Usha=".$rtwq,$lk);
             $db->SEndMEssageToGroup($lk,$rtwq ,$data.$index.$ass3);
 
@@ -851,26 +851,19 @@ class DbOperation
             }
             return $m;
         }
-        function uyinchiniGruppgaQushish($PlayersNumber,$GroupNumber,$BotOrClient,$Id,$Level,$Money,$Name,$pul,$yol){
+        function uyinchiniGruppgaQushish($PlayersNumber,$GroupNumber,$BotOrClient,$Id,$Level,$Money,$Name,$pul,$yol,$uyinchilar){
             $db=new DbOperation();
-            $index=0;$odamlade=array(5,9);
+
+            $index=(int)substr($uyinchilar,0,1);
 
             $data = "%%".$Name .str_pad((string)$GroupNumber,4,"0",STR_PAD_LEFT).$pul."$" .$yol
                 .$Level .$Money."xb".$Id;
 
-            for($i=0;$i<2;$i++){
-                if ($GroupNumber % 2 == $i)
-                {
-                    $uyinchilar =  uyinchilarade2($GroupNumber,$odamlade[$i]);
-                    break;
-                }
-            }
-            $nk="time".(string)$index;
-            $db->SetTimede($GroupNumber,$nk,str_pad((string)$Id,10,"0",STR_PAD_LEFT).time());
 
-            //   $db->ChekIfOnline($GroupNumber);
-            $rtasd="OxirgiZapis".(string)$index;
-            $db->SetOxirgiZapislar($data.$index,$GroupNumber,$rtasd);
+            $db->SetTimede($GroupNumber,"time".(string)$index,str_pad((string)$Id,10,"0",STR_PAD_LEFT).time());
+
+
+            $db->SetOxirgiZapislar($data.$index,$GroupNumber,"OxirgiZapis".(string)$index);
 
             if ($BotOrClient != "false")
             {
@@ -882,8 +875,9 @@ class DbOperation
             $kil = "";
             for($i=1;$i<10;$i++){
                 $ty="OxirgiZapis".(string)$i;
-                if($db->GetOxirgiZapisplar($GroupNumber,$ty) != "" && $index!=$i)
-                { $kil = $kil.$db->GetOxirgiZapisplar($GroupNumber,$ty); }
+                $oxirgide=$db->GetOxirgiZapisplar($GroupNumber,$ty);
+                if($oxirgide != "" && $index!=$i)
+                { $kil = $kil.$oxirgide; }
             }
             // GruppadagiAktivOdamlarSoni[Maindata.GroupNumber] = GruppadagiAktivOdamlarSoni[Maindata.GroupNumber] + 1;
             return PlayerdaKartaniTarqatish($data, $kil, $GroupNumber,$index,$PlayersNumber,$uyinchilar);
@@ -913,9 +907,9 @@ class DbOperation
 
         $rewrwr="Ushade";
 
-         $ki=$GroupNumber;
         $odamlade=array(5,9);
-         $playersNumber=0;
+        $Pullar=array(100,500,2000,10000,40000,200000,1000000,10000000,100000000,200000000,400000000,1000000000,2000000000);
+        $Gruplar=array(0,100,200,300,400,500,600,700,800,900,1000,1100,1200);
 
         for($i=1;$i<10;$i++){
             $rt="OxirgiZapis".(string)$i;
@@ -927,81 +921,50 @@ class DbOperation
                 }
             }
         }
+
+        $Ifgruplar=array(3300,2100,2,0);
+
         if($trwe){
-            if ($GroupNumber > 2100)
-            {
-                for($i = 0; $i < 100; $i = $i + 2)
-                {
-                    $db->Creategrop2help($GroupNumber+ $i,"true");
-                    $db->ChekIfOnline($GroupNumber+ $i);
+               for($k=0;$k<2;$k++){
+                   for($i=0;$i<4;$i=$i+2){
+                       if($k*$GroupNumber<$Ifgruplar[$i] &&$GroupNumber>$k*$Ifgruplar[$i+1]){
+                           for($i1 = $i; $i1 < 100; $i1 = $i1 + 2){
+                               for($i2=0;$i2<($i/2)+1;$i2++){
+                                   for($t=0;$t<($i/2)*12+1;$t++){
 
-                    if ($db->Getgrop2help($GroupNumber + $i))
-                    {
-                        $GroupNumber = $GroupNumber + $i;
-                            for($i3=0;$i3<2;$i++){
-                                if($GroupNumber%2==$i3){
-                                    $playersNumber=$db->GetHowmanyPlayers($GroupNumber)+1;
-                                    if($playersNumber>=$odamlade[$i3]){
-                                        $db->Setgrop2help($GroupNumber,"false");
-                                        $db->SetHowmanyPlayers($playersNumber,$GroupNumber);
-                                        $i3=2;
-                                    }
-                                }
-                            }
-                        break;
-                    }
-                }
+                                       $grup=$k*($i1 +($Gruplar[$t]+$i2)*($i/2))+$GroupNumber-$k*($i/2);
+
+
+                                       $db->Creategrop2help($grup,"true");
+                                       $db->ChekIfOnline($grup);
+                                       $playersNumber=$db->GetHowmanyPlayers($grup);
+
+                                       if($db->Getgrop2help($grup)=="true"&&
+                                           ($i/2)*(int)$pul==($i/2)*$Pullar[$t] && ($i/2)*$playersNumber < $odamlade[$i2] )
+                                       {
+                                           $GroupNumber = $grup;  $t=13;$i2=2;$i1=100;$i=4;$k=2;
+
+                                           for($i3=0;$i3<2;$i3++){
+                                               if($GroupNumber%2==$i3){
+                                                   $playersNumber=$playersNumber+1;
+                                                   if(($i/2)*$playersNumber>=$odamlade[$i3]){
+                                                       $db->Setgrop2help($GroupNumber,"false");
+                                                       $i3=2;
+                                                   }
+                                                   $db->SetHowmanyPlayers($playersNumber,$GroupNumber);
+                                                   $uyinchilar =  uyinchilarade2($GroupNumber,$odamlade[$i]);
+                                                   $rewrwr=uyinchiniGruppgaQushish($playersNumber,$GroupNumber,$BotOrClient,$Id,$Level,$Money,$Name,$pul,$yol,$uyinchilar);
+                                               }
+                                           }
+                                       }
+
+                                   }
+                               }
+                           }
+                       }
+                   }
+               }
             }
-            else
-            {
-                if ($ki==1)
-                {
-                    $Pullar=array(100,500,2000,10000,40000,200000,1000000,10000000,100000000,200000000,400000000,1000000000,2000000000);
-                    $Gruplar=array(0,100,200,300,400,500,600,700,800,900,1000,1100,1200);
-
-                    for($i = 2; $i < 100; $i=$i+2)
-                    {   for($i2=0;$i2<2;$i2++){
-                            for($t=0;$t<13;$t++){
-
-                                $db->Creategrop2help($i +$Gruplar[$t]+$i2,"true");
-                                $db->ChekIfOnline($i +$Gruplar[$t]+$i2);
-
-                                if((int)$pul==$Pullar[$t] && $db->GetHowmanyPlayers($i +$Gruplar[$t]+$i2) < $odamlade[$i2] ){
-
-                                    $GroupNumber = $i+$Gruplar[$t]+$i2;  $t=13;$i2=2;$i=100;
-
-                                    for($i3=0;$i3<2;$i++){
-                                        if($GroupNumber%2==$i3){
-                                            $playersNumber=$db->GetHowmanyPlayers($GroupNumber)+1;
-                                            if($playersNumber>=$odamlade[$i3]){
-
-                                                $db->SetHowmanyPlayers($playersNumber,$GroupNumber);
-                                                $i3=2;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-
-
-                if ($GroupNumber > 2100)
-                {
-                    if ($db->Getgrop2help($GroupNumber)=="true")
-                    {
-                        $rewrwr=uyinchiniGruppgaQushish($playersNumber,$GroupNumber,$BotOrClient,$Id,$Level,$Money,$Name,$pul,$yol);
-                    }
-                }
-                else
-                {
-                    $rewrwr=uyinchiniGruppgaQushish($playersNumber,$GroupNumber,$BotOrClient,$Id,$Level,$Money,$Name,$pul,$yol);
-                }
-            }
-
         return $rewrwr;
     }
     //messajji olish ucnde
