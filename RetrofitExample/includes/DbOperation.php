@@ -1523,7 +1523,7 @@ class DbOperation
                 $Pas = "false";
             }
             //return " As".$keraklide;
-            if ( strlen($yurishkimmiki)>1 && (string)$Index == substr($yurishkimmiki,0,1) && $kartaTarqatildi=="true")
+            if (strlen($yurishkimmiki)>1 && (string)$Index == substr($yurishkimmiki,0,1) && $kartaTarqatildi=="true")
             {
                 $lk = $GroupNumber;
                 $a =substr($yurishkimmiki,0,1);  $b = substr($yurishkimmiki,1,strlen($yurishkimmiki)-1);
@@ -1553,74 +1553,58 @@ class DbOperation
                     $db->SetHuy(strlen($yurishkimmiki)-1,$lk);
                     $huy=strlen($yurishkimmiki)-1;
                 }
-                if ($keraklide >= $huy)
-                {
-                    for ($i = 0; $i < strlen($yurishkimmiki)-1; $i++)
-                    {
-                        $tikilgsnpul="TikilganPullar".substr($yurishkimmiki,$i+1,1);
-                        $OxirgiZapis="OxirgiZapis".substr($yurishkimmiki,$i+1,1);
-                        $db->SetTikilganPullar($tikilgsnpul,(int)$db->GetTikilganPullar($lk,$tikilgsnpul)+(int)substr($db->GetOxirgiZapisplar($lk,$OxirgiZapis),27,12),$lk);
-                    }
-                    $db->SetHuy(strlen($yurishkimmiki)-1,$lk);
-                    $huy=strlen($yurishkimmiki)-1;
-                    $hu3=$db->Gethu3($lk)+1;
-                    $db->Sethu3($hu3,$lk);
-                    // XammaKartalar[lk] = cards[n[0]] + cards[n[1]] + cards[n[2]] + cards[n[3]] + cards[n[4]];
-                    //1000000000990000000000010$^200017&
 
-                    if ($Pas=="false")
-                    {
-                        $data = $Index.str_pad($pul,12,"0",STR_PAD_LEFT) .str_pad($yol,12,"0",STR_PAD_LEFT)."$^" .$keraklide.$mik .$db->GetXAmmakartalar($lk);
-                    }
-                    else
-                    {
-                        $data = $Index.str_pad($pul,12,"0",STR_PAD_LEFT) .str_pad($yol,12,"0",STR_PAD_LEFT)."$^" .$keraklide. "&".$mik .$db->GetXAmmakartalar($lk);
-                    }
-                    if ($yurishkimmiki == ""){$yurishkimmiki = "0"; }
-                    $db->SEndMEssageToGroup($lk,$uyinchilar,$data.$huy.substr($yurishkimmiki,0,1).str_pad($lk,4,"0",STR_PAD_LEFT));
-                    if ($hu3 == 4)
-                    {
-                        for ($i = 1; $i < 10; $i++)
-                        {
-                            $javboblede="Javoblade".(string)$i;
-                            $db->SetJavoblade($javboblede,"",$lk);
-                        }
-                        $db->Sethu3(0,$lk);
-                        Javobit($lk);
-                    }
-                    if ($Pas=="true")
-                    {
-                        if ($huy == 2 || strlen($yurishkimmiki) == 3) { $db->Sethu3(0,$lk); Pas($lk); }
-                        $yurishkimmiki=str_replace((string)$Index,"",$yurishkimmiki);
-                        $db->SetYurishKimmiki($yurishkimmiki,$lk);
-                    }
-                }
-                else
-                {
-                    $pasde=array("true","&","false",(string)$huy);
+
+                    $pasde=array("true",(string)$huy."&","false",(string)$huy.(string)$huy);
 
                     for($i=0;$i<2;$i++){
                         if($Pas==$pasde[$i*2]){
+
                          if($pasde[$i*2]=="true"){
                              if (strlen($yurishkimmiki) < 4)
                              {
                                  $db->SetHuy(strlen($yurishkimmiki)-1,$lk);
-                                 $huy=strlen($yurishkimmiki)-1;$pasde[3]=$huy;
+                                 $huy=strlen($yurishkimmiki)-1;$pasde[3]=(string)$huy.(string)$huy;
                              }
                              $yurishkimmiki=str_replace((string)$Index,"",$yurishkimmiki);
                              $db->SetYurishKimmiki($yurishkimmiki,$lk);
                          }
 
+                         if($keraklide >= $huy){
+                             for ($i = 0; $i < strlen($yurishkimmiki)-1; $i++)
+                             {
+                                 $tikilgsnpul="TikilganPullar".substr($yurishkimmiki,$i+1,1);
+                                 $OxirgiZapis="OxirgiZapis".substr($yurishkimmiki,$i+1,1);
+                                 $db->SetTikilganPullar($tikilgsnpul,(int)$db->GetTikilganPullar($lk,$tikilgsnpul)+(int)substr($db->GetOxirgiZapisplar($lk,$OxirgiZapis),27,12),$lk);
+                             }
+                             $db->SetHuy(strlen($yurishkimmiki)-1,$lk);
+                             $huy=strlen($yurishkimmiki)-1;
+                             $hu3=$db->Gethu3($lk)+1;
+                             $db->Sethu3($hu3,$lk);
+                             $pasde[$i*2+1]=$db->GetXAmmakartalar($lk).$huy;
+                         }
+
+
                             if($yurishkimmiki==""){$yurishkimmiki="0";}
-                            $data = $Index.str_pad($pul,12,"0",STR_PAD_LEFT).str_pad($yol,12,"0",STR_PAD_LEFT)."$^" .$keraklide.$mik .$huy.$pasde[$i*2+1];
+                            $data = $Index.str_pad($pul,12,"0",STR_PAD_LEFT).str_pad($yol,12,"0",STR_PAD_LEFT)."$^" .$keraklide.$mik .$pasde[$i*2+1];
                             $db->SEndMEssageToGroup($lk,$uyinchilar,$data.substr($yurishkimmiki,0,1).str_pad($lk,4,"0",STR_PAD_LEFT));
-                            if ($pasde[$i*2]=="true"&&($huy == 2 || strlen($yurishkimmiki) == 3)) {$db->Sethu3(0,$lk); Pas($lk);  }
+
+
+                            if ($keraklide >= $huy && $hu3 == 4)
+                            {
+                                for ($i = 1; $i < 10; $i++)
+                                {
+                                    $javboblede="Javoblade".(string)$i;
+                                    $db->SetJavoblade($javboblede,"",$lk);
+                                }
+                                $db->Sethu3(0,$lk);
+                                Javobit($lk);
+                            }
+
+                            if ($pasde[$i*2]=="true"&&($huy == 2 || strlen($yurishkimmiki) == 2)) {$db->Sethu3(0,$lk); Pas($lk);  }
 
                             break;
                         }
-                    }
-
-
                 }
             }
         }
