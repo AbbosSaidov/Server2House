@@ -172,9 +172,9 @@ class DbOperation
         $stmt2->store_result();
     }
     function Creategrop2help($lk,$value){
-        $stmt =$this->con->prepare("INSERT IGNORE INTO  groups (grop2help,NumberOfGroup,Kartatarqatildi,PlayersInfo) VALUES(?,?,?,?)");
-        $as="false";$as1="true1";
-        $stmt->bind_param("siss",$value,$lk,$as,$as1);
+        $stmt =$this->con->prepare("INSERT IGNORE INTO  groups (grop2help,NumberOfGroup,Kartatarqatildi) VALUES(?,?,?)");
+        $as="false";
+        $stmt->bind_param("sis",$value,$lk,$as);
         $stmt->execute();
         $stmt =$this->con->prepare("INSERT IGNORE INTO  tikilganpullar (GroupNumber) VALUES(?)");
         $stmt->bind_param("i",$lk);
@@ -750,6 +750,8 @@ class DbOperation
                 $db->SetHuy($totti,$lk);
 
                 $db->SetKartatarqatildi("true",$lk);
+                $db->SetError("3 =Chiqishde = ".substr($yurishkimmiki,0,1),$lk);
+
                 $db->SetTimede2($lk,"time".substr($yurishkimmiki,0,1),(string)time());
                 $db->Setkimmiyurishi(substr($yurishkimmiki,0,1)."true",$lk);
 
@@ -814,6 +816,7 @@ class DbOperation
                     $db->SetOxirgiZapislar("",$userGrop,"OxirgiZapis".(string)$i);
                     $db->DeleteMessages($i,$GroupNumber,0);
                     $db->SetTimede($GroupNumber,"time".(string)$i,"");
+                    $db->SetError("2 =Chiqishde = ".$i,$GroupNumber);
                     $db->SetTimede2($GroupNumber,"time".(string)$i,"");
                 }else{
                     if(strlen($OxirgiZapis)>68 && strpos($uyinchilar,(string)$i)!==false&& strlen($erw)<10 ){
@@ -963,8 +966,8 @@ class DbOperation
                                     }
                                     $grup=$k*($i1 +($Gruplar[$t]+$i2)*($i/2))+$GroupNumber-$k*($i/2);
                                     $db->Creategrop2help($grup,"true");
-                                    $tr=false;
-                                    for($l=0;$l<9;$l++){
+                                    $tr="false";
+                                    for($l=0;$l<11;$l++){
                                         $ochered=$db->getOchered($grup);
                                         $db->SetError($l." id=".$Id." size=".sizeof($ochered),$grup);
                                         if(sizeof($ochered)>0){
@@ -972,7 +975,7 @@ class DbOperation
                                         }
                                         if($l==0){
                                             if(sizeof($ochered)>5){
-                                                $i2=2;$tr=true;
+                                                $i2=2;$tr="true";
                                                 break;
                                             }else{
                                                 $db->setOchered($Id,$grup);
@@ -981,15 +984,15 @@ class DbOperation
                                             sleep(1);
                                         }
                                         if(sizeof($ochered)>0&&$ochered[0]==$Id){
-                                            $l=9;
+                                            $l=12;
                                         }
                                         if($l==8){
-                                            $i2=2; $tr=true;
+                                            $i2=2;$t=33; $tr="true";
                                             break;
                                         }
                                     }
-
-                                    if($tr==false){ $db->ChekIfOnline($grup);
+                                    $db->SetError(" id=".$Id." tr=".$tr,$grup);
+                                    if($tr=="false"){ $db->ChekIfOnline($grup);
 
                                         $playersNumber=$db->GetHowmanyPlayers($grup);
                                         if($db->Getgrop2help($grup)=="true"&&
@@ -1729,11 +1732,13 @@ class DbOperation
                             }
                         }
                     }
+
                     $db->SetYurishKimmiki(str_replace($index,"" ,$yurishkimmiki),$lk);
                     $yurishkimmiki=str_replace($index,"" ,$yurishkimmiki);
-
-                    $db->Setkimmiyurishi(substr($yurishkimmiki,0,1)."true",$lk);
-                    $db->SetTimede2($lk,"time".substr($yurishkimmiki,0,1),(string)time());
+                    if($yurishkimmiki == ""){ $yurishkimmiki = "0"; }else{
+                        $db->SetTimede2($lk,"time".substr($yurishkimmiki,0,1),(string)time());
+                        $db->Setkimmiyurishi(substr($yurishkimmiki,0,1)."true",$lk);
+                    }
                 }
             }
             else
