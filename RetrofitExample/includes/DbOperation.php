@@ -205,17 +205,17 @@ class DbOperation
         $stmt->bind_param("si",$data,$GroupNumber);
         $stmt->execute();
     }
-    function GetPlayersInfo($GroupNumber ){
-        $stmt2=$this->con->prepare("SELECT PlayersInfo FROM groups WHERE NumberOfGroup=?");
+    function Getkimmiyurishi($GroupNumber ){
+        $stmt2=$this->con->prepare("SELECT kimmiyurishi FROM timede2 WHERE groupnumber=?");
         $stmt2->bind_param("i",$GroupNumber);
         $stmt2->execute();
         $stmt2->bind_result($GroupNumber);
         $stmt2->fetch();
         return $GroupNumber;
     }
-    function SetPlayersInfo($PlayersInfo,$GroupNumber){
-        $stmt =$this->con->prepare("UPDATE groups SET PlayersInfo = ? WHERE NumberOfGroup =?");
-        $stmt->bind_param("si",$PlayersInfo,$GroupNumber);
+    function Setkimmiyurishi($kimmiyurishi,$GroupNumber){
+        $stmt =$this->con->prepare("UPDATE timede2 SET kimmiyurishi = ? WHERE groupnumber =?");
+        $stmt->bind_param("si",$kimmiyurishi,$GroupNumber);
         $stmt->execute();
     }
     function SetPlayers($GroupNumber,$Level,$Id,$ki,$re){
@@ -236,9 +236,41 @@ class DbOperation
         $stmt2->fetch();
         return $ki1;
     }
+    function GetTimede2($GroupNumber,$timede){
+        $stmt2=$this->con->prepare("SELECT $timede FROM timede2 WHERE GroupNumber=?");
+        $stmt2->bind_param("i",$GroupNumber);
+        $stmt2->execute();
+        $stmt2->bind_result($ki1);
+        $stmt2->fetch();
+        return $ki1;
+    }
     function SetTimede2($GroupNumber,$timede2,$time){
         $stmt =$this->con->prepare("UPDATE timede2 SET $timede2 = ? WHERE GroupNumber =?");
         $stmt->bind_param("si",$time,$GroupNumber);
+        $stmt->execute();
+    }
+    function getOchered($userGrop)
+    {
+        $stmt = $this->con->prepare("SELECT idPlayer FROM ochered WHERE groupnumber = ? ");
+        $stmt->bind_param("i", $userGrop);
+        $stmt->execute();
+        $stmt->bind_result($ochered);
+        $oche=array();$m=0;
+        while($stmt->fetch()){
+          $oche[$m]=$ochered;
+          $m++;
+        }
+        return $oche;
+    }
+    function SetOchered($userId,$userGrop){
+        $stmt =$this->con->prepare("INSERT INTO  ochered(groupnumber, idPlayer) VALUES (?,?) ");
+        $stmt->bind_param("is",$userGrop,$userId);
+        $stmt->execute();
+    }
+    function DeleteOchered($userGrop,$id){
+        $sql="DELETE FROM ochered WHERE groupnumber = ? AND idPlayer=? ";
+        $stmt = $this->con->prepare($sql);
+        $stmt->bind_param("is", $userGrop,$id);
         $stmt->execute();
     }
     function combinatsiya()
@@ -658,7 +690,6 @@ class DbOperation
             $dssad = 0;
             $ttt4 = "";
             $uyinchilar=$db->Getuyinchilar($lk);
-
             for ($i=1;$i<10;$i++){
                 $jie="OxirgiZapis".(string)$i;
                 if((int)substr($db->GetOxirgiZapisplar($lk,$jie),14,12)+(int)substr($db->GetOxirgiZapisplar($lk,$jie),27,12)>=$minSatck &&
@@ -686,7 +717,6 @@ class DbOperation
                 {
                     $gd = $gd - 9;
                 }
-
                 if (strpos($koo2, (string)$gd) !== false)
                 {
                     $koo2=(string)$gd.(string)$koo2;
@@ -696,10 +726,8 @@ class DbOperation
             }
             $db->SetYurishKimmiki($koo2,$lk);
             $yurishkimmiki=$koo2;
-
             if ($db->GetHowmanyPlayers($lk) >= $soni && $db->GetKartatarqatildi($lk) == "false")
             {
-                $db->SetKartatarqatildi("true",$lk);
                 for($i=1;$i<10;$i++){
                     $db->SetTikilganPullar("Tikilganpullar".(string)$i,"0",$lk);
                 }
@@ -717,15 +745,21 @@ class DbOperation
                         break;
                     }
                 }
+
                 $totti = strlen($yurishkimmiki)-1;
                 $db->SetHuy($totti,$lk);
+
+                $db->SetKartatarqatildi("true",$lk);
+                $db->SetTimede2($lk,"time".substr($yurishkimmiki,0,1),(string)time());
+                $db->Setkimmiyurishi(substr($yurishkimmiki,0,1)."true",$lk);
+
+
                 for ($m = 0; $m < $totti; $m++)
                 {
                     $message=$cards[$n[0][$m * 2]].$cards[$n[0][$m * 2 + 1]].substr($yurishkimmiki,0,1).
                         str_pad((string)($minSatck / 2),12,'0',STR_PAD_LEFT)."!". str_pad((string)($minSatck ),12,'0',STR_PAD_LEFT).
                         $uyinchilar .substr($yurishkimmiki,$m+1,1) .str_pad((string)($lk),4,'0',STR_PAD_LEFT);
                     $db->SEndMEssage($lk,substr($uyinchilar,$m,1),$message);
-
                 }
             }
         }
@@ -761,10 +795,7 @@ class DbOperation
         {
             return("Jiklo".str_pad($ki,10,"0",STR_PAD_LEFT));
         }
-        else
-        {
-            //     OnIncomBot("Jiklo" + ki.ToString().PadLeft(10, '0'), int.Parse(MainData.BotlistNumber));
-        }
+
         return true;
     }
     //Chekifonline
@@ -773,19 +804,15 @@ class DbOperation
         $GroupNumber=$userGrop;
         $uyinchilar=$db->Getuyinchilar($userGrop);
         for($i=1;$i<10;$i++){
-
             $erw=$db->GetTimede($GroupNumber,"time".(string)$i);
             $OxirgiZapis=$db->GetOxirgiZapisplar($userGrop,"OxirgiZapis".(string)$i);
             $data21 = "Chiqishde" .(string)$i.str_pad((string)($GroupNumber),4,'0',STR_PAD_LEFT);
-
-            if( strpos($uyinchilar,(string)$i)!==false && strlen($erw)>10 && time()-(int)substr($erw,10,strlen($erw)-10)>7 ){
-
+            if(strpos($uyinchilar,(string)$i)!==false && strlen($erw)>10 && time()-(int)substr($erw,10,strlen($erw)-10)>7 ){
                 $db->Chiqishde($data21);
-
             }else{
                 if(strpos($uyinchilar,(string)$i)===false){
                     $db->SetOxirgiZapislar("",$userGrop,"OxirgiZapis".(string)$i);
-                    $db->DeleteMessages($i,$GroupNumber);
+                    $db->DeleteMessages($i,$GroupNumber,0);
                     $db->SetTimede($GroupNumber,"time".(string)$i,"");
                     $db->SetTimede2($GroupNumber,"time".(string)$i,"");
                 }else{
@@ -799,11 +826,14 @@ class DbOperation
                             {
                                 $db->Chiqishde($data21);
                             }
+                        }else{
+                            if(strpos($uyinchilar,(string)$i)!==false &&(strlen($OxirgiZapis)<68 || strlen($erw)<10) ){
+                                $db->Chiqishde($data21);
+                            }
                         }
                     }
                 }
             }
-
         }
     }
     //methoda uyinga kirish unchun
@@ -813,7 +843,6 @@ class DbOperation
             $ui="";$indexlar=array("1","3","5","7","9","2","4","6","8");
             $db=new DbOperation();
             $st=$db->Getuyinchilar($son);
-
             for($i=0;$i<$nechtaligi;$i++){
                 if(strpos($st, $indexlar[$i]) === false){
                     $db->SetUyinchilar($st.$indexlar[$i],$son);$ui=$st.$indexlar[$i]; break;
@@ -829,8 +858,6 @@ class DbOperation
             $rtwq=str_replace((string)$index,"",$uyinchilar);
             $db->SetError("Usha=".$rtwq." uyinchilar=".$uyinchilar,$lk);
             $db->SEndMEssageToGroup($lk,$rtwq ,$data.$index.$ass3);
-
-
             if ($sonide >= 2 && $lk <= 2100 )
             {
                 $db->YurishAsosiy($lk, $minSatck, 2);
@@ -855,7 +882,6 @@ class DbOperation
                 10000000,200000000,500000000,1000000000,500000,1000000,2000000,10000000,
                 200000000,500000000,1000000000,20,20,20,20,20,20,20,20,20,20,20);
             //lobbi
-
             for($i=0;$i<32;$i++){
                 if($lk>$i*100){
                     $m = $kllar[$i];
@@ -868,19 +894,12 @@ class DbOperation
             $index=(int)substr($uyinchilar,strlen($uyinchilar)-1,1);
             $data = "%%".$Name .str_pad((string)$GroupNumber,4,"0",STR_PAD_LEFT).$pul."$" .$yol
                 .$Level .$Money."xb".$Id;
-
-
             $db->SetTimede($GroupNumber,"time".(string)$index,str_pad((string)$Id,10,"0",STR_PAD_LEFT).time());
-
-
             $db->SetOxirgiZapislar($data.$index,$GroupNumber,"OxirgiZapis".(string)$index);
-
             if ($BotOrClient != "false")
             {
                 $db->SetPlayers($GroupNumber,$Level,$Id,"person".$PlayersNumber,$index);
             }
-
-
             $kil = "";
             for($i=1;$i<10;$i++){
                 $ty="OxirgiZapis".(string)$i;
@@ -913,13 +932,10 @@ class DbOperation
         }
         $trwe=true;
         $db= new DbOperation();
-
         $rewrwr="Ushade";
-
         $odamlade=array(5,9);
         $Pullar=array(100,500,2000,10000,40000,200000,1000000,10000000,100000000,200000000,400000000,1000000000,2000000000);
         $Gruplar=array(0,100,200,300,400,500,600,700,800,900,1000,1100,1200);
-
         for($i=1;$i<10;$i++){
             $rt="OxirgiZapis".(string)$i;
             $te=$db->GetOxirgiZapisplar($GroupNumber,$rt);
@@ -930,10 +946,8 @@ class DbOperation
                 }
             }
         }
-
         $Ifgruplar=array(3300,2100,2,0);
         $Ifgruplar2=array(1,0);
-
         if($trwe){
             for($k=0;$k<2;$k++){
                 for($i=0;$i<4;$i=$i+2){
@@ -941,57 +955,66 @@ class DbOperation
                         for($i1 = $i; $i1 < 100; $i1 = $i1 + 2){
                             for($i2=0;$i2<($i/2)+1;$i2++){
                                 for($t=0;$t<($i/2)*12+1;$t++){
-
                                     for($m=0;$m<13;$m++){
                                         if((int)$pul==$Pullar[$m]){
                                             $t=$m;
                                             $m=13;
                                         }
                                     }
-
-
                                     $grup=$k*($i1 +($Gruplar[$t]+$i2)*($i/2))+$GroupNumber-$k*($i/2);
-
                                     $db->Creategrop2help($grup,"true");
-
-
-
+                                    $tr=false;
                                     for($l=0;$l<9;$l++){
-                                        $playersInfo=$db->GetPlayersInfo($grup);
-                                        if($playersInfo=="false1"){
-                                            sleep(1);
+                                        $ochered=$db->getOchered($grup);
+                                        $db->SetError($l." id=".$Id." size=".sizeof($ochered),$grup);
+                                        if(sizeof($ochered)>0){
+                                            $db->SetError($l." ochered=".$ochered[0],$grup);
+                                        }
+                                        if($l==0){
+                                            if(sizeof($ochered)>5){
+                                                $i2=2;$tr=true;
+                                                break;
+                                            }else{
+                                                $db->setOchered($Id,$grup);
+                                            }
                                         }else{
+                                            sleep(1);
+                                        }
+                                        if(sizeof($ochered)>0&&$ochered[0]==$Id){
                                             $l=9;
+                                        }
+                                        if($l==8){
+                                            $i2=2; $tr=true;
+                                            break;
                                         }
                                     }
 
-                                    $db->SetPlayersInfo("false1",$grup);
+                                    if($tr==false){ $db->ChekIfOnline($grup);
 
-                                    $db->ChekIfOnline($grup);
-                                    $playersNumber=$db->GetHowmanyPlayers($grup);
-
-                                    if($db->Getgrop2help($grup)=="true"&&
-                                        ($i/2)*(int)$pul==($i/2)*$Pullar[$t] && $playersNumber < $odamlade[$i2] )
-                                    {
-                                        $GroupNumber = $grup;  $t=33;$i2=2;$i1=100;$i=4;$k=2;
-
-                                        for($i3=0;$i3<2;$i3++){
-                                            if($GroupNumber%2==$i3){
-                                                $playersNumber=$playersNumber+1;
-                                                if($GroupNumber<3300 &&$GroupNumber>2100&&$playersNumber>=$odamlade[$i3]){
-                                                    $db->Setgrop2help($GroupNumber,"false");
-
+                                        $playersNumber=$db->GetHowmanyPlayers($grup);
+                                        if($db->Getgrop2help($grup)=="true"&&
+                                            ($i/2)*(int)$pul==($i/2)*$Pullar[$t] && $playersNumber < $odamlade[$i2] )
+                                        {
+                                            $GroupNumber = $grup;  $t=33;$i2=2;$i1=100;$i=4;$k=2;
+                                            for($i3=0;$i3<2;$i3++){
+                                                if($GroupNumber%2==$i3){
+                                                    $playersNumber=$playersNumber+1;
+                                                    if($GroupNumber<3300 &&$GroupNumber>2100&&$playersNumber>=$odamlade[$i3]){
+                                                        $db->Setgrop2help($GroupNumber,"false");
+                                                    }
+                                                    $db->SetHowmanyPlayers($playersNumber,$GroupNumber);
+                                                    $uyinchilar =  uyinchilarade2($GroupNumber,$odamlade[$i3]);
+                                                    $db->SetError("uyinchilar=".$uyinchilar,$GroupNumber);
+                                                    $rewrwr=uyinchiniGruppgaQushish($playersNumber,$GroupNumber,$BotOrClient,$Id,$Level,$Money,$Name,$pul,$yol,$uyinchilar);
+                                                    $i3=2;
                                                 }
-                                                $db->SetHowmanyPlayers($playersNumber,$GroupNumber);
-                                                $uyinchilar =  uyinchilarade2($GroupNumber,$odamlade[$i3]);
-                                                $db->SetError("uyinchilar=".$uyinchilar,$GroupNumber);
-                                                $rewrwr=uyinchiniGruppgaQushish($playersNumber,$GroupNumber,$BotOrClient,$Id,$Level,$Money,$Name,$pul,$yol,$uyinchilar);
-                                                $i3=2;
                                             }
                                         }
                                     }
-                                    $db->SetPlayersInfo("true1",$grup);
+
+                                   $db->DeleteOchered($grup,$Id);
                                 }
+
                             }
                         }
                     }
@@ -1001,31 +1024,63 @@ class DbOperation
         return $rewrwr;
     }
     //messajji olish ucnde
+
     function getMessages($userindex,$userGrop)
     {
         $data="";
+        $id="";
         $db= new DbOperation();
         $mk="time".(string)$userindex;
         $erw=$db->GetTimede($userGrop,$mk);
         $db->SetTimede($userGrop,"time".(string)$userindex,substr($erw,0,10).time());
-        $stmt = $this->con->prepare("SELECT message FROM messages WHERE gropnumber = ? AND indexq=?");
+        $stmt = $this->con->prepare("SELECT message,id FROM messages WHERE gropnumber = ? AND indexq=?");
         $stmt->bind_param("ii", $userGrop,$userindex);
         $stmt->execute();
-        $stmt->bind_result($data);
+        $stmt->bind_result($data,$id);
         $messages = array();
         while($stmt->fetch()){
             $temp = array();
             $temp['data'] = $data;
             $db=new DbOperation();
-            $db->SetError($data." index=".$userindex,$userGrop);
+            $db->SetError($data." index=".$userindex." id=".$id,$userGrop);
             array_push($messages, $temp);
+            $db->DeleteMessages($userindex,$userGrop,(int)$id);
         }
-        $db->DeleteMessages($userindex,$userGrop);
+        $asd=$db->GetKartatarqatildi($userGrop);
+
+        if($asd=="true"){
+
+            $nmadr=$db->Getkimmiyurishi($userGrop);
+            //    $db->SetError("asd ".$nmadr,$userGrop);
+            if(strlen($nmadr)>4 && substr($nmadr,1,4)=="true"){
+                $index=substr($nmadr,0,1);
+
+
+                $timede2=$db->GetTimede2($userGrop,"time".$index);
+                //     $db->SetError("asd2 ".$timede2,$userGrop);
+                if(time()-(int)$timede2>28){
+                    $db->SetError("asd3 ".$timede2." ".time(),$userGrop);
+
+                    $data21 = "Chiqishde".$index.str_pad((string)($userGrop),4,'0',STR_PAD_LEFT);
+                    $db->Chiqishde($data21);
+                }
+            }
+        }
         return $messages;
     }
-    function DeleteMessages($userindex,$userGrop){
-        $stmt = $this->con->prepare("DELETE FROM messages WHERE gropnumber = ? AND indexq=?");
-        $stmt->bind_param("ii", $userGrop,$userindex);
+
+    function DeleteMessages($userindex,$userGrop,$id){
+    //    $db=new DbOperation();
+        //   $db->SetError("uyinchi index=".$userindex,$userGrop);
+        if($id!=0){
+            $sql="DELETE FROM messages WHERE gropnumber = ? AND indexq=? AND id=?";
+            $stmt = $this->con->prepare($sql);
+            $stmt->bind_param("iii", $userGrop,$userindex,$id);
+        }else{
+            $sql="DELETE FROM messages WHERE gropnumber = ? AND indexq=? ";
+            $stmt = $this->con->prepare($sql);
+            $stmt->bind_param("ii", $userGrop,$userindex);
+        }
         $stmt->execute();
     }
     //Davom etishi uyinni
@@ -1044,7 +1099,6 @@ class DbOperation
                 10000000,200000000,500000000,1000000000,500000,1000000,2000000,10000000,
                 200000000,500000000,1000000000,20,20,20,20,20,20,20,20,20,20,20);
             //lobbi
-
             for($i=0;$i<32;$i++){
                 if($lk>$i*100){
                     $m = $kllar[$i];
@@ -1542,7 +1596,8 @@ class DbOperation
                     }
                 }
                 $db->SetYurishKimmiki($yurishkimmiki,$GroupNumber);
-
+                $db->SetTimede2($lk,"time".substr($yurishkimmiki,0,1),(string)time());
+                $db->Setkimmiyurishi(substr($yurishkimmiki,0,1)."true",$lk);
                 $db->SetOxirgiZapislar("%%".$Name.str_pad((string)$GroupNumber,4,"0",STR_PAD_LEFT).
                     str_pad((string)$pul,12,"0",STR_PAD_LEFT)."$".
                     str_pad((string)$yol,12,"0",STR_PAD_LEFT) .$Level .
@@ -1553,58 +1608,48 @@ class DbOperation
                     $db->SetHuy(strlen($yurishkimmiki)-1,$lk);
                     $huy=strlen($yurishkimmiki)-1;
                 }
-
-
-                    $pasde=array("true",(string)$huy."&","false",(string)$huy.(string)$huy);
-
-                    for($i=0;$i<2;$i++){
-                        if($Pas==$pasde[$i*2]){
-
-                         if($pasde[$i*2]=="true"){
-                             if (strlen($yurishkimmiki) < 4)
-                             {
-                                 $db->SetHuy(strlen($yurishkimmiki)-1,$lk);
-                                 $huy=strlen($yurishkimmiki)-1;$pasde[3]=(string)$huy.(string)$huy;
-                             }
-                             $yurishkimmiki=str_replace((string)$Index,"",$yurishkimmiki);
-                             $db->SetYurishKimmiki($yurishkimmiki,$lk);
-                         }
-
-                         if($keraklide >= $huy){
-                             for ($i = 0; $i < strlen($yurishkimmiki)-1; $i++)
-                             {
-                                 $tikilgsnpul="TikilganPullar".substr($yurishkimmiki,$i+1,1);
-                                 $OxirgiZapis="OxirgiZapis".substr($yurishkimmiki,$i+1,1);
-                                 $db->SetTikilganPullar($tikilgsnpul,(int)$db->GetTikilganPullar($lk,$tikilgsnpul)+(int)substr($db->GetOxirgiZapisplar($lk,$OxirgiZapis),27,12),$lk);
-                             }
-                             $db->SetHuy(strlen($yurishkimmiki)-1,$lk);
-                             $huy=strlen($yurishkimmiki)-1;
-                             $hu3=$db->Gethu3($lk)+1;
-                             $db->Sethu3($hu3,$lk);
-                             $pasde[$i*2+1]=$db->GetXAmmakartalar($lk).$huy;
-                         }
-
-
-                            if($yurishkimmiki==""){$yurishkimmiki="0";}
-                            $data = $Index.str_pad($pul,12,"0",STR_PAD_LEFT).str_pad($yol,12,"0",STR_PAD_LEFT)."$^" .$keraklide.$mik .$pasde[$i*2+1];
-                            $db->SEndMEssageToGroup($lk,$uyinchilar,$data.substr($yurishkimmiki,0,1).str_pad($lk,4,"0",STR_PAD_LEFT));
-
-
-                            if ($keraklide >= $huy && $hu3 == 4)
+                $pasde=array("true",(string)$huy."&","false",(string)$huy.(string)$huy);
+                for($i=0;$i<2;$i++){
+                    if($Pas==$pasde[$i*2]){
+                        if($pasde[$i*2]=="true"){
+                            if (strlen($yurishkimmiki) < 4)
                             {
-                                for ($i = 1; $i < 10; $i++)
-                                {
-                                    $javboblede="Javoblade".(string)$i;
-                                    $db->SetJavoblade($javboblede,"",$lk);
-                                }
-                                $db->Sethu3(0,$lk);
-                                Javobit($lk);
+                                $db->SetHuy(strlen($yurishkimmiki)-1,$lk);
+                                $huy=strlen($yurishkimmiki)-1;$pasde[3]=(string)$huy.(string)$huy;
                             }
-
-                            if ($pasde[$i*2]=="true"&&($huy == 2 || strlen($yurishkimmiki) == 2)) {$db->Sethu3(0,$lk); Pas($lk);  }
-
-                            break;
+                            $yurishkimmiki=str_replace((string)$Index,"",$yurishkimmiki);
+                            $db->SetYurishKimmiki($yurishkimmiki,$lk);
                         }
+                        if($keraklide >= $huy){
+                            for ($i = 0; $i < strlen($yurishkimmiki)-1; $i++)
+                            {
+                                $tikilgsnpul="TikilganPullar".substr($yurishkimmiki,$i+1,1);
+                                $OxirgiZapis="OxirgiZapis".substr($yurishkimmiki,$i+1,1);
+                                $db->SetTikilganPullar($tikilgsnpul,(int)$db->GetTikilganPullar($lk,$tikilgsnpul)+(int)substr($db->GetOxirgiZapisplar($lk,$OxirgiZapis),27,12),$lk);
+                            }
+                            $db->SetHuy(strlen($yurishkimmiki)-1,$lk);
+                            $huy=strlen($yurishkimmiki)-1;
+                            $hu3=$db->Gethu3($lk)+1;
+                            $db->Sethu3($hu3,$lk);
+                            $pasde[$i*2+1]=$db->GetXAmmakartalar($lk).$huy;
+                        }
+                        if($yurishkimmiki==""){$yurishkimmiki="0";}
+                        $data = $Index.str_pad($pul,12,"0",STR_PAD_LEFT).str_pad($yol,12,"0",STR_PAD_LEFT)."$^" .$keraklide.$mik .$pasde[$i*2+1];
+                        $db->SetError("uyinchilar34=".$uyinchilar,$GroupNumber);
+                        $db->SEndMEssageToGroup($lk,$uyinchilar,$data.substr($yurishkimmiki,0,1).str_pad($lk,4,"0",STR_PAD_LEFT));
+                        if ($keraklide >= $huy && $hu3 == 4)
+                        {
+                            for ($i = 1; $i < 10; $i++)
+                            {
+                                $javboblede="Javoblade".(string)$i;
+                                $db->SetJavoblade($javboblede,"",$lk);
+                            }
+                            $db->Sethu3(0,$lk);
+                            Javobit($lk);
+                        }
+                        if ($pasde[$i*2]=="true"&&($huy == 2 || strlen($yurishkimmiki) == 2)) {$db->Sethu3(0,$lk); Pas($lk);  }
+                        break;
+                    }
                 }
             }
         }
@@ -1630,42 +1675,30 @@ class DbOperation
     function Chiqishde($data)
     {
         $db=new DbOperation();
-
         $lk = (int)(substr($data,10,4));
         //  $db->SetError("Chiq",$lk);
-
         $uyinchilar=$db->Getuyinchilar($lk);
-
         $kartatarqatildi=$db->GetKartatarqatildi($lk);
         $index=substr($data,9,1);
-
         if(strpos($uyinchilar,(string)$index)!==false){
             $db->SetUyinchilar(str_replace($index,"",$uyinchilar),$lk);
             $uyinchilar=str_replace($index,"",$uyinchilar);
-
             $db->SetHowManyPlayers(strlen($uyinchilar),$lk);
             $mkdss=strlen($uyinchilar);
             $db->SetOxirgiZapislar("",$lk,"OxirgiZapis".$index);
-
             for($i2=1;$i2<10;$i2++){
                 if(strpos($uyinchilar,(string)$i2)===false){
-                    $db->DeleteMessages($i2,$lk);
+                    $db->DeleteMessages($i2,$lk,0);
                 }
             }
-
             $db->SetTimede($lk,"time".$index,"");
+            $db->SetError("Chiqishde = ".$index,$lk);
             $db->SetTimede2($lk,"time".$index,"");
-        }
 
-        //  $db->SetError("As ".$uyinchilar,$lk);
-        if ($mkdss-1 == 0)
-        {
-            //    ObnovitQilish($lk);
-        }
+        //    ObnovitQilish($lk);
         $yurishkimmiki=$db->GetYurishKimmiki($lk);
         if (strpos($yurishkimmiki,$index)!==false)
         {
-            //    print(YurishKimmiki[lk] + " " + GruppadagiAktivOdamlarSoni[lk]);
             if ($kartatarqatildi=="true")
             {
                 if (substr($yurishkimmiki,0,1) != $index)
@@ -1698,6 +1731,9 @@ class DbOperation
                     }
                     $db->SetYurishKimmiki(str_replace($index,"" ,$yurishkimmiki),$lk);
                     $yurishkimmiki=str_replace($index,"" ,$yurishkimmiki);
+
+                    $db->Setkimmiyurishi(substr($yurishkimmiki,0,1)."true",$lk);
+                    $db->SetTimede2($lk,"time".substr($yurishkimmiki,0,1),(string)time());
                 }
             }
             else
@@ -1706,7 +1742,6 @@ class DbOperation
                 $yurishkimmiki=str_replace($index,"" ,$yurishkimmiki);
                 $db->SetHuy($mkdss,$lk);
             }
-
             //%%NameByMe0001000000000500$000000000000000000000000001500xb0000000004
             //   print("Finally=" + YurishKimmiki[lk].Substring(0, 1) + " " + OxirgiZapisplar[lk, int.Parse(YurishKimmiki[lk].Substring(0, 1))]);
             if ($db->GetHuy($lk) == 1 && strlen($uyinchilar) > 1)
@@ -1741,7 +1776,7 @@ class DbOperation
             $db->SetKartatarqatildi("false",$lk);
             $db->Sethu3(0,$lk);
         }
-
+        }
         return "Zo'r";
     }
 }
